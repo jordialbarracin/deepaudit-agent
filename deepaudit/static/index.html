@@ -3,37 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeepAudit | Autonomous Corporate Forensics & Due Diligence</title>
-  <!-- Tailwind CSS -->
+  <title>DeepAudit • Autonomous Corporate Forensics &amp; Due Diligence Agent</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['Geist Mono', 'monospace'],
+          },
           colors: {
-            brandCyan: '#00D4FF',
-            brandCyanHover: '#33DFFF',
-            nvidia: '#76B900',
-            darkBg: '#090D16',
-            cardBg: '#111827',
-            cardBorder: '#1F2937'
+            brand: {
+              zinc: '#09090b',
+              surface: '#121215',
+              border: '#27272a',
+              cyan: '#00D1FF',
+              amber: '#f59e0b',
+              emerald: '#10b981',
+            }
           }
         }
       }
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #070A12; color: #F3F4F6; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
-    .glow-cyan { box-shadow: 0 0 25px rgba(0, 212, 255, 0.2); }
-    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+    body { background-color: #09090b; color: #fafafa; }
+    .bg-grid-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: radial-gradient(ellipse at 50% 0%, #000 70%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 70%, transparent 100%);
+    }
+    .border-beam-cyan {
+      position: relative;
+    }
+    .border-beam-cyan::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(90deg, rgba(0,209,255,0.6), rgba(245,158,11,0.4), rgba(0,209,255,0.6));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
     @media print {
       body { background-color: #FFFFFF !important; color: #000000 !important; }
       header, .no-print { display: none !important; }
@@ -42,126 +67,157 @@
     }
   </style>
 </head>
-<body class="min-h-screen custom-scrollbar">
+<body class="min-h-screen antialiased flex flex-col font-sans relative selection:bg-cyan-500/20 selection:text-cyan-200">
 
-  <!-- Navbar -->
-  <header class="border-b border-gray-800 bg-[#0B0F19]/90 backdrop-blur sticky top-0 z-50 no-print">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-brandCyan/10 border border-brandCyan flex items-center justify-center text-brandCyan font-black text-xl shadow-lg shadow-brandCyan/20">
-          <i class="fa-solid fa-shield-halved"></i>
+  <div class="fixed inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+
+  <!-- Top Sticky Navigation (shadcn/ui style) -->
+  <header class="border-b border-zinc-800/80 bg-zinc-950/70 backdrop-blur-xl sticky top-0 z-50 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 shadow-inner group">
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 to-amber-400 rounded-xl blur opacity-35 group-hover:opacity-75 transition duration-500"></div>
+          <svg class="relative w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
         </div>
         <div>
-          <span class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            Deep<span class="text-brandCyan">Audit</span>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-brandCyan/10 text-brandCyan border border-brandCyan/30 font-mono">Forensic Agent</span>
-          </span>
-          <p class="text-[11px] text-gray-400">Due Diligence &amp; Vendor Risk Intelligence &middot; Nebius x NVIDIA x Tavily</p>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-sm sm:text-base tracking-tight text-zinc-100">
+              Deep<span class="text-cyan-400">Audit</span>
+            </span>
+            <span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-mono font-medium ring-1 ring-inset ring-amber-500/30 bg-amber-500/10 text-amber-300">
+              ⭐ $3,000 Tavily Award Track
+            </span>
+          </div>
+          <p class="text-[11px] text-zinc-400 hidden sm:block">
+            Due Diligence &amp; Vendor Risk Intelligence &bull; Nebius x NVIDIA x Tavily &bull; Port 8001
+          </p>
         </div>
       </div>
 
-      <div class="flex items-center space-x-4">
-        <div class="hidden md:flex items-center space-x-2 bg-gray-900/80 px-3 py-1.5 rounded-lg border border-gray-800 text-xs text-gray-300">
-          <span class="w-2 h-2 rounded-full bg-brandCyan animate-pulse"></span>
-          <span>Engine: <b class="text-white">Nemotron-3_5-Lightning</b></span>
-          <span class="text-gray-600">|</span>
-          <span>Web Intel: <b class="text-brandCyan">Tavily AI</b></span>
+      <div class="flex items-center gap-3">
+        <div class="hidden md:flex items-center gap-2 bg-zinc-900/80 px-3 py-1.5 rounded-xl border border-zinc-800 text-xs text-zinc-300 font-mono">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span>Engine: <b class="text-white">Nemotron-3.5</b></span>
+          <span class="text-zinc-600">&bull;</span>
+          <span>Intel: <b class="text-cyan-400">Tavily AI</b></span>
         </div>
-        <button onclick="window.print()" class="px-3.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-bold text-gray-200 border border-gray-700 transition flex items-center gap-1.5">
-          <i class="fa-solid fa-file-pdf text-red-400"></i>
+        <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-800 transition flex items-center gap-1.5 shadow-sm active:scale-95">
+          <svg class="w-3.5 h-3.5 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
           <span>Exportar PDF</span>
         </button>
+        <a href="http://127.0.0.1:8080" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 transition flex items-center gap-1.5 shadow-sm active:scale-95">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+          </svg>
+          <span>Mission Control</span>
+        </a>
       </div>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-6 py-8">
+  <main class="relative z-10 flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-    <!-- Selector & Action Bar -->
-    <div class="bg-[#111827] border border-gray-800 rounded-2xl p-6 mb-8 shadow-xl no-print">
+    <!-- Selector & Action Bar (shadcn style) -->
+    <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-5 shadow-xl no-print">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
         <div class="md:col-span-3">
-          <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-            <i class="fa-solid fa-building text-brandCyan mr-1"></i>
+          <label class="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wider font-mono">
             Seleccionar Empresa / Proveedor a Auditar
           </label>
-          <select id="caseSelect" class="w-full bg-gray-950 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brandCyan transition">
-            <option value="iberia_logistics">1. Iberia Logistics Global SL (B-87654321) — Transporte / Sospecha de Quiebra y Facturas Falsas</option>
-            <option value="solaria_energy">2. Solaria Energy Soluciones SL (B-99887766) — Ingeniería / Solvencia y Certificaciones OK</option>
-            <option value="nexus_tech">3. Nexus Inversiones Tech SL (B-11223344) — Consultoría / Empresa Instrumental Reciente</option>
+          <select id="caseSelect" class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-4 py-3 text-xs text-zinc-100 focus:outline-none focus:border-cyan-500 font-mono transition">
+            <option value="iberia_logistics">1. Iberia Logistics Global SL (B-87654321) &mdash; Transporte / Sospecha de Quiebra y Facturas Falsas</option>
+            <option value="solaria_energy">2. Solaria Energy Soluciones SL (B-99887766) &mdash; Ingeniería / Solvencia y Certificaciones OK</option>
+            <option value="nexus_tech">3. Nexus Inversiones Tech SL (B-11223344) &mdash; Consultoría / Empresa Instrumental Reciente</option>
           </select>
         </div>
         <div>
-          <button id="runAuditBtn" class="w-full py-3.5 rounded-xl bg-brandCyan hover:bg-brandCyanHover text-gray-950 font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition duration-200 shadow-lg shadow-brandCyan/25 glow-cyan">
-            <i class="fa-solid fa-magnifying-glass-chart"></i>
+          <button id="runAuditBtn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-amber-400 hover:from-cyan-300 hover:to-amber-300 text-zinc-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition duration-200 shadow-lg shadow-cyan-500/25 active:scale-95">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
             <span>Ejecutar Auditoría</span>
           </button>
         </div>
       </div>
-      <div id="loadingStatus" class="hidden mt-4 pt-3 border-t border-gray-800 text-center text-xs text-brandCyan font-mono flex items-center justify-center gap-2">
-        <i class="fa-solid fa-circle-notch fa-spin"></i>
+      <div id="loadingStatus" class="hidden mt-4 pt-3 border-t border-zinc-800/80 text-center text-xs text-cyan-400 font-mono flex items-center justify-center gap-2">
+        <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
         <span>Ejecutando algoritmos forenses (Benford + Altman Z), rastreo con Tavily Search y síntesis con NVIDIA Nemotron...</span>
       </div>
     </div>
 
-    <!-- Executive Scorecard (4 KPIs) -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+    <!-- Executive Scorecard (Tremor-style 4 KPI Cards) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       
       <!-- KPI 1: Risk Score -->
-      <div class="bg-[#111827] border border-gray-800 rounded-2xl p-5 flex flex-col justify-between shadow-lg">
-        <div class="flex items-center justify-between text-xs font-semibold text-gray-400 uppercase">
-          <span>Índice de Riesgo Forense</span>
-          <i class="fa-solid fa-triangle-exclamation text-red-500"></i>
+      <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+        <div class="flex items-center justify-between text-xs font-semibold text-zinc-400 uppercase font-mono">
+          <span>Índice de Riesgo</span>
+          <svg class="w-4 h-4 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
         </div>
         <div class="my-3 flex items-baseline gap-2">
-          <span id="riskScoreVal" class="text-5xl font-extrabold text-red-500 tracking-tight">98</span>
-          <span class="text-xs text-gray-400 font-mono">/ 100</span>
+          <span id="riskScoreVal" class="text-4xl sm:text-5xl font-extrabold text-rose-400 tracking-tight font-mono">98</span>
+          <span class="text-xs text-zinc-500 font-mono">/ 100</span>
         </div>
         <div class="text-[11px] font-bold uppercase tracking-wider" id="riskBadge">
-          <span class="px-2.5 py-0.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400">RIESGO CRÍTICO</span>
+          <span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-mono font-medium ring-1 ring-inset ring-rose-500/30 bg-rose-500/10 text-rose-400">RIESGO CRÍTICO</span>
         </div>
       </div>
 
       <!-- KPI 2: Altman Z-Score -->
-      <div class="bg-[#111827] border border-gray-800 rounded-2xl p-5 flex flex-col justify-between shadow-lg">
-        <div class="flex items-center justify-between text-xs font-semibold text-gray-400 uppercase">
+      <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+        <div class="flex items-center justify-between text-xs font-semibold text-zinc-400 uppercase font-mono">
           <span>Solvencia (Altman Z)</span>
-          <i class="fa-solid fa-chart-line text-yellow-400"></i>
+          <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          </svg>
         </div>
         <div class="my-3">
-          <span id="altmanVal" class="text-4xl font-extrabold text-red-400 tracking-tight">-5.85</span>
+          <span id="altmanVal" class="text-3xl sm:text-4xl font-extrabold text-rose-400 tracking-tight font-mono">-5.85</span>
         </div>
-        <div class="text-[11px] text-gray-400">
-          Clasificación: <span id="altmanZone" class="text-red-400 font-bold">DISTRESS ZONE</span>
+        <div class="text-[11px] text-zinc-400 font-mono">
+          Zona: <span id="altmanZone" class="text-rose-400 font-bold">DISTRESS ZONE</span>
         </div>
       </div>
 
       <!-- KPI 3: Benford's Law Chi-Square -->
-      <div class="bg-[#111827] border border-gray-800 rounded-2xl p-5 flex flex-col justify-between shadow-lg">
-        <div class="flex items-center justify-between text-xs font-semibold text-gray-400 uppercase">
+      <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+        <div class="flex items-center justify-between text-xs font-semibold text-zinc-400 uppercase font-mono">
           <span>Manipulación (Benford)</span>
-          <i class="fa-solid fa-fingerprint text-brandCyan"></i>
+          <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
         </div>
         <div class="my-3">
-          <span id="benfordChi" class="text-4xl font-extrabold text-red-400 tracking-tight">&chi;&sup2; 40.0</span>
+          <span id="benfordChi" class="text-3xl sm:text-4xl font-extrabold text-rose-400 tracking-tight font-mono">&chi;&sup2; 40.0</span>
         </div>
-        <div class="text-[11px] text-gray-400">
-          Umbral 15.51 &rarr; <span id="benfordStatus" class="text-red-400 font-bold">ANOMALÍA GRAVE</span>
+        <div class="text-[11px] text-zinc-400 font-mono">
+          Umbral 15.51 &rarr; <span id="benfordStatus" class="text-rose-400 font-bold">ANOMALÍA GRAVE</span>
         </div>
       </div>
 
       <!-- KPI 4: Red Flags Count -->
-      <div class="bg-[#111827] border border-gray-800 rounded-2xl p-5 flex flex-col justify-between shadow-lg">
-        <div class="flex items-center justify-between text-xs font-semibold text-gray-400 uppercase">
-          <span>Banderas Rojas (Facturas)</span>
-          <i class="fa-solid fa-flag text-red-400"></i>
+      <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between shadow-xl">
+        <div class="flex items-center justify-between text-xs font-semibold text-zinc-400 uppercase font-mono">
+          <span>Banderas Rojas</span>
+          <svg class="w-4 h-4 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+          </svg>
         </div>
-        <div class="my-3">
-          <span id="redFlagsCount" class="text-4xl font-extrabold text-white tracking-tight">9</span>
-          <span class="text-xs text-red-400 ml-1 font-bold">Alertas</span>
+        <div class="my-3 flex items-baseline gap-2">
+          <span id="redFlagsCount" class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-mono">9</span>
+          <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-mono font-medium ring-1 ring-inset ring-rose-500/30 bg-rose-500/10 text-rose-400">Alertas</span>
         </div>
-        <div class="text-[11px] text-gray-400">
+        <div class="text-[11px] text-zinc-400 font-mono">
           Fraccionamiento &amp; duplicidades
         </div>
       </div>
@@ -169,16 +225,18 @@
     </div>
 
     <!-- Charts & Forensics Analytics Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       
       <!-- Chart: Benford's Law Distribution -->
-      <div class="bg-[#111827] border border-gray-800 rounded-2xl p-6 shadow-xl">
+      <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-xl">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-chart-column text-brandCyan"></i>
-            Test de Benford: Distribución de Primeros Dígitos de Facturas
+          <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span>Test de Benford: Distribución de Primeros Dígitos</span>
           </h3>
-          <span class="text-xs text-gray-400">Observado vs Teórico</span>
+          <span class="text-xs text-zinc-400 font-mono">Observado vs Teórico</span>
         </div>
         <div class="h-60">
           <canvas id="benfordChart"></canvas>
@@ -186,42 +244,46 @@
       </div>
 
       <!-- Tavily Real-Time Web Intelligence -->
-      <div class="bg-[#111827] border border-gray-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+      <div class="border-beam-cyan bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-globe text-brandCyan"></i>
-              Evidencias Web en Tiempo Real (Tavily AI Search)
+            <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+              <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+              </svg>
+              <span>Evidencias Web en Tiempo Real (Tavily AI Search)</span>
             </h3>
-            <span class="text-xs px-2.5 py-0.5 rounded bg-brandCyan/10 border border-brandCyan/30 text-brandCyan font-mono">BOE / BORM / AEAT</span>
+            <span class="inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-mono font-medium ring-1 ring-inset ring-cyan-500/30 bg-cyan-500/10 text-cyan-400">BOE / BORM / AEAT</span>
           </div>
-          <div id="tavilySummary" class="text-xs text-gray-300 bg-gray-950 p-3.5 rounded-xl border border-gray-800 mb-4 leading-relaxed">
+          <div id="tavilySummary" class="text-xs text-zinc-300 bg-zinc-950/80 p-3.5 rounded-xl border border-zinc-800 mb-4 leading-relaxed font-sans">
             Cargando inteligencia oficial...
           </div>
-          <div id="tavilyResultsList" class="space-y-3 max-h-[170px] overflow-y-auto custom-scrollbar pr-1">
+          <div id="tavilyResultsList" class="space-y-2.5 max-h-[170px] overflow-y-auto pr-1">
             <!-- Results populated by JS -->
           </div>
         </div>
-        <div class="mt-4 pt-3 border-t border-gray-800 text-[11px] text-gray-400 flex items-center justify-between">
+        <div class="mt-4 pt-3 border-t border-zinc-800 text-[11px] text-zinc-400 flex items-center justify-between font-mono">
           <span>Fuente: Registros Mercantiles &amp; Prensa Económica</span>
-          <span class="text-brandCyan font-bold">Verificado vía Tavily API</span>
+          <span class="text-cyan-400 font-bold">Verificado vía Tavily API</span>
         </div>
       </div>
 
     </div>
 
-    <!-- Invoice Irregularities Table -->
-    <div class="bg-[#111827] border border-gray-800 rounded-2xl p-6 mb-8 shadow-xl">
+    <!-- Invoice Irregularities Table (Tremor style) -->
+    <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-xl">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-sm font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-receipt text-yellow-400"></i>
-          Registro de Irregularidades y Facturación Sospechosa Detectada
+        <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          </svg>
+          <span>Registro de Irregularidades y Facturación Sospechosa</span>
         </h3>
-        <span class="text-xs text-gray-400 font-mono">Muestra Contable 2026</span>
+        <span class="text-xs text-zinc-400 font-mono">Muestra Contable 2026</span>
       </div>
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs text-gray-300">
-          <thead class="bg-gray-900/80 text-gray-400 uppercase font-semibold text-[11px] border-b border-gray-800">
+        <table class="w-full text-left text-xs text-zinc-300">
+          <thead class="bg-zinc-950/80 text-zinc-400 uppercase font-semibold text-[10px] font-mono border-b border-zinc-800">
             <tr>
               <th class="py-3 px-4">Severidad</th>
               <th class="py-3 px-4">Código / Tipo</th>
@@ -229,7 +291,7 @@
               <th class="py-3 px-4">Descripción Forense</th>
             </tr>
           </thead>
-          <tbody id="irregularitiesBody" class="divide-y divide-gray-800">
+          <tbody id="irregularitiesBody" class="divide-y divide-zinc-800/80 font-mono text-xs">
             <!-- Rows populated by JS -->
           </tbody>
         </table>
@@ -237,28 +299,51 @@
     </div>
 
     <!-- Executive Report Section (NVIDIA Nemotron) -->
-    <div class="bg-[#111827] border border-gray-800 rounded-2xl p-8 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-gray-800 pb-4 mb-6">
+    <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 sm:p-8 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-zinc-800/80 pb-4 mb-6 flex-wrap gap-3">
         <div>
-          <h2 class="text-lg font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-file-signature text-nvidia"></i>
-            Dictamen Pericial del Socio de Auditoría Forense
+          <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span>Dictamen Pericial del Socio de Auditoría Forense</span>
           </h2>
-          <p class="text-xs text-gray-400">Generado de forma autónoma por <b>NVIDIA Nemotron-3_5-Lightning</b> en <b>Nebius Token Factory</b></p>
+          <p class="text-xs text-zinc-400">Generado autónomamente por <b>NVIDIA Nemotron-3.5</b> en <b>Nebius Token Factory</b></p>
         </div>
-        <span class="text-xs px-3 py-1 rounded-full bg-nvidia/10 border border-nvidia/30 text-nvidia font-bold font-mono">
-          DICTAMEN OFICIAL
-        </span>
+        <div class="flex items-center gap-2">
+          <button onclick="copyReport()" class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-mono text-zinc-200 transition">
+            Copiar Informe
+          </button>
+          <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-mono font-bold ring-1 ring-inset ring-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+            DICTAMEN OFICIAL
+          </span>
+        </div>
       </div>
-      <div id="executiveReport" class="text-xs text-gray-200 leading-relaxed font-mono whitespace-pre-wrap bg-gray-950 p-6 rounded-xl border border-gray-800">
+      <div id="executiveReport" class="text-xs text-zinc-200 leading-relaxed font-mono whitespace-pre-wrap bg-zinc-950/80 p-6 rounded-xl border border-zinc-800">
         Ejecuta la auditoría para generar el informe pericial completo.
       </div>
     </div>
 
   </main>
 
+  <!-- Modern Sleek Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
   <script>
     let benfordChartInstance = null;
+
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-xl border border-zinc-800 bg-zinc-950/90 backdrop-blur-xl text-xs font-mono text-zinc-200 shadow-2xl transition-all duration-300 transform translate-y-2 opacity-0';
+      toast.innerHTML = `<span class="text-cyan-400">✔</span> <span>${message}</span>`;
+      container.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
 
     function renderBenfordChart(observed, theoretical) {
       const ctx = document.getElementById('benfordChart').getContext('2d');
@@ -279,18 +364,18 @@
               backgroundColor: 'rgba(239, 68, 68, 0.75)',
               borderColor: 'rgb(239, 68, 68)',
               borderWidth: 1,
-              borderRadius: 5
+              borderRadius: 6
             },
             {
               type: 'line',
               label: 'Curva Teórica Ley de Benford (%)',
               data: theoData,
-              borderColor: '#00D4FF',
-              backgroundColor: 'rgba(0, 212, 255, 0.1)',
+              borderColor: '#00D1FF',
+              backgroundColor: 'rgba(0, 209, 255, 0.1)',
               borderWidth: 2,
               tension: 0.3,
               pointRadius: 4,
-              pointBackgroundColor: '#00D4FF'
+              pointBackgroundColor: '#00D1FF'
             }
           ]
         },
@@ -298,11 +383,11 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { labels: { color: '#9CA3AF', font: { size: 11, family: 'Plus Jakarta Sans' } } }
+            legend: { labels: { color: '#a1a1aa', font: { size: 11, family: 'Plus Jakarta Sans' } } }
           },
           scales: {
-            x: { ticks: { color: '#9CA3AF' }, grid: { color: '#1F2937' } },
-            y: { ticks: { color: '#9CA3AF' }, grid: { color: '#1F2937' }, title: { display: true, text: 'Frecuencia %', color: '#9CA3AF' } }
+            x: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } },
+            y: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' }, title: { display: true, text: 'Frecuencia %', color: '#a1a1aa' } }
           }
         }
       });
@@ -332,14 +417,14 @@
         const badgeEl = document.getElementById('riskBadge');
 
         if (score >= 75) {
-          scoreEl.className = "text-5xl font-extrabold text-red-500 tracking-tight";
-          badgeEl.innerHTML = `<span class="px-2.5 py-0.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 font-bold">RIESGO CRÍTICO (${data.risk_level})</span>`;
+          scoreEl.className = "text-4xl sm:text-5xl font-extrabold text-rose-400 tracking-tight font-mono";
+          badgeEl.innerHTML = `<span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-mono font-medium ring-1 ring-inset ring-rose-500/30 bg-rose-500/10 text-rose-400 font-bold">RIESGO CRÍTICO (${data.risk_level})</span>`;
         } else if (score >= 40) {
-          scoreEl.className = "text-5xl font-extrabold text-yellow-400 tracking-tight";
-          badgeEl.innerHTML = `<span class="px-2.5 py-0.5 rounded-full bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 font-bold">RIESGO MODERADO (${data.risk_level})</span>`;
+          scoreEl.className = "text-4xl sm:text-5xl font-extrabold text-amber-400 tracking-tight font-mono";
+          badgeEl.innerHTML = `<span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-mono font-medium ring-1 ring-inset ring-amber-500/30 bg-amber-500/10 text-amber-300 font-bold">RIESGO MODERADO (${data.risk_level})</span>`;
         } else {
-          scoreEl.className = "text-5xl font-extrabold text-emerald-400 tracking-tight";
-          badgeEl.innerHTML = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-400 font-bold">RIESGO BAJO (${data.risk_level})</span>`;
+          scoreEl.className = "text-4xl sm:text-5xl font-extrabold text-emerald-400 tracking-tight font-mono";
+          badgeEl.innerHTML = `<span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-mono font-medium ring-1 ring-inset ring-emerald-500/30 bg-emerald-500/10 text-emerald-400 font-bold">RIESGO BAJO (${data.risk_level})</span>`;
         }
 
         // Altman Z
@@ -365,36 +450,39 @@
         
         const listEl = document.getElementById('tavilyResultsList');
         listEl.innerHTML = (tavily.results || []).map(r => `
-          <div class="p-2.5 rounded-lg bg-gray-950 border border-gray-800 text-xs hover:border-gray-700 transition">
-            <a href="${r.url}" target="_blank" class="font-bold text-brandCyan hover:underline flex items-center gap-1.5 mb-1">
-              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-              ${r.title}
+          <div class="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800 text-xs hover:border-zinc-700 transition">
+            <a href="${r.url}" target="_blank" class="font-bold text-cyan-400 hover:underline flex items-center gap-1.5 mb-1 font-mono">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+              <span>${r.title}</span>
             </a>
-            <p class="text-gray-400 text-[11px] leading-relaxed line-clamp-2">${r.snippet}</p>
+            <p class="text-zinc-400 text-[11px] leading-relaxed line-clamp-2 font-sans">${r.snippet}</p>
           </div>
         `).join('');
 
         // Irregularities table
         const tbody = document.getElementById('irregularitiesBody');
         if (irregs.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-500">No se han detectado anomalías flagrantes en la muestra de facturas analizada.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-zinc-500 font-sans">No se han detectado anomalías flagrantes en la muestra contable analizada.</td></tr>`;
         } else {
           tbody.innerHTML = irregs.map(irr => `
-            <tr class="hover:bg-gray-900/50 transition">
+            <tr class="hover:bg-zinc-900/50 transition">
               <td class="py-3 px-4">
-                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${irr.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : (irr.severity === 'HIGH' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-gray-800 text-gray-300')}">
+                <span class="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold ${irr.severity === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40' : (irr.severity === 'HIGH' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-zinc-800 text-zinc-300')}">
                   ${irr.severity}
                 </span>
               </td>
-              <td class="py-3 px-4 font-mono font-bold text-yellow-400">${irr.code}</td>
+              <td class="py-3 px-4 font-mono font-bold text-amber-400">${irr.code}</td>
               <td class="py-3 px-4 font-mono">${irr.amount ? irr.amount + ' €' : '-'}</td>
-              <td class="py-3 px-4 text-gray-300">${irr.description}</td>
+              <td class="py-3 px-4 text-zinc-300 font-sans">${irr.description}</td>
             </tr>
           `).join('');
         }
 
         // Executive Report
         document.getElementById('executiveReport').innerText = data.executive_report;
+        showToast("Auditoría forense completada");
 
       } catch (err) {
         alert("Error ejecutando auditoría: " + err);
@@ -405,10 +493,15 @@
       }
     }
 
+    function copyReport() {
+      const text = document.getElementById('executiveReport').innerText;
+      navigator.clipboard.writeText(text);
+      showToast("Informe pericial copiado al portapapeles");
+    }
+
     document.getElementById('runAuditBtn').addEventListener('click', runAudit);
     document.getElementById('caseSelect').addEventListener('change', runAudit);
 
-    // Initial load
     window.addEventListener('DOMContentLoaded', () => {
       runAudit();
     });
