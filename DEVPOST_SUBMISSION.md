@@ -44,7 +44,7 @@ Small-to-medium enterprises and audit teams cannot afford Big-4 forensic retaine
    - Instantly generates production-ready JSON payloads for `SupplierRiskStatusUpdated` events to execute one-click supplier holds and automated legal due diligence requests.
 
 7. **Institutional Light Mode Interface:**
-   - High-density, austere B2B interface designed for CFOs and risk committees: zero cartoonish gimmicks, raw data tables, interactive Benford distribution charts, and court-ready forensic dictums.
+   - High-density, austere B2B interface designed for CFOs and risk committees: zero cartoonish gimmicks, raw data tables, interactive Benford distribution charts, and audit-ready forensic dictums (admissible for executive risk committees and corporate governance reviews).
 
 ---
 
@@ -68,7 +68,7 @@ flowchart LR
   C --> D
   D --> E[Tavily Search Orchestrator<br/>BOE / BORM / ENAC Registries]
   E --> F[NVIDIA Nemotron 3.5 Lightning<br/>on Nebius AI Cloud]
-  F --> G[Court-Ready Forensic Dictum]
+  F --> G[Audit-Ready Forensic Dictum]
   F --> H[SAP Ariba / Coupa ERP Webhook]
 ```
 
@@ -83,7 +83,8 @@ flowchart LR
 
 ---
 
-## 📊 Sample Audit Output (Iberia Logistics Global SL)
+## 📊 Sample Audit Output (Iberia Logistics Global SL — Reference Benchmark Case)
+*Note: Modeled after documented European multi-vector BEC, tax lien, and ISO falsification schemes to stress-test detection limits.*
 - **Composite Forensic Risk Score:** **98 / 100 (CRITICAL RISK - BLOQUEO Y RECHAZO)**
 - **Altman Z''-Score:** **-5.85 (Distress Zone)**; CCC analysis confirms negative working capital (-145 days) compounded by cumulative EBIT losses.
 - **Benford's Law Chi-Square:** **40.0 (Severe Artificial Clustering below €10k threshold)**.
