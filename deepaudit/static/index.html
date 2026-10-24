@@ -20,18 +20,20 @@
           },
           colors: {
             app: {
-              canvas: '#07080B',
-              sidebar: '#0C0E14',
-              surface: '#11141D',
-              surfaceHover: '#181C28',
-              surfaceActive: '#1F2433',
-              border: '#1F2432',
-              muted: '#71788E',
-              emerald: '#10B981',
-              cyan: '#00D1FF',
-              amber: '#F59E0B',
-              rose: '#F43F5E',
-              iris: '#6366F1'
+              canvas: '#090A0D',
+              sidebar: '#0E1015',
+              surface: '#14171E',
+              surfaceHover: '#1A1E27',
+              surfaceActive: '#222733',
+              border: '#1E232F',
+              borderSubtle: '#171A23',
+              muted: '#858E9D',
+              subtle: '#505765',
+              fg: '#EEF2F6',
+              steel: '#58A6FF',
+              emerald: '#3FB950',
+              amber: '#D29922',
+              rose: '#F85149'
             }
           }
         }
@@ -39,11 +41,11 @@
     }
   </script>
   <style>
-    body { background-color: #07080B; color: #F1F3F9; }
+    body { background-color: #090A0D; color: #EEF2F6; }
     .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
-    .custom-scroll::-webkit-scrollbar-track { background: #0C0E14; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #1F2432; border-radius: 4px; }
-    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #2D3446; }
+    .custom-scroll::-webkit-scrollbar-track { background: #0E1015; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #1E232F; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #2A3140; }
     @media print {
       body { background-color: #FFFFFF !important; color: #000000 !important; }
       header, aside, .no-print { display: none !important; }
@@ -51,7 +53,7 @@
     }
   </style>
 </head>
-<body class="h-screen w-screen overflow-hidden flex flex-col font-sans selection:bg-app-cyan/30 selection:text-white">
+<body class="h-screen w-screen overflow-hidden flex flex-col font-sans selection:bg-app-steel/20 selection:text-white">
 
   <!-- Top Terminal Header -->
   <header class="h-14 px-4 border-b border-app-border bg-app-sidebar flex items-center justify-between flex-shrink-0 select-none no-print">
@@ -62,9 +64,9 @@
       <div>
         <div class="flex items-center gap-2">
           <span class="text-xs font-bold text-white font-mono tracking-tight">
-            AETHERIA // <span class="text-app-cyan">DEEPAUDIT™</span>
+            AETHERIA // <span class="text-zinc-200">DEEPAUDIT™</span>
           </span>
-          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-app-surface text-app-amber border border-app-amber/30 font-bold">
+          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-app-amber/10 text-app-amber border border-app-amber/25 font-semibold">
             $3,000 TAVILY SPONSOR TRACK
           </span>
         </div>
@@ -76,29 +78,29 @@
     <div class="hidden lg:flex items-center gap-3 text-xs font-mono">
       <div class="flex items-center gap-2 px-3 py-1 rounded-lg bg-app-surface border border-app-border text-[11px]">
         <span class="text-app-muted">Objetivo:</span>
-        <select id="caseSelect" onchange="runAudit()" class="bg-transparent text-white font-bold focus:outline-none cursor-pointer">
-          <option value="iberia_logistics" class="bg-zinc-900">Iberia Logistics Global SL (B-87654321)</option>
-          <option value="solaria_energy" class="bg-zinc-900">Solaria Energy Soluciones SL (B-99887766)</option>
-          <option value="nexus_tech" class="bg-zinc-900">Nexus Inversiones Tech SL (B-11223344)</option>
+        <select id="caseSelect" onchange="runAudit()" class="bg-transparent text-white font-medium focus:outline-none cursor-pointer">
+          <option value="iberia_logistics" class="bg-[#14171E]">Iberia Logistics Global SL (B-87654321)</option>
+          <option value="solaria_energy" class="bg-[#14171E]">Solaria Energy Soluciones SL (B-99887766)</option>
+          <option value="nexus_tech" class="bg-[#14171E]">Nexus Inversiones Tech SL (B-11223344)</option>
         </select>
         <span class="text-app-border">|</span>
-        <span class="text-app-muted">Intel: <b class="text-app-cyan">Tavily BOE/BORM</b></span>
+        <span class="text-app-muted">Intel: <b class="text-zinc-200">Tavily BOE/BORM</b></span>
         <span class="text-app-border">|</span>
-        <span class="text-app-muted">Socio: <b class="text-white">Nemotron-3.5</b></span>
+        <span class="text-app-muted">Socio: <b class="text-zinc-200">Nemotron-3.5</b></span>
       </div>
     </div>
 
     <!-- Right Actions -->
     <div class="flex items-center gap-2">
-      <button onclick="runAudit()" id="runAuditBtn" class="h-8 px-4 rounded-lg bg-gradient-to-r from-app-cyan to-app-amber text-black font-bold text-xs font-mono transition flex items-center gap-1.5 shadow-lg shadow-app-cyan/20 active:scale-95">
+      <button onclick="runAudit()" id="runAuditBtn" class="h-8 px-4 rounded-lg bg-white hover:bg-zinc-200 text-[#090A0D] font-semibold text-xs font-mono transition flex items-center gap-1.5 shadow-sm active:scale-95">
         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <span>Ejecutar Auditoría Forense</span>
       </button>
 
-      <button onclick="window.print()" class="h-8 px-3 rounded-lg bg-app-surface hover:bg-app-surfaceHover border border-app-border text-xs font-mono text-zinc-300 hover:text-white transition flex items-center gap-1.5">
-        <svg class="w-3.5 h-3.5 text-app-rose" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button onclick="window.print()" class="h-8 px-3 rounded-lg bg-app-surface hover:bg-app-surfaceHover border border-app-border text-xs font-mono text-zinc-300 hover:text-white transition flex items-center gap-1.5 shadow-sm">
+        <svg class="w-3.5 h-3.5 text-app-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
         </svg>
         <span>PDF</span>
@@ -121,10 +123,10 @@
       
       <!-- Company Dossier Card -->
       <div class="p-3.5 rounded-xl bg-app-surface border border-app-border space-y-2">
-        <div class="text-[10px] font-mono uppercase tracking-wider text-app-muted font-bold">
+        <div class="text-[10px] font-mono uppercase tracking-wider text-app-muted font-semibold">
           Expediente Mercantil
         </div>
-        <div class="font-bold text-white text-xs leading-snug" id="dossier-company-name">Iberia Logistics Global SL</div>
+        <div class="font-semibold text-white text-xs leading-snug" id="dossier-company-name">Iberia Logistics Global SL</div>
         <div class="text-[11px] font-mono text-zinc-400 space-y-1">
           <div class="flex items-center justify-between">
             <span class="text-app-muted">NIF/CIF:</span>
@@ -148,11 +150,11 @@
         <div class="p-3 rounded-xl bg-app-surface border border-app-border">
           <div class="text-[10px] text-app-muted uppercase">Puntuación de Riesgo</div>
           <div class="flex items-baseline gap-2 mt-1">
-            <span id="riskScoreVal" class="text-3xl font-extrabold text-app-rose">98</span>
+            <span id="riskScoreVal" class="text-3xl font-bold text-app-rose">98</span>
             <span class="text-[11px] text-zinc-500">/ 100</span>
           </div>
           <div id="riskBadge" class="mt-1">
-            <span class="text-[10px] px-1.5 py-0.2 rounded bg-app-rose/20 text-app-rose font-bold">RIESGO CRÍTICO</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-app-rose/10 text-app-rose border border-app-rose/25 font-semibold">RIESGO CRÍTICO</span>
           </div>
         </div>
 
@@ -161,7 +163,7 @@
           <div class="text-[10px] text-app-muted uppercase">Altman Z-Score (Solvencia)</div>
           <div id="altmanVal" class="text-2xl font-bold text-app-rose mt-1">-5.85</div>
           <div class="text-[10px] text-app-muted mt-0.5">
-            Zona: <span id="altmanZone" class="text-app-rose font-bold">DISTRESS ZONE</span>
+            Zona: <span id="altmanZone" class="text-app-rose font-medium">DISTRESS ZONE</span>
           </div>
         </div>
 
@@ -170,7 +172,7 @@
           <div class="text-[10px] text-app-muted uppercase">Test de Benford (Chi-Cuadrado)</div>
           <div id="benfordChi" class="text-xl font-bold text-app-rose mt-1">&chi;&sup2; 40.0</div>
           <div class="text-[10px] text-app-muted mt-0.5">
-            Umbral: 15.51 &bull; <span id="benfordStatus" class="text-app-rose font-bold">ANOMALÍA</span>
+            Umbral: 15.51 &bull; <span id="benfordStatus" class="text-app-rose font-medium">ANOMALÍA</span>
           </div>
         </div>
 
@@ -179,7 +181,7 @@
           <div class="text-[10px] text-app-muted uppercase">Banderas Rojas en Facturas</div>
           <div class="flex items-baseline gap-2 mt-1">
             <span id="redFlagsCount" class="text-2xl font-bold text-white">9</span>
-            <span class="text-[10px] text-app-rose font-bold">Alertas Graves</span>
+            <span class="text-[10px] text-app-rose font-semibold">Alertas Graves</span>
           </div>
         </div>
 
@@ -196,8 +198,8 @@
         <!-- Benford Chart -->
         <div class="p-3.5 bg-app-surface flex flex-col justify-between overflow-hidden">
           <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-white font-bold flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-app-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <span class="text-white font-medium flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-app-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
               <span>Ley de Benford: Primeros Dígitos de Facturas</span>
@@ -212,16 +214,16 @@
         <!-- Real-Time Tavily Regulatory Intel -->
         <div class="p-3.5 bg-app-surface flex flex-col justify-between overflow-hidden">
           <div class="flex items-center justify-between text-xs font-mono mb-1">
-            <span class="text-white font-bold flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-app-amber" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <span class="text-white font-medium flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-app-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
               </svg>
-              <span>Inteligencia Externa en Vivo (Tavily AI Search)</span>
+              <span>Inteligencia Externa Oficial (Tavily AI Search)</span>
             </span>
-            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-app-cyan/10 text-app-cyan border border-app-cyan/30">BOE &bull; BORM &bull; AEAT</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-app-surfaceActive text-zinc-300 border border-app-border">BOE &bull; BORM &bull; AEAT</span>
           </div>
 
-          <div id="tavilySummary" class="text-[11px] font-sans text-zinc-300 bg-black/40 p-2.5 rounded-lg border border-app-border leading-relaxed mb-2 line-clamp-2">
+          <div id="tavilySummary" class="text-[11px] font-sans text-zinc-300 bg-app-canvas p-2.5 rounded-lg border border-app-border leading-relaxed mb-2 line-clamp-2">
             Cargando inteligencia oficial...
           </div>
 
@@ -238,7 +240,7 @@
         <!-- Forensic Ledger Table -->
         <div class="flex flex-col h-full overflow-hidden bg-app-canvas">
           <div class="h-9 px-4 border-b border-app-border bg-app-sidebar flex items-center justify-between text-xs font-mono select-none flex-shrink-0">
-            <span class="font-bold text-white">Muestra Contable: Irregularidades y Facturas Flagrantes</span>
+            <span class="font-medium text-white">Muestra Contable: Irregularidades y Facturas Flagrantes</span>
             <span class="text-[10px] text-app-muted">Detección Automática</span>
           </div>
 
@@ -264,14 +266,14 @@
           <div class="h-9 px-4 border-b border-app-border bg-app-sidebar flex items-center justify-between text-xs font-mono select-none flex-shrink-0">
             <div class="flex items-center gap-2">
               <span class="w-1.5 h-1.5 rounded-full bg-app-emerald"></span>
-              <span class="font-bold text-white">Dictamen Pericial del Socio (Nemotron 70B)</span>
+              <span class="font-medium text-white">Dictamen Pericial del Socio (Nemotron 70B)</span>
             </div>
             <button onclick="copyExecutiveReport()" class="text-[11px] text-app-muted hover:text-white transition">
               Copiar Informe
             </button>
           </div>
 
-          <div class="flex-1 overflow-auto custom-scroll p-4 bg-black/40">
+          <div class="flex-1 overflow-auto custom-scroll p-4 bg-app-canvas">
             <div id="executiveReport" class="font-mono text-xs text-zinc-300 leading-relaxed whitespace-pre-wrap">
               Ejecutando auditoría forense para generar el informe pericial...
             </div>
@@ -293,8 +295,8 @@
     function showToast(message) {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
-      toast.className = 'pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-xl border border-app-border bg-app-sidebar text-zinc-200 shadow-2xl transition-all duration-300 transform translate-y-2 opacity-0';
-      toast.innerHTML = `<span class="text-app-cyan font-bold">✔</span> <span>${message}</span>`;
+      toast.className = 'pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-xl border border-app-border bg-app-sidebar text-zinc-200 shadow-xl transition-all duration-300 transform translate-y-2 opacity-0';
+      toast.innerHTML = `<span class="text-app-emerald font-bold">✔</span> <span>${message}</span>`;
       container.appendChild(toast);
       requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
       setTimeout(() => {
@@ -319,21 +321,21 @@
             {
               label: 'Observado (%)',
               data: obsData,
-              backgroundColor: 'rgba(244, 63, 94, 0.75)',
-              borderColor: 'rgb(244, 63, 94)',
+              backgroundColor: 'rgba(248, 81, 73, 0.2)',
+              borderColor: '#F85149',
               borderWidth: 1,
-              borderRadius: 3
+              borderRadius: 2
             },
             {
               type: 'line',
               label: 'Curva Teórica Benford (%)',
               data: theoData,
-              borderColor: '#00D1FF',
-              backgroundColor: 'rgba(0, 209, 255, 0.1)',
-              borderWidth: 2,
+              borderColor: '#58A6FF',
+              backgroundColor: 'transparent',
+              borderWidth: 1.5,
               tension: 0.3,
-              pointRadius: 3,
-              pointBackgroundColor: '#00D1FF'
+              pointRadius: 2,
+              pointBackgroundColor: '#58A6FF'
             }
           ]
         },
@@ -341,11 +343,11 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { labels: { color: '#71788E', font: { size: 10, family: 'Geist Mono' } } }
+            legend: { labels: { color: '#858E9D', font: { size: 10, family: 'Geist Mono' } } }
           },
           scales: {
-            x: { ticks: { color: '#71788E', font: { size: 9 } }, grid: { color: '#1F2432' } },
-            y: { ticks: { color: '#71788E', font: { size: 9 } }, grid: { color: '#1F2432' } }
+            x: { ticks: { color: '#858E9D', font: { size: 9 } }, grid: { color: '#1E232F' } },
+            y: { ticks: { color: '#858E9D', font: { size: 9 } }, grid: { color: '#1E232F' } }
           }
         }
       });
@@ -375,14 +377,14 @@
         document.getElementById('riskScoreVal').innerText = score;
         const badge = document.getElementById('riskBadge');
         if (score >= 75) {
-          document.getElementById('riskScoreVal').className = "text-3xl font-extrabold text-app-rose";
-          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-rose/20 text-app-rose font-bold">RIESGO CRÍTICO (${data.risk_level})</span>`;
+          document.getElementById('riskScoreVal').className = "text-3xl font-bold text-app-rose";
+          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-rose/10 text-app-rose border border-app-rose/25 font-semibold">RIESGO CRÍTICO (${data.risk_level})</span>`;
         } else if (score >= 40) {
-          document.getElementById('riskScoreVal').className = "text-3xl font-extrabold text-app-amber";
-          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-amber/20 text-app-amber font-bold">RIESGO MODERADO (${data.risk_level})</span>`;
+          document.getElementById('riskScoreVal').className = "text-3xl font-bold text-app-amber";
+          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-amber/10 text-app-amber border border-app-amber/25 font-semibold">RIESGO MODERADO (${data.risk_level})</span>`;
         } else {
-          document.getElementById('riskScoreVal').className = "text-3xl font-extrabold text-app-emerald";
-          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-emerald/20 text-app-emerald font-bold">RIESGO BAJO (${data.risk_level})</span>`;
+          document.getElementById('riskScoreVal').className = "text-3xl font-bold text-app-emerald";
+          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-emerald/10 text-app-emerald border border-app-emerald/25 font-semibold">RIESGO BAJO (${data.risk_level})</span>`;
         }
 
         // Altman Z
@@ -408,9 +410,9 @@
         const listEl = document.getElementById('tavilyResultsList');
         listEl.innerHTML = (tavily.results || []).map(r => `
           <div class="p-2 rounded bg-app-surface border border-app-border hover:border-zinc-700 transition">
-            <a href="${r.url}" target="_blank" class="font-bold text-app-cyan hover:underline flex items-center gap-1">
+            <a href="${r.url}" target="_blank" class="font-medium text-zinc-200 hover:text-white hover:underline flex items-center gap-1">
               <span>${r.title}</span>
-              <span class="text-[9px]">↗</span>
+              <span class="text-[9px] text-app-muted">↗</span>
             </a>
             <p class="text-zinc-400 text-[10px] line-clamp-1 mt-0.5">${r.snippet}</p>
           </div>
@@ -424,10 +426,10 @@
           tbody.innerHTML = irregs.map(irr => `
             <tr class="hover:bg-app-surfaceHover transition">
               <td class="py-2 px-3">
-                <span class="px-1.5 py-0.2 rounded text-[9px] font-bold ${irr.severity === 'CRITICAL' ? 'bg-app-rose/20 text-app-rose' : 'bg-app-amber/20 text-app-amber'}">${irr.severity}</span>
+                <span class="px-1.5 py-0.2 rounded text-[9px] font-semibold ${irr.severity === 'CRITICAL' ? 'bg-app-rose/10 text-app-rose border border-app-rose/25' : 'bg-app-amber/10 text-app-amber border border-app-amber/25'}">${irr.severity}</span>
               </td>
-              <td class="py-2 px-3 text-app-amber font-mono font-bold">${irr.code}</td>
-              <td class="py-2 px-3 font-mono">${irr.amount ? irr.amount + ' €' : '-'}</td>
+              <td class="py-2 px-3 text-zinc-300 font-mono font-medium">${irr.code}</td>
+              <td class="py-2 px-3 font-mono text-zinc-300">${irr.amount ? irr.amount + ' €' : '-'}</td>
               <td class="py-2 px-3 text-zinc-300 font-sans">${irr.description}</td>
             </tr>
           `).join('');
