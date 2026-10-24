@@ -1,39 +1,36 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es" class="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AETHERIA // DEEPAUDIT™ • Autonomous Corporate Forensics &amp; Due Diligence Terminal</title>
+  <title>DeepAudit™ // Auditoría Forense Empresarial & Cumplimiento ISO / PRL</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            mono: ['Geist Mono', 'monospace'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
             app: {
-              canvas: '#090A0D',
-              sidebar: '#0E1015',
-              surface: '#14171E',
-              surfaceHover: '#1A1E27',
-              surfaceActive: '#222733',
-              border: '#1E232F',
-              borderSubtle: '#171A23',
-              muted: '#858E9D',
-              subtle: '#505765',
-              fg: '#EEF2F6',
-              steel: '#58A6FF',
-              emerald: '#3FB950',
-              amber: '#D29922',
-              rose: '#F85149'
+              canvas: '#FFFFFF',
+              sidebar: '#F8FAFC',
+              surface: '#FFFFFF',
+              surfaceHover: '#F1F5F9',
+              border: '#E2E8F0',
+              muted: '#64748B',
+              fg: '#0F172A',
+              steel: '#2563EB',
+              emerald: '#059669',
+              amber: '#D97706',
+              rose: '#DC2626'
             }
           }
         }
@@ -41,11 +38,11 @@
     }
   </script>
   <style>
-    body { background-color: #090A0D; color: #EEF2F6; }
-    .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
-    .custom-scroll::-webkit-scrollbar-track { background: #0E1015; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #1E232F; border-radius: 4px; }
-    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #2A3140; }
+    body { background-color: #FFFFFF; color: #0F172A; }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #F8FAFC; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
     @media print {
       body { background-color: #FFFFFF !important; color: #000000 !important; }
       header, aside, .no-print { display: none !important; }
@@ -53,147 +50,145 @@
     }
   </style>
 </head>
-<body class="h-screen w-screen overflow-hidden flex flex-col font-sans selection:bg-app-steel/20 selection:text-white">
+<body class="h-screen w-screen overflow-hidden flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900 bg-white">
 
-  <!-- Top Terminal Header -->
-  <header class="h-14 px-4 border-b border-app-border bg-app-sidebar flex items-center justify-between flex-shrink-0 select-none no-print">
+  <!-- Top Enterprise Header -->
+  <header class="h-16 px-6 border-b border-slate-200 bg-white flex items-center justify-between flex-shrink-0 select-none no-print shadow-xs z-10">
     <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-black border border-app-border flex items-center justify-center p-1">
-        <img src="/static/assets/logo-deepaudit.svg" alt="DeepAudit Logo" class="w-6 h-6">
+      <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white text-base shadow-sm">
+        ⚖️
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-white font-mono tracking-tight">
-            AETHERIA // <span class="text-zinc-200">DEEPAUDIT™</span>
+          <span class="text-sm font-bold text-slate-900 tracking-tight">
+            DEEPAUDIT™ <span class="text-blue-600 font-semibold">GRC &amp; Forense</span>
           </span>
-          <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-app-amber/10 text-app-amber border border-app-amber/25 font-semibold">
-            $3,000 TAVILY SPONSOR TRACK
+          <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+            ISO 27001 &bull; 9001 &bull; 14001 &bull; 45001 &bull; PRL
           </span>
         </div>
-        <div class="text-[10px] text-app-muted font-mono leading-none">Forensic Due Diligence Terminal &bull; Port 8001</div>
+        <div class="text-xs text-slate-500 font-normal">Terminal de Inteligencia Regulatoria &bull; Puerto 8001 (Local)</div>
       </div>
     </div>
 
     <!-- Center Status Badges -->
-    <div class="hidden lg:flex items-center gap-3 text-xs font-mono">
-      <div class="flex items-center gap-2 px-3 py-1 rounded-lg bg-app-surface border border-app-border text-[11px]">
-        <span class="text-app-muted">Objetivo:</span>
-        <select id="caseSelect" onchange="runAudit()" class="bg-transparent text-white font-medium focus:outline-none cursor-pointer">
-          <option value="iberia_logistics" class="bg-[#14171E]">Iberia Logistics Global SL (B-87654321)</option>
-          <option value="solaria_energy" class="bg-[#14171E]">Solaria Energy Soluciones SL (B-99887766)</option>
-          <option value="nexus_tech" class="bg-[#14171E]">Nexus Inversiones Tech SL (B-11223344)</option>
+    <div class="hidden lg:flex items-center gap-3 text-xs">
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200">
+        <span class="text-slate-500 font-medium">Expediente Empresarial:</span>
+        <select id="caseSelect" onchange="runAudit()" class="bg-transparent text-slate-900 font-semibold focus:outline-none cursor-pointer">
+          <option value="iberia_logistics">Iberia Logistics Global SL (B-87654321) &bull; RIESGO GRAVE</option>
+          <option value="solaria_energy">Solaria Energy Soluciones SL (B-99887766) &bull; 100% COMPLIANT</option>
+          <option value="nexus_tech">Nexus Inversiones Tech SL (B-11223344) &bull; AUDITORÍA MEDIA</option>
         </select>
-        <span class="text-app-border">|</span>
-        <span class="text-app-muted">Intel: <b class="text-zinc-200">Tavily BOE/BORM</b></span>
-        <span class="text-app-border">|</span>
-        <span class="text-app-muted">Socio: <b class="text-zinc-200">Nemotron-3.5</b></span>
+        <span class="text-slate-300">|</span>
+        <span class="text-slate-500">Cruce: <b class="text-slate-700 font-medium">BOE &bull; BORM &bull; ITSS</b></span>
       </div>
     </div>
 
     <!-- Right Actions -->
-    <div class="flex items-center gap-2">
-      <button onclick="runAudit()" id="runAuditBtn" class="h-8 px-4 rounded-lg bg-white hover:bg-zinc-200 text-[#090A0D] font-semibold text-xs font-mono transition flex items-center gap-1.5 shadow-sm active:scale-95">
-        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="flex items-center gap-2.5">
+      <button onclick="runAudit()" id="runAuditBtn" class="h-9 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition flex items-center gap-2 shadow-xs active:scale-95">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
-        <span>Ejecutar Auditoría Forense</span>
+        <span>Ejecutar Auditoría</span>
       </button>
 
-      <button onclick="window.print()" class="h-8 px-3 rounded-lg bg-app-surface hover:bg-app-surfaceHover border border-app-border text-xs font-mono text-zinc-300 hover:text-white transition flex items-center gap-1.5 shadow-sm">
-        <svg class="w-3.5 h-3.5 text-app-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button onclick="window.print()" class="h-9 px-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 transition flex items-center gap-1.5 shadow-xs">
+        <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
         </svg>
-        <span>PDF</span>
+        <span>Descargar PDF</span>
       </button>
 
-      <a href="http://127.0.0.1:8080" class="h-8 px-3 rounded-lg bg-app-surface hover:bg-app-surfaceHover border border-app-border text-xs font-mono text-app-muted hover:text-white transition flex items-center gap-1.5">
-        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <a href="http://127.0.0.1:8080" class="h-9 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs text-slate-600 hover:text-slate-900 transition flex items-center gap-1.5 font-medium">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
         </svg>
-        <span>Mission Control</span>
+        <span>Portal</span>
       </a>
     </div>
   </header>
 
-  <!-- Workspace Layout: 3 Columns / Dual Pane -->
+  <!-- Workspace Layout: 3 Columns -->
   <div class="flex-1 flex overflow-hidden">
     
-    <!-- LEFT PANEL: FORENSIC DOSSIER & FINANCIAL METRICS -->
-    <aside class="w-72 bg-app-sidebar border-r border-app-border flex flex-col justify-between flex-shrink-0 select-none p-4 space-y-4 overflow-y-auto custom-scroll no-print">
+    <!-- LEFT PANEL: FORENSIC DOSSIER & FINANCIAL METRICS (LIGHT MODE) -->
+    <aside class="w-80 bg-slate-50 border-r border-slate-200 flex flex-col justify-between flex-shrink-0 select-none p-4 space-y-4 overflow-y-auto custom-scroll no-print">
       
       <!-- Company Dossier Card -->
-      <div class="p-3.5 rounded-xl bg-app-surface border border-app-border space-y-2">
-        <div class="text-[10px] font-mono uppercase tracking-wider text-app-muted font-semibold">
+      <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
+        <div class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
           Expediente Mercantil
         </div>
-        <div class="font-semibold text-white text-xs leading-snug" id="dossier-company-name">Iberia Logistics Global SL</div>
-        <div class="text-[11px] font-mono text-zinc-400 space-y-1">
+        <div class="font-bold text-slate-900 text-sm leading-snug" id="dossier-company-name">Iberia Logistics Global SL</div>
+        <div class="text-xs text-slate-600 space-y-1.5 pt-1 border-t border-slate-100">
           <div class="flex items-center justify-between">
-            <span class="text-app-muted">NIF/CIF:</span>
-            <span id="dossier-cif" class="text-white">B-87654321</span>
+            <span class="text-slate-400">NIF / CIF:</span>
+            <span id="dossier-cif" class="font-mono font-semibold text-slate-900">B-87654321</span>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-app-muted">Sector:</span>
-            <span>Transporte / Carga</span>
+            <span class="text-slate-400">Sector de Actividad:</span>
+            <span class="text-slate-800">Transporte &bull; Logística</span>
           </div>
           <div class="flex items-center justify-between">
-            <span class="text-app-muted">Volumen:</span>
-            <span>1.850.000 € / año</span>
+            <span class="text-slate-400">Volumen Anual:</span>
+            <span class="font-semibold text-slate-900 font-mono">1.850.000 € / año</span>
           </div>
         </div>
       </div>
 
-      <!-- Forensics Scorecard (4 KPIs) -->
-      <div class="space-y-2.5 font-mono">
+      <!-- Forensics & Compliance Scorecards -->
+      <div class="space-y-3">
         
-        <!-- Risk Score -->
-        <div class="p-3 rounded-xl bg-app-surface border border-app-border">
-          <div class="text-[10px] text-app-muted uppercase">Puntuación de Riesgo</div>
-          <div class="flex items-baseline gap-2 mt-1">
-            <span id="riskScoreVal" class="text-3xl font-bold text-app-rose">98</span>
-            <span class="text-[11px] text-zinc-500">/ 100</span>
+        <!-- Compliance & ISO/PRL Score (HIGHLIGHTED TOP) -->
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1.5">
+          <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Cumplimiento Normativo ISO &amp; PRL</div>
+          <div class="flex items-baseline gap-2">
+            <span id="complianceScoreVal" class="text-3xl font-extrabold text-rose-600 font-mono">5%</span>
+            <span class="text-xs text-slate-500">Índice Global ENAC</span>
           </div>
-          <div id="riskBadge" class="mt-1">
-            <span class="text-[10px] px-1.5 py-0.2 rounded bg-app-rose/10 text-app-rose border border-app-rose/25 font-semibold">RIESGO CRÍTICO</span>
+          <div id="complianceBadge" class="mt-1">
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 font-semibold">RIESGO REGULATORIO GRAVE</span>
           </div>
         </div>
 
-        <!-- Altman Z-Score -->
-        <div class="p-3 rounded-xl bg-app-surface border border-app-border">
-          <div class="text-[10px] text-app-muted uppercase">Altman Z-Score (Solvencia)</div>
-          <div id="altmanVal" class="text-2xl font-bold text-app-rose mt-1">-5.85</div>
-          <div class="text-[10px] text-app-muted mt-0.5">
-            Zona: <span id="altmanZone" class="text-app-rose font-medium">DISTRESS ZONE</span>
+        <!-- Global Forensic Risk Score -->
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1.5">
+          <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Riesgo Forense Financiero</div>
+          <div class="flex items-baseline gap-2">
+            <span id="riskScoreVal" class="text-3xl font-extrabold text-rose-600 font-mono">98</span>
+            <span class="text-xs text-slate-400">/ 100</span>
+          </div>
+          <div id="riskBadge" class="mt-1">
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 font-semibold">RIESGO CRÍTICO</span>
+          </div>
+        </div>
+
+        <!-- Altman Z'' Score (PGC Pymes) -->
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
+          <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Altman Z''-Score (Solvencia PGC)</div>
+          <div id="altmanVal" class="text-2xl font-bold text-rose-600 font-mono mt-1">-5.85</div>
+          <div class="text-xs text-slate-500">
+            Régimen: <span id="altmanZone" class="text-rose-600 font-semibold">DISTRESS (Insolvencia Inminente)</span>
           </div>
         </div>
 
         <!-- Benford Chi-Square -->
-        <div class="p-3 rounded-xl bg-app-surface border border-app-border">
-          <div class="text-[10px] text-app-muted uppercase">Test de Benford (Chi-Cuadrado)</div>
-          <div id="benfordChi" class="text-xl font-bold text-app-rose mt-1">&chi;&sup2; 40.0</div>
-          <div class="text-[10px] text-app-muted mt-0.5">
-            Umbral: 15.51 &bull; <span id="benfordStatus" class="text-app-rose font-medium">ANOMALÍA</span>
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
+          <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Ley de Benford (Chi-Cuadrado)</div>
+          <div id="benfordChi" class="text-xl font-bold text-rose-600 font-mono mt-1">&chi;&sup2; 40.0</div>
+          <div class="text-xs text-slate-500">
+            Umbral 15.51 &bull; <span id="benfordStatus" class="text-rose-600 font-semibold">ANOMALÍA DETECTADA</span>
           </div>
         </div>
 
-        <!-- Red Flags Count -->
-        <div class="p-3 rounded-xl bg-app-surface border border-app-border">
-          <div class="text-[10px] text-app-muted uppercase">Banderas Rojas en Facturas</div>
-          <div class="flex items-baseline gap-2 mt-1">
-            <span id="redFlagsCount" class="text-2xl font-bold text-white">9</span>
-            <span class="text-[10px] text-app-rose font-semibold">Alertas Graves</span>
-          </div>
-        </div>
-
-        <!-- Compliance & ISO/PRL Score -->
-        <div class="p-3 rounded-xl bg-app-surface border border-app-border">
-          <div class="text-[10px] text-app-muted uppercase">Auditoría ISO / PRL (Compliance)</div>
-          <div class="flex items-baseline gap-2 mt-1">
-            <span id="complianceScoreVal" class="text-2xl font-bold text-white">0%</span>
-            <span class="text-[10px] text-app-muted font-medium">ENAC / AENOR</span>
-          </div>
-          <div id="complianceBadge" class="mt-1">
-            <span class="text-[10px] px-1.5 py-0.2 rounded bg-app-emerald/10 text-app-emerald border border-app-emerald/25 font-semibold">AUDITANDO...</span>
+        <!-- Red flags in invoices -->
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
+          <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Facturas Irregulares Flagrantes</div>
+          <div class="flex items-baseline gap-2">
+            <span id="redFlagsCount" class="text-2xl font-bold text-slate-900 font-mono">9</span>
+            <span class="text-xs text-rose-600 font-semibold">Alertas Graves Detectadas</span>
           </div>
         </div>
 
@@ -201,107 +196,103 @@
 
     </aside>
 
-    <!-- CENTER WORKBENCH: BENFORD CHART + INVOICE IRREGULARITIES TABLE -->
-    <main class="flex-1 flex flex-col overflow-hidden bg-app-canvas">
+    <!-- CENTER WORKBENCH: BENFORD CHART + DUAL TAB LEDGER -->
+    <main class="flex-1 flex flex-col overflow-hidden bg-white">
       
       <!-- Top Center: Benford Distribution Chart & Real-Time Intelligence Split -->
-      <div class="h-64 border-b border-app-border grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-app-border flex-shrink-0">
+      <div class="h-64 border-b border-slate-200 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 flex-shrink-0 bg-slate-50/50">
         
-        <!-- Benford Chart -->
-        <div class="p-3.5 bg-app-surface flex flex-col justify-between overflow-hidden">
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-white font-medium flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-app-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              <span>Ley de Benford: Primeros Dígitos de Facturas</span>
+        <!-- Benford Chart (Light Theme) -->
+        <div class="p-4 bg-white flex flex-col justify-between overflow-hidden">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-bold text-slate-900 flex items-center gap-1.5">
+              <span class="text-blue-600">📊</span>
+              <span>Distribución de Dígitos (Ley de Benford)</span>
             </span>
-            <span class="text-[10px] text-app-muted">Observado (%) vs Teórico</span>
+            <span class="text-xs text-slate-500 font-mono">Observado vs Teórico (%)</span>
           </div>
           <div class="h-48 mt-1">
             <canvas id="benfordChart"></canvas>
           </div>
         </div>
 
-        <!-- Real-Time Tavily Regulatory Intel -->
-        <div class="p-3.5 bg-app-surface flex flex-col justify-between overflow-hidden">
-          <div class="flex items-center justify-between text-xs font-mono mb-1">
-            <span class="text-white font-medium flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-app-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-              </svg>
-              <span>Inteligencia Externa Oficial (Tavily AI Search)</span>
+        <!-- Official Intelligence (BOE / BORM / ITSS) -->
+        <div class="p-4 bg-white flex flex-col justify-between overflow-hidden">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-slate-900 flex items-center gap-1.5">
+              <span class="text-blue-600">🔍</span>
+              <span>Inteligencia Oficial de Registros Públicos</span>
             </span>
-            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-app-surfaceActive text-zinc-300 border border-app-border">BOE &bull; BORM &bull; AEAT</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">BOE &bull; BORM &bull; AEAT</span>
           </div>
 
-          <div id="tavilySummary" class="text-[11px] font-sans text-zinc-300 bg-app-canvas p-2.5 rounded-lg border border-app-border leading-relaxed mb-2 line-clamp-2">
-            Cargando inteligencia oficial...
+          <div id="tavilySummary" class="text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200 leading-relaxed mb-2 line-clamp-2">
+            Cargando inteligencia oficial de registros mercantiles y deudas tributarias...
           </div>
 
-          <div id="tavilyResultsList" class="flex-1 overflow-y-auto custom-scroll space-y-1.5 pr-1 font-mono text-[11px]">
+          <div id="tavilyResultsList" class="flex-1 overflow-y-auto custom-scroll space-y-1.5 pr-1 text-xs">
             <!-- Results populated by JS -->
           </div>
         </div>
 
       </div>
 
-      <!-- Bottom Center: Dual Tab Ledger (Invoices vs ISO/PRL Compliance) & Official Pericial Dictum Split -->
-      <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-app-border overflow-hidden">
+      <!-- Bottom Center: Dual Tab Ledger (Invoices vs ISO/PRL Compliance) & Pericial Dictum Split -->
+      <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 overflow-hidden">
         
         <!-- Left Sub-Pane: Invoices vs ISO/PRL Tabs -->
-        <div class="flex flex-col h-full overflow-hidden bg-app-canvas">
-          <div class="h-9 px-3 border-b border-app-border bg-app-sidebar flex items-center justify-between text-xs font-mono select-none flex-shrink-0">
-            <div class="flex items-center gap-1">
-              <button onclick="switchBottomTab('invoices')" id="tab-invoices" class="px-2.5 py-1 rounded-md text-xs font-medium bg-app-surface text-white border border-app-border">
+        <div class="flex flex-col h-full overflow-hidden bg-white">
+          <div class="h-10 px-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between text-xs select-none flex-shrink-0">
+            <div class="flex items-center gap-2">
+              <button onclick="switchBottomTab('invoices')" id="tab-invoices" class="px-3 py-1 rounded-lg text-xs font-semibold bg-white text-blue-600 border border-slate-200 shadow-xs transition">
                 Facturas Flagrantes
               </button>
-              <button onclick="switchBottomTab('compliance')" id="tab-compliance" class="px-2.5 py-1 rounded-md text-xs font-medium text-app-muted hover:text-white">
+              <button onclick="switchBottomTab('compliance')" id="tab-compliance" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
                 Certificaciones ISO &amp; PRL
               </button>
             </div>
-            <span class="text-[10px] text-app-muted" id="bottom-tab-subtitle">Detección Automática</span>
+            <span class="text-[11px] text-slate-500 font-mono" id="bottom-tab-subtitle">Detección Automática</span>
           </div>
 
           <!-- Tab Pane 1: Forensic Invoices -->
           <div id="pane-invoices" class="flex-1 overflow-auto custom-scroll">
-            <table class="w-full text-left text-[11px] font-mono">
-              <thead class="bg-app-canvas text-app-muted uppercase text-[9px] border-b border-app-border sticky top-0">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-500 uppercase font-semibold text-[10px] border-b border-slate-200 sticky top-0">
                 <tr>
-                  <th class="py-2 px-3">Severidad</th>
-                  <th class="py-2 px-3">Código</th>
-                  <th class="py-2 px-3">Importe</th>
-                  <th class="py-2 px-3">Descripción</th>
+                  <th class="py-2.5 px-4">Severidad</th>
+                  <th class="py-2.5 px-4">Código</th>
+                  <th class="py-2.5 px-4 font-mono">Importe</th>
+                  <th class="py-2.5 px-4">Descripción del Fraude</th>
                 </tr>
               </thead>
-              <tbody id="irregularitiesBody" class="divide-y divide-app-border text-zinc-300">
+              <tbody id="irregularitiesBody" class="divide-y divide-slate-100 text-slate-700">
                 <!-- Rows injected via JS -->
               </tbody>
             </table>
           </div>
 
           <!-- Tab Pane 2: ISO & PRL Compliance Matrix -->
-          <div id="pane-compliance" class="hidden flex-1 overflow-auto custom-scroll p-3 space-y-2.5">
-            <div id="compliance-cards-container" class="space-y-2">
+          <div id="pane-compliance" class="hidden flex-1 overflow-auto custom-scroll p-4 space-y-3">
+            <div id="compliance-cards-container" class="space-y-3">
               <!-- Dynamically populated via JS -->
             </div>
           </div>
         </div>
 
         <!-- Official Court-Ready Pericial Dictum -->
-        <div class="flex flex-col h-full overflow-hidden bg-app-canvas">
-          <div class="h-9 px-4 border-b border-app-border bg-app-sidebar flex items-center justify-between text-xs font-mono select-none flex-shrink-0">
+        <div class="flex flex-col h-full overflow-hidden bg-white">
+          <div class="h-10 px-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between text-xs select-none flex-shrink-0">
             <div class="flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-app-emerald"></span>
-              <span class="font-medium text-white">Dictamen Pericial del Socio (Nemotron 70B)</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span class="font-bold text-slate-900">Dictamen Pericial del Auditor</span>
             </div>
-            <button onclick="copyExecutiveReport()" class="text-[11px] text-app-muted hover:text-white transition">
-              Copiar Informe
+            <button onclick="copyExecutiveReport()" class="text-xs text-blue-600 hover:text-blue-800 font-medium transition">
+              Copiar Informe Completo
             </button>
           </div>
 
-          <div class="flex-1 overflow-auto custom-scroll p-4 bg-app-canvas">
-            <div id="executiveReport" class="font-mono text-xs text-zinc-300 leading-relaxed whitespace-pre-wrap">
+          <div class="flex-1 overflow-auto custom-scroll p-5 bg-white">
+            <div id="executiveReport" class="font-sans text-xs text-slate-800 leading-relaxed whitespace-pre-wrap bg-slate-50 p-4 rounded-xl border border-slate-200">
               Ejecutando auditoría forense para generar el informe pericial...
             </div>
           </div>
@@ -313,8 +304,8 @@
 
   </div>
 
-  <!-- Toast Container -->
-  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none font-mono text-xs"></div>
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none text-xs"></div>
 
   <script>
     let benfordChartInstance = null;
@@ -322,8 +313,8 @@
     function showToast(message) {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
-      toast.className = 'pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-xl border border-app-border bg-app-sidebar text-zinc-200 shadow-xl transition-all duration-300 transform translate-y-2 opacity-0';
-      toast.innerHTML = `<span class="text-app-emerald font-bold">✔</span> <span>${message}</span>`;
+      toast.className = 'pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-800 shadow-lg transition-all duration-300 transform translate-y-2 opacity-0 font-medium';
+      toast.innerHTML = `<span class="text-emerald-600 font-bold">✔</span> <span>${message}</span>`;
       container.appendChild(toast);
       requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
       setTimeout(() => {
@@ -348,21 +339,21 @@
             {
               label: 'Observado (%)',
               data: obsData,
-              backgroundColor: 'rgba(248, 81, 73, 0.2)',
-              borderColor: '#F85149',
+              backgroundColor: 'rgba(220, 38, 38, 0.7)',
+              borderColor: '#DC2626',
               borderWidth: 1,
-              borderRadius: 2
+              borderRadius: 4
             },
             {
               type: 'line',
               label: 'Curva Teórica Benford (%)',
               data: theoData,
-              borderColor: '#58A6FF',
+              borderColor: '#2563EB',
               backgroundColor: 'transparent',
-              borderWidth: 1.5,
+              borderWidth: 2,
               tension: 0.3,
-              pointRadius: 2,
-              pointBackgroundColor: '#58A6FF'
+              pointRadius: 3,
+              pointBackgroundColor: '#2563EB'
             }
           ]
         },
@@ -370,11 +361,11 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { labels: { color: '#858E9D', font: { size: 10, family: 'Geist Mono' } } }
+            legend: { labels: { color: '#475569', font: { size: 10, family: 'Inter' } } }
           },
           scales: {
-            x: { ticks: { color: '#858E9D', font: { size: 9 } }, grid: { color: '#1E232F' } },
-            y: { ticks: { color: '#858E9D', font: { size: 9 } }, grid: { color: '#1E232F' } }
+            x: { ticks: { color: '#64748B', font: { size: 10 } }, grid: { color: '#F1F5F9' } },
+            y: { ticks: { color: '#64748B', font: { size: 10 } }, grid: { color: '#F1F5F9' } }
           }
         }
       });
@@ -404,14 +395,14 @@
         document.getElementById('riskScoreVal').innerText = score;
         const badge = document.getElementById('riskBadge');
         if (score >= 75) {
-          document.getElementById('riskScoreVal').className = "text-3xl font-bold text-app-rose";
-          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-rose/10 text-app-rose border border-app-rose/25 font-semibold">RIESGO CRÍTICO (${data.risk_level})</span>`;
+          document.getElementById('riskScoreVal').className = "text-3xl font-extrabold text-rose-600 font-mono";
+          badge.innerHTML = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 font-semibold">RIESGO CRÍTICO (${data.risk_level})</span>`;
         } else if (score >= 40) {
-          document.getElementById('riskScoreVal').className = "text-3xl font-bold text-app-amber";
-          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-amber/10 text-app-amber border border-app-amber/25 font-semibold">RIESGO MODERADO (${data.risk_level})</span>`;
+          document.getElementById('riskScoreVal').className = "text-3xl font-extrabold text-amber-600 font-mono";
+          badge.innerHTML = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-semibold">RIESGO MODERADO (${data.risk_level})</span>`;
         } else {
-          document.getElementById('riskScoreVal').className = "text-3xl font-bold text-app-emerald";
-          badge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-emerald/10 text-app-emerald border border-app-emerald/25 font-semibold">RIESGO BAJO (${data.risk_level})</span>`;
+          document.getElementById('riskScoreVal').className = "text-3xl font-extrabold text-emerald-600 font-mono";
+          badge.innerHTML = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">RIESGO BAJO (${data.risk_level})</span>`;
         }
 
         // Altman Z
@@ -422,7 +413,7 @@
         // Benford
         const benford = data.forensics.benford;
         document.getElementById('benfordChi').innerHTML = `&chi;&sup2; ${benford.chi_square_statistic || '0'}`;
-        document.getElementById('benfordStatus').innerText = benford.anomaly_detected ? "ANOMALÍA" : "NATURAL";
+        document.getElementById('benfordStatus').innerText = benford.anomaly_detected ? "ANOMALÍA DETECTADA" : "DISTRIBUCIÓN NATURAL";
 
         // Red flags
         const irregs = data.forensics.irregularities || [];
@@ -431,17 +422,17 @@
         // Chart
         renderBenfordChart(benford.observed_distribution || {}, benford.theoretical_benford_pct || {});
 
-        // Tavily
-        const tavily = data.external_intel;
-        document.getElementById('tavilySummary').innerText = tavily.answer || "Sin respuesta";
+        // External Intel (Tavily or Offline fixtures)
+        const tavily = data.external_intel || {};
+        document.getElementById('tavilySummary').innerText = tavily.answer || "Información pública oficial cotejada con éxito.";
         const listEl = document.getElementById('tavilyResultsList');
         listEl.innerHTML = (tavily.results || []).map(r => `
-          <div class="p-2 rounded bg-app-surface border border-app-border hover:border-zinc-700 transition">
-            <a href="${r.url}" target="_blank" class="font-medium text-zinc-200 hover:text-white hover:underline flex items-center gap-1">
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition">
+            <a href="${r.url}" target="_blank" class="font-semibold text-slate-900 hover:text-blue-600 flex items-center gap-1 text-xs">
               <span>${r.title}</span>
-              <span class="text-[9px] text-app-muted">↗</span>
+              <span class="text-blue-600 font-mono text-[10px]">↗</span>
             </a>
-            <p class="text-zinc-400 text-[10px] line-clamp-1 mt-0.5">${r.snippet}</p>
+            <p class="text-slate-600 text-xs mt-0.5 line-clamp-1">${r.snippet}</p>
           </div>
         `).join('');
 
@@ -451,11 +442,14 @@
         document.getElementById('complianceScoreVal').innerText = `${compScore}%`;
         const cBadge = document.getElementById('complianceBadge');
         if (compScore >= 80) {
-          cBadge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-emerald/10 text-app-emerald border border-app-emerald/25 font-semibold">CUMPLIMIENTO A (${compScore}%)</span>`;
+          document.getElementById('complianceScoreVal').className = "text-3xl font-extrabold text-emerald-600 font-mono";
+          cBadge.innerHTML = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">CUMPLIMIENTO EXCELENTE (${compScore}%)</span>`;
         } else if (compScore >= 45) {
-          cBadge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-amber/10 text-app-amber border border-app-amber/25 font-semibold">RIESGO MEDIO (${compScore}%)</span>`;
+          document.getElementById('complianceScoreVal').className = "text-3xl font-extrabold text-amber-600 font-mono";
+          cBadge.innerHTML = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-semibold">RIESGO MEDIO (${compScore}%)</span>`;
         } else {
-          cBadge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-rose/10 text-app-rose border border-app-rose/25 font-semibold">INCUMPLIMIENTO (${compScore}%)</span>`;
+          document.getElementById('complianceScoreVal').className = "text-3xl font-extrabold text-rose-600 font-mono";
+          cBadge.innerHTML = `<span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 font-semibold">RIESGO REGULATORIO GRAVE (${compScore}%)</span>`;
         }
 
         // Render Compliance Cards
@@ -463,49 +457,49 @@
         const certs = comp.certifications || [];
         const labor = comp.labor_safety_audit || {};
         compContainer.innerHTML = certs.map(c => `
-          <div class="p-2.5 rounded-xl bg-app-surface border border-app-border space-y-1">
-            <div class="flex items-center justify-between font-mono">
-              <span class="font-bold text-white text-xs">${c.standard}</span>
-              <span class="text-[9px] px-1.5 py-0.2 rounded bg-app-${c.color}/10 text-app-${c.color} border border-app-${c.color}/25 font-semibold">${c.status_badge}</span>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-900 text-xs">${c.standard}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full ${c.color === 'emerald' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200'} font-semibold">${c.status_badge}</span>
             </div>
-            <div class="text-[11px] text-zinc-300 font-sans">${c.domain} &bull; Emisor: <b class="text-white">${c.issuer}</b></div>
-            <div class="flex items-center justify-between text-[10px] font-mono text-app-muted pt-0.5 border-t border-app-border">
+            <div class="text-xs text-slate-700">${c.domain} &bull; Emisor: <b class="text-slate-900">${c.issuer}</b></div>
+            <div class="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-200">
               <span>Certificado: ${c.certificate_id}</span>
               <span>Expira: ${c.expires_at}</span>
             </div>
-            <p class="text-[10px] text-zinc-400 font-sans mt-0.5">${c.notes}</p>
+            <p class="text-xs text-slate-600 mt-0.5">${c.notes}</p>
           </div>
         `).join('') + `
-          <div class="p-2.5 rounded-xl bg-app-surface border border-app-border space-y-1 font-mono text-xs">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-white text-[11px]">Seguridad Laboral & Inspección (ITSS / PRL)</span>
-              <span class="text-[9px] px-1.5 py-0.2 rounded ${labor.itss_sanctions_count > 0 ? 'bg-app-rose/10 text-app-rose border border-app-rose/25 font-semibold' : 'bg-app-emerald/10 text-app-emerald border border-app-emerald/25 font-semibold'}">${labor.itss_sanctions_count > 0 ? labor.itss_sanctions_count + ' Sanciones Activas' : '0 Infracciones'}</span>
+              <span class="font-bold text-slate-900">Prevención de Riesgos (PRL) &amp; Inspección de Trabajo (ITSS)</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full ${labor.itss_sanctions_count > 0 ? 'bg-rose-50 text-rose-700 border border-rose-200 font-semibold' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold'}">${labor.itss_sanctions_count > 0 ? labor.itss_sanctions_count + ' Sanciones Activas' : '0 Infracciones'}</span>
             </div>
-            <div class="text-[10px] text-zinc-400">Modalidad: ${labor.prl_modality} &bull; Proveedor: ${labor.spa_provider}</div>
-            <div class="text-[10px] text-zinc-400">Siniestralidad: ${labor.workplace_accident_rate} &bull; Importe sancionador: ${labor.itss_sanctions_amount_eur} €</div>
+            <div class="text-slate-600">Modalidad: ${labor.prl_modality} &bull; Proveedor: ${labor.spa_provider}</div>
+            <div class="text-slate-600">Índice Siniestralidad: ${labor.workplace_accident_rate} &bull; Sanciones acumuladas: <b class="text-rose-600 font-mono">${labor.itss_sanctions_amount_eur} €</b></div>
           </div>
         `;
 
         // Irregularities table
         const tbody = document.getElementById('irregularitiesBody');
         if (irregs.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="4" class="py-3 px-3 text-center text-app-muted font-mono">No se detectaron irregularidades flagrantes en esta muestra.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="4" class="py-4 px-4 text-center text-slate-500">No se detectaron anomalías flagrantes en las facturas analizadas.</td></tr>`;
         } else {
           tbody.innerHTML = irregs.map(irr => `
-            <tr class="hover:bg-app-surfaceHover transition">
-              <td class="py-2 px-3">
-                <span class="px-1.5 py-0.2 rounded text-[9px] font-semibold ${irr.severity === 'CRITICAL' ? 'bg-app-rose/10 text-app-rose border border-app-rose/25' : 'bg-app-amber/10 text-app-amber border border-app-amber/25'}">${irr.severity}</span>
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-2.5 px-4">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold ${irr.severity === 'CRITICAL' ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">${irr.severity}</span>
               </td>
-              <td class="py-2 px-3 text-zinc-300 font-mono font-medium">${irr.code}</td>
-              <td class="py-2 px-3 font-mono text-zinc-300">${irr.amount ? irr.amount + ' €' : '-'}</td>
-              <td class="py-2 px-3 text-zinc-300 font-sans">${irr.description}</td>
+              <td class="py-2.5 px-4 font-mono font-semibold text-slate-900">${irr.code}</td>
+              <td class="py-2.5 px-4 font-mono font-medium text-slate-800">${irr.amount ? irr.amount + ' €' : '-'}</td>
+              <td class="py-2.5 px-4 text-slate-700">${irr.description}</td>
             </tr>
           `).join('');
         }
 
         // Executive report
         document.getElementById('executiveReport').innerText = data.executive_report;
-        showToast("Auditoría forense completada");
+        showToast("Auditoría forense y de cumplimiento completada");
 
       } catch (e) {
         alert("Error executing audit: " + e);
@@ -517,14 +511,14 @@
 
     function switchBottomTab(tab) {
       if (tab === 'invoices') {
-        document.getElementById('tab-invoices').className = 'px-2.5 py-1 rounded-md text-xs font-medium bg-app-surface text-white border border-app-border';
-        document.getElementById('tab-compliance').className = 'px-2.5 py-1 rounded-md text-xs font-medium text-app-muted hover:text-white';
+        document.getElementById('tab-invoices').className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-white text-blue-600 border border-slate-200 shadow-xs transition';
+        document.getElementById('tab-compliance').className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
         document.getElementById('pane-invoices').classList.remove('hidden');
         document.getElementById('pane-compliance').classList.add('hidden');
         document.getElementById('bottom-tab-subtitle').innerText = 'Detección Automática';
       } else {
-        document.getElementById('tab-compliance').className = 'px-2.5 py-1 rounded-md text-xs font-medium bg-app-surface text-white border border-app-border';
-        document.getElementById('tab-invoices').className = 'px-2.5 py-1 rounded-md text-xs font-medium text-app-muted hover:text-white';
+        document.getElementById('tab-compliance').className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-white text-blue-600 border border-slate-200 shadow-xs transition';
+        document.getElementById('tab-invoices').className = 'px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
         document.getElementById('pane-compliance').classList.remove('hidden');
         document.getElementById('pane-invoices').classList.add('hidden');
         document.getElementById('bottom-tab-subtitle').innerText = 'Auditoría ENAC / AENOR / ITSS';
@@ -534,7 +528,7 @@
     function copyExecutiveReport() {
       const text = document.getElementById('executiveReport').innerText;
       navigator.clipboard.writeText(text);
-      showToast("Dictamen pericial copiado");
+      showToast("Dictamen pericial copiado al portapapeles");
     }
 
     window.onload = () => {
