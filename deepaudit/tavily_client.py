@@ -15,14 +15,17 @@ class DeepAuditTavilyClient:
         self.api_key = api_key or TAVILY_API_KEY
         self.endpoint = "https://api.tavily.com/search"
 
-    def search(self, query: str, search_depth: str = "advanced", max_results: int = 5) -> Dict[str, Any]:
+    def search(self, query: str, search_depth: str = "advanced", max_results: int = 5, force_offline: bool = False) -> Dict[str, Any]:
         """
         Executes a real-time web search via Tavily. Falls back to simulated legal gazette intel
-        if no API key is provided or if network request is offline.
+        if no API key is provided, if force_offline=True, or if network request takes >3.5s.
         """
-        if self.api_key and len(self.api_key.strip()) > 5:
+        import time
+        start_t = time.time()
+
+        if not force_offline and self.api_key and len(self.api_key.strip()) > 5:
             try:
-                with httpx.Client(timeout=15.0) as client:
+                with httpx.Client(timeout=3.5) as client:
                     resp = client.post(
                         self.endpoint,
                         headers={"Content-Type": "application/json"},
@@ -36,8 +39,11 @@ class DeepAuditTavilyClient:
                     )
                     if resp.status_code == 200:
                         data = resp.json()
+                        duration_ms = round((time.time() - start_t) * 1000, 1)
                         return {
                             "source": "tavily_live_api",
+                            "mode": "live",
+                            "latency_ms": duration_ms,
                             "query": query,
                             "answer": data.get("answer", ""),
                             "results": [
@@ -52,10 +58,13 @@ class DeepAuditTavilyClient:
                         }
             except Exception as e:
                 # Log error and gracefully proceed to registry intel cache
-                print(f"[DeepAudit Tavily] Live search exception: {e}. Falling back to legal cache.")
+                print(f"[DeepAudit Tavily] Live search exception/timeout ({e}). Instant fallback to Spanish BOE/BORM cache.")
 
         # Built-in High-Fidelity Forensic Intelligence Cache for Spanish/European Corporate Audits
-        return self._get_cached_forensic_intel(query)
+        cached_result = self._get_cached_forensic_intel(query)
+        cached_result["mode"] = "offline_cache"
+        cached_result["latency_ms"] = round((time.time() - start_t) * 1000, 1)
+        return cached_result
 
     def _get_cached_forensic_intel(self, query: str) -> Dict[str, Any]:
         q = query.lower()
