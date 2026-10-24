@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeepAudit • Autonomous Corporate Forensics &amp; Due Diligence Agent</title>
+  <title>AETHERIA // DEEPAUDIT™ • Autonomous Corporate Forensics &amp; Due Diligence Agent</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,46 +71,46 @@
 
   <div class="fixed inset-0 bg-grid-pattern pointer-events-none z-0"></div>
 
-  <!-- Top Sticky Navigation (shadcn/ui style) -->
-  <header class="border-b border-zinc-800/80 bg-zinc-950/70 backdrop-blur-xl sticky top-0 z-50 no-print">
+  <!-- Top Sticky Navigation (AETHERIA // DEEPAUDIT) -->
+  <header class="border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-2xl sticky top-0 z-50 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 shadow-inner group">
-          <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 to-amber-400 rounded-xl blur opacity-35 group-hover:opacity-75 transition duration-500"></div>
-          <svg class="relative w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
+      
+      <!-- Brand & Product Title -->
+      <div class="flex items-center gap-3.5">
+        <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 shadow-inner group">
+          <img src="/static/assets/logo-deepaudit.svg" alt="DeepAudit Logo" class="w-7 h-7">
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="font-extrabold text-sm sm:text-base tracking-tight text-zinc-100">
-              Deep<span class="text-cyan-400">Audit</span>
+            <span class="font-extrabold text-sm sm:text-base tracking-tight text-white font-mono">
+              AETHERIA // <span class="text-cyan-400">DEEPAUDIT™</span>
             </span>
-            <span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-mono font-medium ring-1 ring-inset ring-amber-500/30 bg-amber-500/10 text-amber-300">
-              ⭐ $3,000 Tavily Award Track
+            <span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[9px] font-mono font-medium ring-1 ring-inset ring-amber-500/30 bg-amber-500/10 text-amber-300">
+              $3,000 TAVILY TRACK
             </span>
           </div>
-          <p class="text-[11px] text-zinc-400 hidden sm:block">
-            Due Diligence &amp; Vendor Risk Intelligence &bull; Nebius x NVIDIA x Tavily &bull; Port 8001
+          <p class="text-[11px] text-zinc-400 font-mono hidden sm:block">
+            Autonomous Forensics &bull; Nebius x NVIDIA x Tavily AI &bull; Port 8001
           </p>
         </div>
       </div>
 
+      <!-- Controls & Links -->
       <div class="flex items-center gap-3">
         <div class="hidden md:flex items-center gap-2 bg-zinc-900/80 px-3 py-1.5 rounded-xl border border-zinc-800 text-xs text-zinc-300 font-mono">
           <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
           <span>Engine: <b class="text-white">Nemotron-3.5</b></span>
           <span class="text-zinc-600">&bull;</span>
-          <span>Intel: <b class="text-cyan-400">Tavily AI</b></span>
+          <span>Intel: <b class="text-cyan-400">Tavily Search</b></span>
         </div>
-        <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-800 transition flex items-center gap-1.5 shadow-sm active:scale-95">
+        <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-xs font-semibold text-zinc-200 border border-zinc-800 transition flex items-center gap-1.5 shadow-sm active:scale-95 font-mono">
           <svg class="w-3.5 h-3.5 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
           </svg>
           <span>Exportar PDF</span>
         </button>
-        <a href="http://127.0.0.1:8080" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 transition flex items-center gap-1.5 shadow-sm active:scale-95">
-          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <a href="http://127.0.0.1:8080" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 transition flex items-center gap-1.5 shadow-sm active:scale-95 font-mono">
+          <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
           </svg>
           <span>Mission Control</span>
@@ -122,12 +122,12 @@
   <!-- Main Content -->
   <main class="relative z-10 flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-    <!-- Selector & Action Bar (shadcn style) -->
+    <!-- Selector & Action Bar -->
     <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-5 shadow-xl no-print">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
         <div class="md:col-span-3">
           <label class="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wider font-mono">
-            Seleccionar Empresa / Proveedor a Auditar
+            Seleccionar Entidad / Proveedor Corporativo a Auditar
           </label>
           <select id="caseSelect" class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-4 py-3 text-xs text-zinc-100 focus:outline-none focus:border-cyan-500 font-mono transition">
             <option value="iberia_logistics">1. Iberia Logistics Global SL (B-87654321) &mdash; Transporte / Sospecha de Quiebra y Facturas Falsas</option>
@@ -136,7 +136,7 @@
           </select>
         </div>
         <div>
-          <button id="runAuditBtn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-amber-400 hover:from-cyan-300 hover:to-amber-300 text-zinc-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition duration-200 shadow-lg shadow-cyan-500/25 active:scale-95">
+          <button id="runAuditBtn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-amber-400 hover:from-cyan-300 hover:to-amber-300 text-zinc-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition duration-200 shadow-lg shadow-cyan-500/25 active:scale-95 font-mono">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -230,7 +230,7 @@
       <!-- Chart: Benford's Law Distribution -->
       <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-xl">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+          <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2 font-mono">
             <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
@@ -247,7 +247,7 @@
       <div class="border-beam-cyan bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+            <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2 font-mono">
               <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
               </svg>
@@ -270,10 +270,10 @@
 
     </div>
 
-    <!-- Invoice Irregularities Table (Tremor style) -->
+    <!-- Invoice Irregularities Table -->
     <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 shadow-xl">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+        <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2 font-mono">
           <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
           </svg>
@@ -302,7 +302,7 @@
     <div class="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-6 sm:p-8 shadow-2xl">
       <div class="flex items-center justify-between border-b border-zinc-800/80 pb-4 mb-6 flex-wrap gap-3">
         <div>
-          <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+          <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2 font-mono">
             <svg class="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
@@ -328,6 +328,19 @@
 
   <!-- Modern Sleek Toast Notification Container -->
   <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Corporate Footer -->
+  <footer class="relative z-10 border-t border-zinc-800/80 py-8 text-center text-xs text-zinc-500 font-mono">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <img src="/static/assets/logo-aetheria.svg" alt="Aetheria Systems" class="w-4 h-4 opacity-50">
+        <span>&copy; 2026 AETHERIA SYSTEMS, INC. &bull; Engineered by Jordi Albarracín</span>
+      </div>
+      <div class="text-zinc-400">
+        Nebius Token Factory &bull; NVIDIA Nemotron 70B &bull; Tavily Real-Time Intelligence
+      </div>
+    </div>
+  </footer>
 
   <script>
     let benfordChartInstance = null;
