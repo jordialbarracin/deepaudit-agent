@@ -21,7 +21,16 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
             "retained_earnings": -140000.0,
             "ebit": -35000.0,
             "equity": -130000.0,
-            "revenue": 845000.0
+            "revenue": 845000.0,
+            "cogs": 620000.0,
+            "accounts_receivable": 45000.0,
+            "accounts_payable": 280000.0,
+            "inventory": 0.0
+        },
+        "bank_account": {
+            "iban": "LT89 3704 0044 0532 0130",
+            "bank_name": "Revolut Payments Lithuania",
+            "beneficiary_name": "Iberia Global Holding Ltd (Malta)"
         },
         "certifications": {
             "iso_9001": {"issuer": "AENOR", "certificate_id": "ER-0412/2018", "expires_at": "2026-05-15", "fraudulent_unaccredited": False},
@@ -46,7 +55,8 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
             {"invoice_number": "IB-2026-125", "amount": 8400.00, "date": "2026-09-27", "concept": "Transporte de largo recorrido"},
             {"invoice_number": "IB-2026-130", "amount": 4975.00, "date": "2026-09-30", "concept": "Alquiler de semirremolque refuerzo"},
             {"invoice_number": "IB-2026-134", "amount": 3200.00, "date": "2026-10-03", "concept": "Descarga de contenedores puerto"},
-            {"invoice_number": "IB-2026-140", "amount": 4990.00, "date": "2026-10-07", "concept": "Sobrecarga de combustible y peajes"}
+            {"invoice_number": "IB-2026-140", "amount": 4990.00, "date": "2026-10-07", "concept": "Sobrecarga de combustible y peajes"},
+            {"invoice_number": "IB-2026-141", "amount": 2850.00, "date": "2026-10-11", "time": "03:14:22", "concept": "Descarga nocturna sábado delegación Algeciras", "pod_verified": True, "pod_timestamp": "2026-10-11T02:51:00Z"}
         ]
     },
 
@@ -66,6 +76,11 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
             "ebit": 420000.0,
             "equity": 2280000.0,
             "revenue": 2450000.0
+        },
+        "bank_account": {
+            "iban": "ES44 2100 0418 4502 0005 1122",
+            "bank_name": "CaixaBank",
+            "beneficiary_name": "Solaria Energy Soluciones SL"
         },
         "certifications": {
             "iso_27001": {"issuer": "AENOR", "certificate_id": "SI-0098/2023", "expires_at": "2027-11-20", "fraudulent_unaccredited": False},

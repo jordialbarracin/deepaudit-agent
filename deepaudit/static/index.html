@@ -196,10 +196,13 @@
           <div class="h-9 px-3 border-b border-slate-300 bg-slate-100 flex items-center justify-between text-xs font-mono select-none flex-shrink-0">
             <div class="flex items-center gap-1">
               <button onclick="switchBottomTab('invoices')" id="tab-invoices" class="px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 text-slate-900 rounded-sm">
-                Facturas Irregulares
+                Facturas &amp; Telemetría POD
               </button>
               <button onclick="switchBottomTab('compliance')" id="tab-compliance" class="px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm">
                 Certificados ISO &amp; Actas ITSS
+              </button>
+              <button onclick="switchBottomTab('erp')" id="tab-erp" class="px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm">
+                Contraparte &amp; ERP (SAP/Coupa)
               </button>
             </div>
             <span class="text-[10px] text-slate-500" id="bottom-tab-subtitle">Análisis Forense Interno</span>
@@ -226,6 +229,17 @@
           <div id="pane-compliance" class="hidden flex-1 overflow-auto custom-scroll p-3 space-y-2">
             <div id="compliance-cards-container" class="space-y-2">
               <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <!-- Counterparty & ERP Integration Payload -->
+          <div id="pane-erp" class="hidden flex-1 overflow-auto custom-scroll p-3 space-y-3 font-mono text-[11px]">
+            <div id="counterparty-card" class="p-2.5 border border-slate-300 bg-slate-50 space-y-1">
+              <!-- Injected via JS -->
+            </div>
+            <div class="space-y-1">
+              <span class="text-[10px] text-slate-500 uppercase font-semibold">Carga Util de Bloqueo Inmediato SAP Ariba / Coupa (JSON API)</span>
+              <pre id="erpPayloadJson" class="p-2 border border-slate-300 bg-white text-[10px] text-slate-800 overflow-x-auto rounded-sm"></pre>
             </div>
           </div>
         </div>
@@ -430,6 +444,20 @@
         // Executive Report
         document.getElementById('executiveReport').innerText = data.executive_report;
 
+        // Counterparty & ERP
+        const cp = (data.forensics && data.forensics.counterparty) || {};
+        const cCard = document.getElementById('counterparty-card');
+        cCard.innerHTML = `
+          <div class="flex justify-between font-semibold">
+            <span class="text-slate-900">Validación de Cuenta Bancaria & IBAN</span>
+            <span class="text-[10px] px-1 border ${cp.has_critical_discrepancy ? 'bg-red-50 text-red-800 border-red-300' : 'bg-emerald-50 text-emerald-800 border-emerald-300'}">${cp.status || 'VERIFICADO'}</span>
+          </div>
+          <div class="text-[10px] text-slate-600">IBAN: <span class="font-bold text-slate-800">${cp.iban_masked || '-'}</span> (País: ${cp.iban_country || '-'}) &bull; Entidad: ${cp.bank_name || '-'}</div>
+          <div class="text-[10px] text-slate-600">Titular de la Cuenta: <span class="font-bold text-slate-800">${cp.beneficiary_name || '-'}</span></div>
+          ${(cp.anomalies || []).map(a => `<div class="p-1 border border-red-200 bg-red-50 text-[10px] text-red-700 mt-1">${a.description}</div>`).join('')}
+        `;
+        document.getElementById('erpPayloadJson').innerText = JSON.stringify(data.erp_integration || {}, null, 2);
+
       } catch (e) {
         alert("Error de ejecución: " + e);
       } finally {
@@ -439,18 +467,25 @@
     }
 
     function switchBottomTab(tab) {
+      document.getElementById('tab-invoices').className = 'px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm';
+      document.getElementById('tab-compliance').className = 'px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm';
+      document.getElementById('tab-erp').className = 'px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm';
+      document.getElementById('pane-invoices').classList.add('hidden');
+      document.getElementById('pane-compliance').classList.add('hidden');
+      document.getElementById('pane-erp').classList.add('hidden');
+
       if (tab === 'invoices') {
         document.getElementById('tab-invoices').className = 'px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 text-slate-900 rounded-sm';
-        document.getElementById('tab-compliance').className = 'px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm';
         document.getElementById('pane-invoices').classList.remove('hidden');
-        document.getElementById('pane-compliance').classList.add('hidden');
-        document.getElementById('bottom-tab-subtitle').innerText = 'Análisis Forense Interno';
-      } else {
+        document.getElementById('bottom-tab-subtitle').innerText = 'Análisis Forense Interno & Telemetría';
+      } else if (tab === 'compliance') {
         document.getElementById('tab-compliance').className = 'px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 text-slate-900 rounded-sm';
-        document.getElementById('tab-invoices').className = 'px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm';
         document.getElementById('pane-compliance').classList.remove('hidden');
-        document.getElementById('pane-invoices').classList.add('hidden');
         document.getElementById('bottom-tab-subtitle').innerText = 'Auditoría ENAC / AENOR / ITSS';
+      } else if (tab === 'erp') {
+        document.getElementById('tab-erp').className = 'px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 text-slate-900 rounded-sm';
+        document.getElementById('pane-erp').classList.remove('hidden');
+        document.getElementById('bottom-tab-subtitle').innerText = 'Conectores SAP Ariba & Coupa';
       }
     }
 

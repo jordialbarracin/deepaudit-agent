@@ -92,6 +92,57 @@ class ForensicEngine:
         }
 
     @staticmethod
+    def calculate_cash_conversion_cycle(financials: Dict[str, float]) -> Dict[str, Any]:
+        """
+        Calculates Cash Conversion Cycle (CCC = DSO + DIO - DPO) to avoid false-positive
+        insolvency classifications on asset-light logistics/service companies with negative working capital.
+        """
+        revenue = financials.get("revenue", 1.0)
+        cogs = financials.get("cogs", revenue * 0.75)
+        receivables = financials.get("accounts_receivable", financials.get("current_assets", 0.0) * 0.4)
+        payables = financials.get("accounts_payable", financials.get("current_liabilities", 0.0) * 0.7)
+        inventory = financials.get("inventory", 0.0)
+
+        if revenue <= 0:
+            revenue = 1.0
+        if cogs <= 0:
+            cogs = 1.0
+
+        # Days Sales Outstanding (DSO)
+        dso = (receivables / revenue) * 365.0
+        # Days Inventory Outstanding (DIO)
+        dio = (inventory / cogs) * 365.0
+        # Days Payable Outstanding (DPO)
+        dpo = (payables / cogs) * 365.0
+
+        # Cash Conversion Cycle (CCC)
+        ccc = dso + dio - dpo
+
+        # Analysis
+        is_asset_light_negative_wc = False
+        if ccc < 0 and dso < 45.0:
+            is_asset_light_negative_wc = True
+            interpretation = (
+                f"Ciclo de Conversión de Efectivo favorable ({ccc:.1f} días). "
+                f"La empresa cobra a clientes en {dso:.1f} días pero abona a transportistas/subcontratas a {dpo:.1f} días. "
+                f"El fondo de maniobra negativo es operativo estructural (modelo asset-light), NO insolvencia técnica inmediata."
+            )
+        else:
+            interpretation = (
+                f"Ciclo de Conversión de Efectivo en {ccc:.1f} días (DSO: {dso:.1f}d, DPO: {dpo:.1f}d). "
+                f"Tensión de liquidez operativa confirmada."
+            )
+
+        return {
+            "cash_conversion_cycle_days": round(ccc, 1),
+            "days_sales_outstanding_dso": round(dso, 1),
+            "days_inventory_outstanding_dio": round(dio, 1),
+            "days_payable_outstanding_dpo": round(dpo, 1),
+            "is_asset_light_negative_wc": is_asset_light_negative_wc,
+            "interpretation": interpretation
+        }
+
+    @staticmethod
     def calculate_altman_z_score(financials: Dict[str, float]) -> Dict[str, Any]:
         """
         Calculates Altman Z-Score for non-manufacturing/service private firms:
@@ -124,17 +175,26 @@ class ForensicEngine:
 
         z_score = (6.56 * x1) + (3.26 * x2) + (6.72 * x3) + (1.05 * x4)
 
+        ccc_data = ForensicEngine.calculate_cash_conversion_cycle(financials)
+
         if z_score < 1.1:
             zone = "DISTRESS_ZONE"
-            description = "High probability of bankruptcy/insolvency within 24 months."
-            score_color = "red"
+            if ccc_data["is_asset_light_negative_wc"] and ebit >= 0:
+                description = "Zona de alerta matemática por fondo de maniobra negativo, pero mitigada por modelo asset-light con ciclo de caja negativo y EBIT operativo positivo."
+                score_color = "yellow"
+            elif ccc_data["is_asset_light_negative_wc"] and ebit < 0:
+                description = "Zona de quiebra/insolvencia: Modelo asset-light desbordado por pérdidas operativas acumuladas (EBIT y fondos propios negativos)."
+                score_color = "red"
+            else:
+                description = "Alta probabilidad de quiebra o suspensión de pagos a 24 meses por desequilibrio patrimonial estructural."
+                score_color = "red"
         elif 1.1 <= z_score < 2.6:
             zone = "GREY_ZONE"
-            description = "Moderate financial strain; operational restructuring advised."
+            description = "Tensión financiera moderada; recomendada reestructuración de pasivo corriente."
             score_color = "yellow"
         else:
             zone = "SAFE_ZONE"
-            description = "Solid balance sheet; minimal default risk."
+            description = "Balance solvente; riesgo mínimo de impago."
             score_color = "green"
 
         return {
@@ -149,7 +209,8 @@ class ForensicEngine:
                 "equity_to_debt_leverage": round(x4, 3)
             },
             "working_capital_euros": round(working_capital, 2),
-            "current_ratio": round(current_assets / (current_liabilities if current_liabilities > 0 else 1.0), 2)
+            "current_ratio": round(current_assets / (current_liabilities if current_liabilities > 0 else 1.0), 2),
+            "cash_conversion_cycle": ccc_data
         }
 
     @staticmethod
@@ -204,10 +265,39 @@ class ForensicEngine:
                     "description": f"Importe perfectamente redondo ({amt:.2f} €); atípico en facturación comercial con impuestos."
                 })
 
-            # Group for duplicates
+            # Check 4: Potential duplicate billing
             if amt not in seen_amounts:
                 seen_amounts[amt] = []
             seen_amounts[amt].append(inv)
+
+            # Check 5: Weekend / Off-Hours POD Telemetry Cross-Validation
+            inv_time = inv.get("time", "")
+            if inv_time:
+                try:
+                    hour = int(inv_time.split(":")[0])
+                    is_off_hours = hour >= 23 or hour < 6
+                except Exception:
+                    is_off_hours = False
+
+                if is_off_hours:
+                    if inv.get("pod_verified"):
+                        anomalies.append({
+                            "severity": "INFO",
+                            "code": "VERIFIED_AUTO_POD_TELEMETRY",
+                            "invoice_number": num,
+                            "amount": amt,
+                            "date": date,
+                            "description": f"Emisión a las {inv_time} vinculada a telemetría de entrega POD ({inv.get('pod_timestamp', 'Albarán telemático')}). Falso positivo de factura extemporánea descartado por trazabilidad operativa."
+                        })
+                    else:
+                        anomalies.append({
+                            "severity": "MEDIUM",
+                            "code": "UNVERIFIED_OFF_HOURS_SUBMISSION",
+                            "invoice_number": num,
+                            "amount": amt,
+                            "date": date,
+                            "description": f"Factura emitida a deshoras ({inv_time}) sin telemetría de albarán/POD vinculada. Requiere verificación de recepción en muelle."
+                        })
 
         # Check 4: Potential duplicate billing
         for amt, group in seen_amounts.items():
@@ -222,3 +312,110 @@ class ForensicEngine:
                 })
 
         return anomalies
+
+    @staticmethod
+    def verify_payment_counterparty(company_profile: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Audits counterparty payment coordinates to prevent supplier impersonation,
+        IBAN diversion fraud, and off-shore beneficiary masking.
+        """
+        company_name = company_profile.get("company_name", "")
+        cif = company_profile.get("cif", "")
+        bank_data = company_profile.get("bank_account", {})
+
+        iban = bank_data.get("iban", "").replace(" ", "").upper()
+        beneficiary = bank_data.get("beneficiary_name", "").strip()
+        bank_name = bank_data.get("bank_name", "Desconocido")
+
+        anomalies = []
+        is_high_risk = False
+
+        if not iban:
+            return {
+                "status": "MISSING_PAYMENT_DATA",
+                "risk": "MEDIUM",
+                "iban": "NO_REGISTRADO",
+                "anomalies": ["Ficha de proveedor sin IBAN bancario verificado."]
+            }
+
+        country_code = iban[:2]
+        expected_country = "ES" if cif.startswith(("A", "B", "C", "D", "E", "F", "G", "H", "J", "N", "P", "Q", "R", "S", "U", "V", "W")) else None
+
+        # Cross-border check
+        if expected_country and country_code != expected_country:
+            is_high_risk = True
+            anomalies.append({
+                "severity": "CRITICAL",
+                "code": "IBAN_CROSS_BORDER_DISCREPANCY",
+                "description": (
+                    f"Riesgo crítico de desvío de pagos: Sociedad domiciliada en España ({cif}) "
+                    f"solicita liquidación en cuenta bancaria en jurisdicción extranjera ({country_code} - {bank_name}). "
+                    f"Patrón típico de fraude de sustitución de cuenta o despatrimonialización."
+                )
+            })
+
+        # Beneficiary mismatch check
+        if beneficiary:
+            norm_comp = company_name.lower().replace("s.l.", "").replace("sl", "").replace("s.a.", "").replace("sa", "").strip()
+            norm_ben = beneficiary.lower().replace("s.l.", "").replace("sl", "").replace("s.a.", "").replace("sa", "").replace("ltd", "").strip()
+            if norm_comp not in norm_ben and norm_ben not in norm_comp:
+                is_high_risk = True
+                anomalies.append({
+                    "severity": "CRITICAL",
+                    "code": "BENEFICIARY_NAME_MISMATCH",
+                    "description": (
+                        f"Discrepancia de titularidad: La razón social facturadora es '{company_name}', "
+                        f"pero el titular bancario beneficiario registrado es '{beneficiary}'. "
+                        f"Exposición a pago indebido sin liberación de deuda."
+                    )
+                })
+
+        return {
+            "status": "COUNTERPARTY_ALERT" if is_high_risk else "COUNTERPARTY_VERIFIED",
+            "iban_masked": f"{iban[:4]} •••• •••• {iban[-4:]}" if len(iban) >= 8 else iban,
+            "iban_country": country_code,
+            "bank_name": bank_name,
+            "beneficiary_name": beneficiary,
+            "has_critical_discrepancy": is_high_risk,
+            "anomalies": anomalies
+        }
+
+    @staticmethod
+    def generate_erp_integration_payload(company_profile: Dict[str, Any], audit_verdict: str) -> Dict[str, Any]:
+        """
+        Produces production-ready API payloads for enterprise ERPs (SAP Ariba, Coupa, Oracle Fusion)
+        to trigger automated supplier holds or enhanced due diligence workflows.
+        """
+        vendor_id = company_profile.get("cif", "VND-UNKNOWN")
+        company_name = company_profile.get("company_name", "Supplier")
+
+        is_freeze = "RECHAZO" in audit_verdict or "BLOQUEO" in audit_verdict
+
+        return {
+            "sap_ariba_payload": {
+                "event": "SupplierRiskStatusUpdated",
+                "vendorId": vendor_id,
+                "vendorName": company_name,
+                "action": "FREEZE_PAYMENT_AND_PURCHASE_ORDERS" if is_freeze else "ENHANCED_DUE_DILIGENCE_REQUIRED",
+                "riskLevel": "CRITICAL" if is_freeze else "MEDIUM",
+                "reason": "DeepAudit Autonomous Risk Engine: Non-accredited certs / Counterparty mismatch / Solvency alert",
+                "lockBankDetails": True if is_freeze else False,
+                "timestamp": "2026-10-24T17:15:00Z"
+            },
+            "coupa_payload": {
+                "supplier": {
+                    "number": vendor_id,
+                    "name": company_name,
+                    "status": "inactive" if is_freeze else "under_review",
+                    "hold_invoices": is_freeze,
+                    "custom_fields": {
+                        "deepaudit_flag": "QUARANTINED" if is_freeze else "REVIEW"
+                    }
+                }
+            },
+            "actionable_due_diligence_steps": [
+                "1. Notificación formal de bloqueo cautelar de pagos según Art. 1124 Código Civil.",
+                "2. Requerimiento notarial de extracto de titularidad bancaria con sello de entidad emisora.",
+                "3. Validación en sede electrónica ENAC del certificado ISO oficial y certificado corriente de pagos TGSS/AEAT."
+            ]
+        }

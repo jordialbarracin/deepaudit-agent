@@ -49,6 +49,7 @@ class DeepAuditAgent:
         benford_res = self.forensic_engine.analyze_benford(amounts)
         altman_res = self.forensic_engine.calculate_altman_z_score(financials)
         irregularities = self.forensic_engine.detect_invoice_irregularities(invoices)
+        counterparty_res = self.forensic_engine.verify_payment_counterparty(case)
 
         # Step 2: ISO Standards, Labor Safety (PRL) & Regulatory Compliance
         compliance_res = ComplianceEngine.audit_certifications(case)
@@ -80,11 +81,17 @@ EVIDENCIAS CUANTITATIVAS INTERNAS (ANÁLISIS DE LIBROS Y FACTURAS):
    - Fondo de Maniobra (Capital Circulante): {altman_res.get('working_capital_euros')} €
    - Ratio de Liquidez Corriente: {altman_res.get('current_ratio')}
 
-3. Irregularidades Concretas Detectadas en Facturas:
+3. Irregularidades Concretas Detectadas en Facturas y Telemetría POD:
    - Total anomalías detectadas: {len(irregularities)}
    - Detalle: {json.dumps(irregularities, ensure_ascii=False, indent=2)}
 
-4. Auditoría de Certificaciones Oficiales ISO y Prevención de Riesgos Laborales (PRL):
+4. Auditoría de Contraparte Bancaria e IBAN (Detección de Fraude de Pagos):
+   - Estado: {counterparty_res.get('status')}
+   - IBAN Registrado: {counterparty_res.get('iban_masked')} (País: {counterparty_res.get('iban_country')})
+   - Titular Beneficiario: {counterparty_res.get('beneficiary_name')}
+   - Alertas de Fraude: {json.dumps(counterparty_res.get('anomalies'), ensure_ascii=False, indent=2)}
+
+5. Auditoría de Certificaciones Oficiales ISO y Prevención de Riesgos Laborales (PRL):
    - Índice de Cumplimiento Regulatorio: {compliance_res.get('compliance_score')}% ({compliance_res.get('maturity_level')})
    - Estado de Normas ISO: {json.dumps(compliance_res.get('certifications'), ensure_ascii=False, indent=2)}
    - Auditoría de Seguridad Laboral / Sanciones ITSS: {json.dumps(compliance_res.get('labor_safety_audit'), ensure_ascii=False, indent=2)}
@@ -124,24 +131,32 @@ Emite el Informe Pericial Forense definitivo con:
         if len(irregularities) > 0:
             base_risk += min(len(irregularities) * 8.0, 30.0)
 
+        if counterparty_res.get("has_critical_discrepancy"):
+            base_risk += 35.0
+
         # If Tavily found insolvency/concurso
         if "concurso" in tavily_res.get("answer", "").lower() or "morosos" in tavily_res.get("answer", "").lower():
             base_risk = max(base_risk, 88.0)
 
         risk_score = min(round(base_risk), 98) if base_risk > 0 else 12
+        audit_verdict = "BLOQUEO Y RECHAZO" if risk_score >= 75 else ("SUPERVISIÓN REFORZADA" if risk_score >= 40 else "APROBADO")
+        erp_payload = self.forensic_engine.generate_erp_integration_payload(case, audit_verdict)
 
         return {
             "company_name": company_name,
             "cif": cif,
             "risk_score": risk_score,
             "risk_level": "CRÍTICO" if risk_score >= 75 else ("MODERADO" if risk_score >= 40 else "BAJO"),
+            "audit_verdict": audit_verdict,
             "forensics": {
                 "benford": benford_res,
                 "altman_z": altman_res,
-                "irregularities": irregularities
+                "irregularities": irregularities,
+                "counterparty": counterparty_res
             },
             "compliance": compliance_res,
             "external_intel": tavily_res,
+            "erp_integration": erp_payload,
             "executive_report": llm_res["content"],
             "model_metadata": {
                 "model": llm_res["model"],
