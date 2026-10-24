@@ -29,7 +29,7 @@ flowchart LR
   C --> D
   D --> E[Tavily Search Orchestrator<br/>BOE / BORM / ENAC Registries]
   E --> F[NVIDIA Nemotron 3.5 Lightning<br/>on Nebius AI Cloud]
-  F --> G[Court-Ready Forensic Dictum]
+  F --> G[Audit-Ready Forensic Dictum]
   F --> H[SAP Ariba / Coupa ERP Webhook]
 ```
 

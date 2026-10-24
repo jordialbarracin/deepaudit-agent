@@ -89,11 +89,11 @@ DeepAudit includes an automated statistical validation suite (`deepaudit/benchma
 
 | Entity Profile | Sector | Ground Truth Risk | Naive Altman Z'' | DeepAudit + CCC Verdict | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Iberia Logistics Global SL** | Freight & Transport | **High Fraud / Insolvency** | Distress (-5.85) | **BLOQUEO Y RECHAZO (Risk 98)** | Verified Match |
-| **Solaria Energy Soluciones SL** | Solar EPC / Engineering | **Healthy Solvent** | Safe (+3.84) | **APROBADO (Risk 12)** | Verified Match |
-| **Nexus Inversiones Tech SL** | Tech Advisory Shell | **Suspicious Shell** | Grey (+1.42) | **SUPERVISIÓN REFORZADA (Risk 80)** | Verified Match |
-| **Trans-Express Peninsular SL** | Asset-Light Logistics | **Healthy (Neg. Working Cap)** | *False Distress (-0.95)* | **APROBADO (Risk 20)** | **0% False Positive** |
-| **MedTech Suministros SL** | Hospital Supplies | **Tax Liens & Fake ISO** | Distress (-1.20) | **BLOQUEO Y RECHAZO (Risk 98)** | Verified Match |
+| **Iberia Logistics Global SL** | Freight & Transport | **High Fraud / Insolvency** | Distress (-5.85) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Verified Match |
+| **Solaria Energy Soluciones SL** | Solar EPC / Engineering | **Healthy Solvent** | Safe (+3.84) | **APPROVED (Risk 12)** | Verified Match |
+| **Nexus Inversiones Tech SL** | Tech Advisory Shell | **Suspicious Shell** | Grey (+1.42) | **ENHANCED MONITORING (Risk 80)** | Verified Match |
+| **Trans-Express Peninsular SL** | Asset-Light Logistics | **Healthy (Neg. Working Cap)** | *False Distress (-0.95)* | **APPROVED (Risk 20)** | **0% False Positive** |
+| **MedTech Suministros SL** | Hospital Supplies | **Tax Liens & Fake ISO** | Distress (-1.20) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Verified Match |
 
 ### 📈 Statistical Backtest Metrics (n=5 Canonical Reference Profiles)
 - **Precision:** **100.0%** across benchmark reference profiles (0 false positives on healthy logistics vendors).
@@ -119,7 +119,7 @@ $$Z'' = 6.56 X_1 + 3.26 X_2 + 6.72 X_3 + 1.05 X_4$$
 
 ## 📊 Sample Audit Output (Iberia Logistics Global SL — Reference Benchmark Case)
 *Note: Modeled after documented European multi-vector BEC, tax lien, and ISO falsification schemes to stress-test detection limits.*
-- **Composite Forensic Risk Score:** **98 / 100 (CRITICAL RISK - BLOQUEO Y RECHAZO)**
+- **Composite Forensic Risk Score:** **98 / 100 (CRITICAL RISK - IMMEDIATE FREEZE & DISQUALIFICATION)**
 - **Altman Z''-Score:** **-5.85 (Distress Zone)**; CCC analysis confirms negative working capital (-145 days) compounded by cumulative EBIT losses.
 - **Benford's Law Chi-Square:** **40.0 (Severe Artificial Clustering below €10k threshold)**.
 - **Counterparty Alert:** Spanish entity requesting payment to Lithuanian IBAN (`LT89...`) under a Maltese holding company.
