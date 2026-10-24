@@ -20,14 +20,31 @@ BENFORD_DISTRIBUTION = {
     9: 0.0458
 }
 
+def clean_amount(val: Any) -> float:
+    """Robust currency cleaner supporting European (1.234,56 €) and US formats."""
+    if val is None:
+        return 0.0
+    if isinstance(val, (int, float)):
+        return float(val)
+    s = str(val).strip().replace("€", "").replace("$", "").replace("£", "").replace(" ", "")
+    if "." in s and "," in s:
+        s = s.replace(".", "").replace(",", ".")
+    elif "," in s:
+        s = s.replace(",", ".")
+    try:
+        return float(s)
+    except ValueError:
+        return 0.0
+
 class ForensicEngine:
     @staticmethod
-    def analyze_benford(amounts: List[float]) -> Dict[str, Any]:
+    def analyze_benford(amounts: List[Any]) -> Dict[str, Any]:
         """
         Calculates first-digit distribution and Chi-Square anomaly score against Benford's Law.
         Deviations often reveal fabricated invoices or expense manipulation.
         """
-        valid_amounts = [abs(a) for a in amounts if abs(a) >= 1.0]
+        cleaned = [clean_amount(a) for a in amounts]
+        valid_amounts = [abs(a) for a in cleaned if abs(a) >= 1.0]
         if len(valid_amounts) < 5:
             return {
                 "sample_size": len(valid_amounts),
@@ -40,10 +57,12 @@ class ForensicEngine:
 
         counts = {d: 0 for d in range(1, 10)}
         for a in valid_amounts:
-            # Extract first significant digit
-            first_digit = int(str(f"{a:.6f}").replace("0", "").replace(".", "")[0])
-            if 1 <= first_digit <= 9:
-                counts[first_digit] += 1
+            # Extract first significant digit safely
+            s = f"{a:.6f}".lstrip("0").replace(".", "").lstrip("0")
+            if s:
+                first_digit = int(s[0])
+                if 1 <= first_digit <= 9:
+                    counts[first_digit] += 1
 
         total = len(valid_amounts)
         observed_pct = {d: counts[d] / total for d in range(1, 10)}
@@ -147,7 +166,7 @@ class ForensicEngine:
         seen_amounts: Dict[float, List[Dict[str, Any]]] = {}
 
         for inv in invoices:
-            amt = float(inv.get("amount", 0.0))
+            amt = clean_amount(inv.get("amount", 0.0))
             num = inv.get("invoice_number", "UNKNOWN")
             date = inv.get("date", "")
             concept = inv.get("concept", "")

@@ -9,7 +9,7 @@ from typing import Dict, Any, List, Optional
 
 from deepaudit.nebius_client import DeepAuditNebiusClient
 from deepaudit.tavily_client import DeepAuditTavilyClient
-from deepaudit.forensic_engine import ForensicEngine
+from deepaudit.forensic_engine import ForensicEngine, clean_amount
 from deepaudit.test_cases import get_case, AUDIT_TEST_CASES
 
 FORENSIC_AUDITOR_SYSTEM_PROMPT = """Eres el Socio Director de Auditoría Forense, Due Diligence y Prevención de Delitos Económicos en una firma de primer nivel internacional.
@@ -44,7 +44,7 @@ class DeepAuditAgent:
         invoices = case.get("invoices", [])
 
         # Step 1: Internal Quantitative Forensics
-        amounts = [float(inv.get("amount", 0.0)) for inv in invoices]
+        amounts = [clean_amount(inv.get("amount", 0.0)) for inv in invoices]
         benford_res = self.forensic_engine.analyze_benford(amounts)
         altman_res = self.forensic_engine.calculate_altman_z_score(financials)
         irregularities = self.forensic_engine.detect_invoice_irregularities(invoices)
