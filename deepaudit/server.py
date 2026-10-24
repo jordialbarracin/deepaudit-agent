@@ -42,6 +42,11 @@ def get_case_compliance(case_id: str):
     from deepaudit.compliance_engine import ComplianceEngine
     return ComplianceEngine.audit_certifications(AUDIT_TEST_CASES[case_id])
 
+@app.get("/api/benchmark")
+def get_benchmark_results():
+    from deepaudit.benchmark_suite import DeepAuditBenchmarkSuite
+    return DeepAuditBenchmarkSuite.run_backtest()
+
 @app.post("/api/audit")
 def execute_audit(req: AuditRequest):
     agent = DeepAuditAgent()

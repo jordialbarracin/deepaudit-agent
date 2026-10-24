@@ -141,6 +141,98 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
             {"invoice_number": "NEX-04", "amount": 15000.00, "date": "2026-09-10", "concept": "Consultoría de transformación digital"},
             {"invoice_number": "NEX-05", "amount": 5000.00, "date": "2026-09-25", "concept": "Soporte y formación de personal"}
         ]
+    },
+
+    "trans_express_logistics": {
+        "id": "trans_express_logistics",
+        "company_name": "Trans-Express Paquetería Peninsular SL",
+        "cif": "B-55443322",
+        "sector": "Transporte y Logística Asset-Light",
+        "annual_volume_invoiced": "3.100.000 €",
+        "description": "PYME logística de paquetería urgente que subcontrata flotas. Presenta fondo de maniobra negativo por modelo operativo (cobra a 30 días, paga a autónomos a 85 días). Test clave para medir la tasa de falsos positivos.",
+        "financials": {
+            "total_assets": 1100000.0,
+            "current_assets": 380000.0,
+            "current_liabilities": 540000.0,
+            "total_liabilities": 650000.0,
+            "retained_earnings": 280000.0,
+            "ebit": 165000.0,
+            "equity": 450000.0,
+            "revenue": 3100000.0,
+            "cogs": 2200000.0,
+            "accounts_receivable": 255000.0,
+            "accounts_payable": 510000.0,
+            "inventory": 0.0
+        },
+        "bank_account": {
+            "iban": "ES82 0049 1500 0512 3456 7890",
+            "bank_name": "Banco Santander",
+            "beneficiary_name": "Trans-Express Paquetería Peninsular SL"
+        },
+        "certifications": {
+            "iso_9001": {"issuer": "AENOR", "certificate_id": "ER-1845/2020", "expires_at": "2027-04-10", "fraudulent_unaccredited": False},
+            "iso_14001": {"issuer": "Applus+", "certificate_id": "MA-0922/2021", "expires_at": "2027-08-15", "fraudulent_unaccredited": False}
+        },
+        "labor_safety": {
+            "prl_service_type": "Servicio de Prevención Ajeno (SPA)",
+            "spa_provider": "Cualtis SL",
+            "itss_sanctions_count": 0,
+            "itss_sanctions_amount_eur": 0.0,
+            "accident_frequency_index": "Normal (dentro de media sectorial)"
+        },
+        "invoices": [
+            {"invoice_number": "TE-901", "amount": 12450.00, "date": "2026-08-01", "concept": "Rutas capilares Madrid Norte"},
+            {"invoice_number": "TE-905", "amount": 18230.00, "date": "2026-08-15", "concept": "Refuerzo campaña verano"},
+            {"invoice_number": "TE-912", "amount": 14780.00, "date": "2026-09-02", "concept": "Distribución B2B automoción"},
+            {"invoice_number": "TE-920", "amount": 21500.00, "date": "2026-09-18", "concept": "Servicio nocturno transfer Barcelona"},
+            {"invoice_number": "TE-931", "amount": 16900.00, "date": "2026-10-05", "concept": "Larga distancia Algeciras-Zaragoza"}
+        ]
+    },
+
+    "medtech_iberica": {
+        "id": "medtech_iberica",
+        "company_name": "MedTech Suministros Hospitalarios SL",
+        "cif": "B-77665544",
+        "sector": "Distribución Sanitaria y Equipamiento Hospitalario",
+        "annual_volume_invoiced": "1.850.000 €",
+        "description": "Proveedor sanitario licitador en compras públicas. Alerta de certificación caducada e inclusiones en listas de apremio de la Seguridad Social.",
+        "financials": {
+            "total_assets": 980000.0,
+            "current_assets": 410000.0,
+            "current_liabilities": 720000.0,
+            "total_liabilities": 890000.0,
+            "retained_earnings": -45000.0,
+            "ebit": -12000.0,
+            "equity": 90000.0,
+            "revenue": 1850000.0,
+            "cogs": 1350000.0,
+            "accounts_receivable": 210000.0,
+            "accounts_payable": 610000.0,
+            "inventory": 85000.0
+        },
+        "bank_account": {
+            "iban": "ES12 0182 2200 4501 2345 6789",
+            "bank_name": "BBVA",
+            "beneficiary_name": "MedTech Suministros Hospitalarios SL"
+        },
+        "certifications": {
+            "iso_9001": {"issuer": "TÜV Rheinland", "certificate_id": "TR-0914-ES", "expires_at": "2023-12-31", "fraudulent_unaccredited": False},
+            "iso_27001": {"issuer": "Sin Acreditar", "certificate_id": "FAKE-SEC-01", "expires_at": "2027-01-01", "fraudulent_unaccredited": True}
+        },
+        "labor_safety": {
+            "prl_service_type": "Servicio de Prevención Ajeno",
+            "spa_provider": "Antea Prevención",
+            "itss_sanctions_count": 1,
+            "itss_sanctions_amount_eur": 12500.0,
+            "accident_frequency_index": "Moderado"
+        },
+        "invoices": [
+            {"invoice_number": "MED-101", "amount": 9980.00, "date": "2026-07-10", "concept": "Suministro reactivos laboratorio"},
+            {"invoice_number": "MED-102", "amount": 9940.00, "date": "2026-07-18", "concept": "Material fungible quirúrgico"},
+            {"invoice_number": "MED-110", "amount": 15400.00, "date": "2026-08-05", "concept": "Equipamiento de monitorización"},
+            {"invoice_number": "MED-119", "amount": 9920.00, "date": "2026-08-22", "concept": "Repuestos de electrobisturí"},
+            {"invoice_number": "MED-125", "amount": 24800.00, "date": "2026-09-14", "concept": "Mantenimiento preventivo anual"}
+        ]
     }
 }
 
