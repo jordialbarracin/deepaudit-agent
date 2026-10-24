@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeepAudit &bull; Módulo de Auditoría Forense y Cumplimiento Normativo</title>
+  <title>DeepAudit &bull; Autonomous Forensic Due Diligence &amp; Regulatory Compliance</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,15 +43,15 @@
         <span class="w-3 h-3 bg-slate-800 inline-block"></span>
         <span class="font-bold text-xs tracking-tight uppercase text-slate-900 font-mono">DeepAudit GRC</span>
         <span class="text-slate-400">/</span>
-        <span class="text-xs text-slate-600 font-mono font-medium">Auditoría Financiera, ISO y Laboral (ITSS)</span>
+        <span class="text-xs text-slate-600 font-mono font-medium">Financial, ISO &amp; Labor (ITSS) Due Diligence</span>
       </div>
 
       <div class="hidden lg:flex items-center gap-2 pl-4 border-l border-slate-300 font-mono text-[11px] text-slate-600">
-        <span>Expediente:</span>
+        <span>Vendor Case:</span>
         <select id="caseSelect" onchange="runAudit()" class="border border-slate-300 bg-white px-2 py-0.5 rounded-sm font-semibold text-slate-900 focus:outline-none cursor-pointer">
-          <option value="iberia_logistics">Iberia Logistics Global SL (NIF: B-87654321) - RIESGO GRAVE</option>
-          <option value="solaria_energy">Solaria Energy Soluciones SL (NIF: B-99887766) - CONFORME</option>
-          <option value="nexus_tech">Nexus Inversiones Tech SL (NIF: B-11223344) - OBSERVACIÓN</option>
+          <option value="iberia_logistics">Iberia Logistics Global SL (Tax ID: B-87654321) - SEVERE FRAUD RISK</option>
+          <option value="solaria_energy">Solaria Energy Solutions SL (Tax ID: B-99887766) - COMPLIANT</option>
+          <option value="nexus_tech">Nexus Tech Investments SL (Tax ID: B-11223344) - OBSERVATION</option>
         </select>
       </div>
     </div>
@@ -59,15 +59,15 @@
     <!-- Right Action Buttons -->
     <div class="flex items-center gap-2 font-mono text-[11px]">
       <button onclick="runAudit()" id="runAuditBtn" class="px-3 py-1 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-sm transition">
-        Ejecutar Dictamen
+        Run Forensic Audit
       </button>
 
       <button onclick="window.print()" class="px-2.5 py-1 border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-medium rounded-sm transition">
-        Exportar PDF
+        Export PDF
       </button>
 
       <a href="http://127.0.0.1:8080" class="px-2.5 py-1 border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-medium rounded-sm transition">
-        Consola Principal &rarr;
+        Command Center &rarr;
       </a>
     </div>
   </header>
@@ -80,20 +80,20 @@
       
       <!-- Company Card -->
       <div class="border border-slate-300 bg-white p-3 rounded-sm space-y-1.5">
-        <div class="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Expediente Mercantil</div>
+        <div class="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Commercial Registry File</div>
         <div class="font-bold text-slate-900 text-xs" id="dossier-company-name">Iberia Logistics Global SL</div>
         <div class="text-[11px] text-slate-600 space-y-1 pt-1 border-t border-slate-200">
           <div class="flex justify-between">
-            <span class="text-slate-500">NIF/CIF:</span>
+            <span class="text-slate-500">Tax ID / CIF:</span>
             <span id="dossier-cif" class="font-semibold text-slate-900">B-87654321</span>
           </div>
           <div class="flex justify-between">
-            <span class="text-slate-500">Sector:</span>
-            <span>Transporte de Mercancías</span>
+            <span class="text-slate-500">Industry:</span>
+            <span>Freight Transport &amp; Logistics</span>
           </div>
           <div class="flex justify-between">
-            <span class="text-slate-500">Volumen Anual:</span>
-            <span>1.850.000 EUR</span>
+            <span class="text-slate-500">Annual Revenue:</span>
+            <span>1,850,000 EUR</span>
           </div>
         </div>
       </div>
@@ -101,28 +101,28 @@
       <!-- Quantitative Scorecard Table -->
       <div class="border border-slate-300 bg-white rounded-sm overflow-hidden text-[11px]">
         <div class="bg-slate-100 p-2 font-semibold text-slate-700 uppercase text-[10px] border-b border-slate-300">
-          Métricas Forenses Cuantitativas
+          Quantitative Forensic Scorecard
         </div>
         
         <div class="divide-y divide-slate-200">
           <div class="p-2 space-y-0.5">
-            <div class="text-[10px] text-slate-500 uppercase">Índice de Riesgo Forense</div>
+            <div class="text-[10px] text-slate-500 uppercase">Forensic Risk Score</div>
             <div class="flex justify-between items-baseline">
               <span id="riskScoreVal" class="text-xl font-bold text-red-700">98 / 100</span>
-              <span id="riskBadge" class="text-[10px] font-semibold text-red-700 bg-red-50 border border-red-300 px-1">CRÍTICO</span>
+              <span id="riskBadge" class="text-[10px] font-semibold text-red-700 bg-red-50 border border-red-300 px-1">CRITICAL</span>
             </div>
           </div>
 
           <div class="p-2 space-y-0.5">
-            <div class="text-[10px] text-slate-500 uppercase">Índice Cumplimiento ISO / PRL</div>
+            <div class="text-[10px] text-slate-500 uppercase">ISO / PRL Compliance Score</div>
             <div class="flex justify-between items-baseline">
               <span id="complianceScoreVal" class="text-xl font-bold text-red-700">5.0%</span>
-              <span id="complianceBadge" class="text-[10px] font-semibold text-red-700 bg-red-50 border border-red-300 px-1">GRAVE</span>
+              <span id="complianceBadge" class="text-[10px] font-semibold text-red-700 bg-red-50 border border-red-300 px-1">SEVERE RISK</span>
             </div>
           </div>
 
           <div class="p-2 space-y-0.5">
-            <div class="text-[10px] text-slate-500 uppercase">Solvencia Altman Z'' (PGC)</div>
+            <div class="text-[10px] text-slate-500 uppercase">Altman Z''-Score Solvency</div>
             <div class="flex justify-between items-baseline">
               <span id="altmanVal" class="text-base font-bold text-red-700">-5.85</span>
               <span id="altmanZone" class="text-[10px] font-medium text-red-700">DISTRESS ZONE</span>
@@ -130,25 +130,25 @@
           </div>
 
           <div class="p-2 space-y-0.5">
-            <div class="text-[10px] text-slate-500 uppercase">Ley de Benford (Chi-Cuadrado)</div>
+            <div class="text-[10px] text-slate-500 uppercase">Benford's Law (Chi-Square)</div>
             <div class="flex justify-between items-baseline">
               <span id="benfordChi" class="text-base font-bold text-red-700">chi2: 40.0</span>
-              <span id="benfordStatus" class="text-[10px] font-medium text-red-700">ANOMALÍA</span>
+              <span id="benfordStatus" class="text-[10px] font-medium text-red-700">ANOMALY DETECTED</span>
             </div>
           </div>
 
           <div class="p-2 space-y-0.5">
-            <div class="text-[10px] text-slate-500 uppercase">Facturas con Alertas Flagrantes</div>
+            <div class="text-[10px] text-slate-500 uppercase">Flagged Red Flag Invoices</div>
             <div class="flex justify-between items-baseline">
               <span id="redFlagsCount" class="text-base font-bold text-slate-900">9</span>
-              <span class="text-[10px] text-slate-500">Irregularidades</span>
+              <span class="text-[10px] text-slate-500">Irregularities</span>
             </div>
           </div>
         </div>
       </div>
 
       <div class="p-2 border border-slate-300 bg-white rounded-sm text-[10px] text-slate-500">
-        Base de verificación: <span class="text-slate-800 font-semibold">PGC 2007, ENAC, ITSS</span>
+        Verification Base: <span class="text-slate-800 font-semibold">GAAP, ENAC, ITSS Registries</span>
       </div>
 
     </aside>
@@ -162,8 +162,8 @@
         <!-- Benford Chart View -->
         <div class="p-3 flex flex-col justify-between overflow-hidden">
           <div class="flex items-center justify-between font-mono text-[11px] mb-1">
-            <span class="font-semibold text-slate-800 uppercase text-[10px]">Ley de Benford: Primeros Dígitos de Factura</span>
-            <span class="text-[10px] text-slate-500">Muestra Observada vs Teórica (%)</span>
+            <span class="font-semibold text-slate-800 uppercase text-[10px]">Benford's Law: First-Digit Ledger Distribution</span>
+            <span class="text-[10px] text-slate-500">Observed vs Theoretical Distribution (%)</span>
           </div>
           <div class="h-44">
             <canvas id="benfordChart"></canvas>
@@ -173,12 +173,12 @@
         <!-- Public Registries Intelligence -->
         <div class="p-3 flex flex-col justify-between overflow-hidden font-mono text-xs">
           <div class="flex items-center justify-between text-[11px] mb-1">
-            <span class="font-semibold text-slate-800 uppercase text-[10px]">Cotejo Registros Oficiales (BOE / BORM / ITSS)</span>
-            <span class="text-[10px] text-slate-500">Búsqueda Documental</span>
+            <span class="font-semibold text-slate-800 uppercase text-[10px]">Official Registries Intel (BOE / BORM / ITSS)</span>
+            <span class="text-[10px] text-slate-500">Tavily Web Intelligence</span>
           </div>
 
           <div id="tavilySummary" class="text-[11px] font-sans text-slate-700 bg-slate-50 p-2 border border-slate-300 rounded-sm leading-relaxed mb-2 line-clamp-2">
-            Cargando registros públicos...
+            Loading official registries...
           </div>
 
           <div id="tavilyResultsList" class="flex-1 overflow-y-auto custom-scroll space-y-1 pr-1 text-[11px]">
@@ -196,16 +196,16 @@
           <div class="h-9 px-3 border-b border-slate-300 bg-slate-100 flex items-center justify-between text-xs font-mono select-none flex-shrink-0">
             <div class="flex items-center gap-1">
               <button onclick="switchBottomTab('invoices')" id="tab-invoices" class="px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 text-slate-900 rounded-sm">
-                Facturas &amp; Telemetría POD
+                Invoices &amp; POD Telemetry
               </button>
               <button onclick="switchBottomTab('compliance')" id="tab-compliance" class="px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm">
-                Certificados ISO &amp; Actas ITSS
+                ISO Certificates &amp; ITSS Records
               </button>
               <button onclick="switchBottomTab('erp')" id="tab-erp" class="px-2.5 py-1 text-xs font-semibold text-slate-600 hover:text-slate-900 rounded-sm">
-                Contraparte &amp; ERP (SAP/Coupa)
+                Counterparty &amp; ERP (SAP/Coupa)
               </button>
             </div>
-            <span class="text-[10px] text-slate-500" id="bottom-tab-subtitle">Análisis Forense Interno</span>
+            <span class="text-[10px] text-slate-500" id="bottom-tab-subtitle">Internal Forensic Analysis</span>
           </div>
 
           <!-- Forensic Invoices Table -->
@@ -213,10 +213,10 @@
             <table class="w-full text-left font-mono text-[11px]">
               <thead class="bg-slate-50 text-slate-600 uppercase text-[9px] border-b border-slate-300 sticky top-0">
                 <tr>
-                  <th class="py-1.5 px-3">Severidad</th>
-                  <th class="py-1.5 px-3">Código</th>
-                  <th class="py-1.5 px-3">Importe</th>
-                  <th class="py-1.5 px-3 font-sans">Descripción del Hallazgo</th>
+                  <th class="py-1.5 px-3">Severity</th>
+                  <th class="py-1.5 px-3">Code</th>
+                  <th class="py-1.5 px-3">Amount</th>
+                  <th class="py-1.5 px-3 font-sans">Forensic Finding Description</th>
                 </tr>
               </thead>
               <tbody id="irregularitiesBody" class="divide-y divide-slate-200 text-slate-800">
@@ -238,7 +238,7 @@
               <!-- Injected via JS -->
             </div>
             <div class="space-y-1">
-              <span class="text-[10px] text-slate-500 uppercase font-semibold">Carga Util de Bloqueo Inmediato SAP Ariba / Coupa (JSON API)</span>
+              <span class="text-[10px] text-slate-500 uppercase font-semibold">Automated Freeze Payload for SAP Ariba / Coupa (JSON API)</span>
               <pre id="erpPayloadJson" class="p-2 border border-slate-300 bg-white text-[10px] text-slate-800 overflow-x-auto rounded-sm"></pre>
             </div>
           </div>
@@ -247,15 +247,15 @@
         <!-- Official Court-Ready Pericial Dictum -->
         <div class="flex flex-col h-full overflow-hidden bg-white font-mono text-xs">
           <div class="h-9 px-3 border-b border-slate-300 bg-slate-100 flex items-center justify-between select-none flex-shrink-0">
-            <span class="font-semibold text-slate-800 uppercase text-[10px]">Dictamen Pericial del Auditor</span>
+            <span class="font-semibold text-slate-800 uppercase text-[10px]">Forensic Auditor Official Dictum</span>
             <button onclick="copyExecutiveReport()" class="text-[11px] text-slate-600 hover:text-slate-900 font-medium">
-              Copiar Texto
+              Copy Text
             </button>
           </div>
 
           <div class="flex-1 overflow-auto custom-scroll p-4 bg-white">
             <div id="executiveReport" class="font-mono text-xs text-slate-900 leading-relaxed whitespace-pre-wrap bg-slate-50 p-3 border border-slate-300 rounded-sm">
-              Generando informe pericial...
+              Generating forensic dictum with NVIDIA Nemotron...
             </div>
           </div>
         </div>
@@ -283,15 +283,15 @@
           labels: labels,
           datasets: [
             {
-              label: 'Observado (%)',
+              label: 'Observed Ledger (%)',
               data: obsData,
-              backgroundColor: 'rgba(220, 38, 38, 0.8)',
+              backgroundColor: 'rgba(220, 38, 38, 0.85)',
               borderColor: '#DC2626',
               borderWidth: 1
             },
             {
               type: 'line',
-              label: 'Teórico Benford (%)',
+              label: 'Benford Theoretical Expected (%)',
               data: theoData,
               borderColor: '#2563EB',
               backgroundColor: 'transparent',
@@ -319,7 +319,7 @@
       const caseId = document.getElementById('caseSelect').value;
       const btn = document.getElementById('runAuditBtn');
       const oldBtnHtml = btn.innerHTML;
-      btn.innerHTML = `Auditando...`;
+      btn.innerHTML = `Auditing with Nemotron...`;
       btn.disabled = true;
 
       try {
@@ -340,13 +340,13 @@
         const badge = document.getElementById('riskBadge');
         if (score >= 75) {
           badge.className = "text-[10px] font-semibold text-red-700 bg-red-50 border border-red-300 px-1";
-          badge.innerText = `CRÍTICO (${data.risk_level})`;
+          badge.innerText = `CRITICAL (${data.risk_level})`;
         } else if (score >= 40) {
           badge.className = "text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-300 px-1";
-          badge.innerText = `MODERADO (${data.risk_level})`;
+          badge.innerText = `MODERATE (${data.risk_level})`;
         } else {
           badge.className = "text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-300 px-1";
-          badge.innerText = `BAJO (${data.risk_level})`;
+          badge.innerText = `LOW (${data.risk_level})`;
         }
 
         // Altman Z
@@ -357,7 +357,7 @@
         // Benford
         const benford = data.forensics.benford;
         document.getElementById('benfordChi').innerText = `chi2: ${benford.chi_square_statistic || '0'}`;
-        document.getElementById('benfordStatus').innerText = benford.anomaly_detected ? "ANOMALÍA" : "NATURAL";
+        document.getElementById('benfordStatus').innerText = benford.anomaly_detected ? "ANOMALY DETECTED" : "CONFORMING";
 
         // Red flags count
         const irregs = data.forensics.irregularities || [];
@@ -368,7 +368,7 @@
 
         // Intel
         const tavily = data.external_intel || {};
-        document.getElementById('tavilySummary').innerText = tavily.answer || "Cotejo oficial realizado.";
+        document.getElementById('tavilySummary').innerText = tavily.answer || "Official gazettes cross-referenced.";
         const listEl = document.getElementById('tavilyResultsList');
         listEl.innerHTML = (tavily.results || []).map(r => `
           <div class="p-1.5 border border-slate-300 bg-slate-50 font-mono text-[10px]">
@@ -387,13 +387,13 @@
         const cBadge = document.getElementById('complianceBadge');
         if (compScore >= 80) {
           cBadge.className = "text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-300 px-1";
-          cBadge.innerText = "CONFORME (A)";
+          cBadge.innerText = "COMPLIANT (A)";
         } else if (compScore >= 45) {
           cBadge.className = "text-[10px] font-semibold text-amber-700 bg-amber-50 border border-amber-300 px-1";
-          cBadge.innerText = "RIESGO MEDIO";
+          cBadge.innerText = "MEDIUM RISK";
         } else {
           cBadge.className = "text-[10px] font-semibold text-red-700 bg-red-50 border border-red-300 px-1";
-          cBadge.innerText = "INCUMPLIMIENTO";
+          cBadge.innerText = "NON-COMPLIANT";
         }
 
         // Render ISO & PRL
@@ -406,28 +406,28 @@
               <span class="text-slate-900">${c.standard}</span>
               <span class="text-[10px] px-1 border ${c.color === 'emerald' ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-red-50 text-red-800 border-red-300'}">${c.status_badge}</span>
             </div>
-            <div class="text-[10px] text-slate-600">${c.domain} &bull; Emisor: ${c.issuer}</div>
+            <div class="text-[10px] text-slate-600">${c.domain} &bull; Issuer: ${c.issuer}</div>
             <div class="flex justify-between text-[10px] text-slate-500 border-t border-slate-200 pt-0.5">
-              <span>ID: ${c.certificate_id}</span>
-              <span>Caducidad: ${c.expires_at}</span>
+              <span>Certificate ID: ${c.certificate_id}</span>
+              <span>Expires: ${c.expires_at}</span>
             </div>
             <p class="text-[10px] text-slate-700">${c.notes}</p>
           </div>
         `).join('') + `
           <div class="p-2 border border-slate-300 bg-slate-50 font-mono text-[11px] space-y-1">
             <div class="flex justify-between font-semibold">
-              <span class="text-slate-900">Prevención Riesgos (PRL) & Inspección Trabajo (ITSS)</span>
-              <span class="text-[10px] px-1 border ${labor.itss_sanctions_count > 0 ? 'bg-red-50 text-red-800 border-red-300' : 'bg-emerald-50 text-emerald-800 border-emerald-300'}">${labor.itss_sanctions_count > 0 ? labor.itss_sanctions_count + ' Sanciones ITSS' : '0 Infracciones'}</span>
+              <span class="text-slate-900">Labor Risk Prevention &amp; ITSS Safety Records</span>
+              <span class="text-[10px] px-1 border ${labor.itss_sanctions_count > 0 ? 'bg-red-50 text-red-800 border-red-300' : 'bg-emerald-50 text-emerald-800 border-emerald-300'}">${labor.itss_sanctions_count > 0 ? labor.itss_sanctions_count + ' ITSS Sanctions' : '0 Infractions'}</span>
             </div>
-            <div class="text-[10px] text-slate-600">Modalidad: ${labor.prl_modality} &bull; Proveedor: ${labor.spa_provider}</div>
-            <div class="text-[10px] text-slate-600">Siniestralidad: ${labor.workplace_accident_rate} &bull; Sanciones: ${labor.itss_sanctions_amount_eur} EUR</div>
+            <div class="text-[10px] text-slate-600">Modality: ${labor.prl_modality} &bull; Provider: ${labor.spa_provider}</div>
+            <div class="text-[10px] text-slate-600">Accident Rate: ${labor.workplace_accident_rate} &bull; Penalties: ${labor.itss_sanctions_amount_eur} EUR</div>
           </div>
         `;
 
         // Irregularities table
         const tbody = document.getElementById('irregularitiesBody');
         if (irregs.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="4" class="py-3 px-3 text-center text-slate-500 font-mono">Cero irregularidades detectadas.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="4" class="py-3 px-3 text-center text-slate-500 font-mono">Zero irregularities detected.</td></tr>`;
         } else {
           tbody.innerHTML = irregs.map(irr => `
             <tr class="hover:bg-slate-50 font-mono text-[11px]">
@@ -449,17 +449,17 @@
         const cCard = document.getElementById('counterparty-card');
         cCard.innerHTML = `
           <div class="flex justify-between font-semibold">
-            <span class="text-slate-900">Validación de Cuenta Bancaria & IBAN</span>
-            <span class="text-[10px] px-1 border ${cp.has_critical_discrepancy ? 'bg-red-50 text-red-800 border-red-300' : 'bg-emerald-50 text-emerald-800 border-emerald-300'}">${cp.status || 'VERIFICADO'}</span>
+            <span class="text-slate-900">Bank Account &amp; IBAN Counterparty Integrity</span>
+            <span class="text-[10px] px-1 border ${cp.has_critical_discrepancy ? 'bg-red-50 text-red-800 border-red-300' : 'bg-emerald-50 text-emerald-800 border-emerald-300'}">${cp.status || 'VERIFIED'}</span>
           </div>
-          <div class="text-[10px] text-slate-600">IBAN: <span class="font-bold text-slate-800">${cp.iban_masked || '-'}</span> (País: ${cp.iban_country || '-'}) &bull; Entidad: ${cp.bank_name || '-'}</div>
-          <div class="text-[10px] text-slate-600">Titular de la Cuenta: <span class="font-bold text-slate-800">${cp.beneficiary_name || '-'}</span></div>
+          <div class="text-[10px] text-slate-600">IBAN: <span class="font-bold text-slate-800">${cp.iban_masked || '-'}</span> (Jurisdiction: ${cp.iban_country || '-'}) &bull; Institution: ${cp.bank_name || '-'}</div>
+          <div class="text-[10px] text-slate-600">Account Beneficiary: <span class="font-bold text-slate-800">${cp.beneficiary_name || '-'}</span></div>
           ${(cp.anomalies || []).map(a => `<div class="p-1 border border-red-200 bg-red-50 text-[10px] text-red-700 mt-1">${a.description}</div>`).join('')}
         `;
         document.getElementById('erpPayloadJson').innerText = JSON.stringify(data.erp_integration || {}, null, 2);
 
       } catch (e) {
-        alert("Error de ejecución: " + e);
+        console.error(e);
       } finally {
         btn.innerHTML = oldBtnHtml;
         btn.disabled = false;
@@ -477,22 +477,22 @@
       if (tab === 'invoices') {
         document.getElementById('tab-invoices').className = 'px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 text-slate-900 rounded-sm';
         document.getElementById('pane-invoices').classList.remove('hidden');
-        document.getElementById('bottom-tab-subtitle').innerText = 'Análisis Forense Interno & Telemetría';
+        document.getElementById('bottom-tab-subtitle').innerText = 'Internal Forensic Analysis &amp; Telemetry';
       } else if (tab === 'compliance') {
         document.getElementById('tab-compliance').className = 'px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 text-slate-900 rounded-sm';
         document.getElementById('pane-compliance').classList.remove('hidden');
-        document.getElementById('bottom-tab-subtitle').innerText = 'Auditoría ENAC / AENOR / ITSS';
+        document.getElementById('bottom-tab-subtitle').innerText = 'ENAC / ISO &amp; ITSS Official Audit';
       } else if (tab === 'erp') {
         document.getElementById('tab-erp').className = 'px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 text-slate-900 rounded-sm';
         document.getElementById('pane-erp').classList.remove('hidden');
-        document.getElementById('bottom-tab-subtitle').innerText = 'Conectores SAP Ariba & Coupa';
+        document.getElementById('bottom-tab-subtitle').innerText = 'SAP Ariba &amp; Coupa ERP Connectors';
       }
     }
 
     function copyExecutiveReport() {
       const text = document.getElementById('executiveReport').innerText;
       navigator.clipboard.writeText(text);
-      alert("Dictamen copiado al portapapeles.");
+      alert("Forensic Dictum copied to clipboard.");
     }
 
     window.onload = () => {

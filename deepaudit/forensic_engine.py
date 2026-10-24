@@ -123,14 +123,14 @@ class ForensicEngine:
         if ccc < 0 and dso < 45.0:
             is_asset_light_negative_wc = True
             interpretation = (
-                f"Ciclo de Conversión de Efectivo favorable ({ccc:.1f} días). "
-                f"La empresa cobra a clientes en {dso:.1f} días pero abona a transportistas/subcontratas a {dpo:.1f} días. "
-                f"El fondo de maniobra negativo es operativo estructural (modelo asset-light), NO insolvencia técnica inmediata."
+                f"Favorable Cash Conversion Cycle ({ccc:.1f} days). "
+                f"The firm collects receivables in {dso:.1f} days while settling payables to carriers in {dpo:.1f} days. "
+                f"Negative working capital is structurally operational (asset-light logistics model), NOT immediate technical insolvency."
             )
         else:
             interpretation = (
-                f"Ciclo de Conversión de Efectivo en {ccc:.1f} días (DSO: {dso:.1f}d, DPO: {dpo:.1f}d). "
-                f"Tensión de liquidez operativa confirmada."
+                f"Cash Conversion Cycle at {ccc:.1f} days (DSO: {dso:.1f}d, DPO: {dpo:.1f}d). "
+                f"Confirmed operating liquidity strain."
             )
 
         return {
@@ -240,7 +240,7 @@ class ForensicEngine:
                     "invoice_number": num,
                     "amount": amt,
                     "date": date,
-                    "description": f"Factura de {amt} € sospechosamente ajustada justo por debajo del límite de aprobación de 5.000 €."
+                    "description": f"Invoice amount of {amt:.2f} EUR suspiciously clustered just below the 5,000 EUR manager authorization ceiling."
                 })
 
             # Check 2: Just below 10,000 threshold
@@ -251,7 +251,7 @@ class ForensicEngine:
                     "invoice_number": num,
                     "amount": amt,
                     "date": date,
-                    "description": f"Importe de {amt} € fraccionado para eludir el control de auditoría de compras (>10.000 €)."
+                    "description": f"Invoice split of {amt:.2f} EUR structured to bypass mandatory purchasing procurement audit (>10,000 EUR)."
                 })
 
             # Check 3: Round numbers above 1,000
@@ -262,7 +262,7 @@ class ForensicEngine:
                     "invoice_number": num,
                     "amount": amt,
                     "date": date,
-                    "description": f"Importe perfectamente redondo ({amt:.2f} €); atípico en facturación comercial con impuestos."
+                    "description": f"Perfect round figure ({amt:.2f} EUR); highly atypical in commercial logistics billing with standard VAT."
                 })
 
             # Check 4: Potential duplicate billing
@@ -287,7 +287,7 @@ class ForensicEngine:
                             "invoice_number": num,
                             "amount": amt,
                             "date": date,
-                            "description": f"Emisión a las {inv_time} vinculada a telemetría de entrega POD ({inv.get('pod_timestamp', 'Albarán telemático')}). Falso positivo de factura extemporánea descartado por trazabilidad operativa."
+                            "description": f"Submission at {inv_time} validated against electronic Proof-of-Delivery telemetry ({inv.get('pod_timestamp', 'Electronic Waybill')}). False-positive off-hours billing alert cleared by automated dispatch traceability."
                         })
                     else:
                         anomalies.append({
@@ -296,7 +296,7 @@ class ForensicEngine:
                             "invoice_number": num,
                             "amount": amt,
                             "date": date,
-                            "description": f"Factura emitida a deshoras ({inv_time}) sin telemetría de albarán/POD vinculada. Requiere verificación de recepción en muelle."
+                            "description": f"Invoice submitted during off-hours ({inv_time}) without linked electronic POD/waybill telemetry. Dock receiving verification required."
                         })
 
         # Check 4: Potential duplicate billing
@@ -308,7 +308,7 @@ class ForensicEngine:
                     "code": "DUPLICATE_AMOUNT_SUSPICION",
                     "amount": amt,
                     "invoice_numbers": nums,
-                    "description": f"Se han detectado {len(group)} facturas con el importe idéntico exacto de {amt} € ({', '.join(nums)}). Posible doble cobro o facturación circular."
+                    "description": f"Detected {len(group)} invoices with identical exact amount of {amt:.2f} EUR ({', '.join(nums)}). Potential duplicate payout or circular billing."
                 })
 
         return anomalies
@@ -348,9 +348,9 @@ class ForensicEngine:
                 "severity": "CRITICAL",
                 "code": "IBAN_CROSS_BORDER_DISCREPANCY",
                 "description": (
-                    f"Riesgo crítico de desvío de pagos: Sociedad domiciliada en España ({cif}) "
-                    f"solicita liquidación en cuenta bancaria en jurisdicción extranjera ({country_code} - {bank_name}). "
-                    f"Patrón típico de fraude de sustitución de cuenta o despatrimonialización."
+                    f"Critical payment diversion risk: Entity domiciled in Spain ({cif}) "
+                    f"requests remittance to a foreign banking jurisdiction ({country_code} - {bank_name}). "
+                    f"Classic signature of business email compromise (BEC) or asset diversion fraud."
                 )
             })
 
@@ -364,9 +364,9 @@ class ForensicEngine:
                     "severity": "CRITICAL",
                     "code": "BENEFICIARY_NAME_MISMATCH",
                     "description": (
-                        f"Discrepancia de titularidad: La razón social facturadora es '{company_name}', "
-                        f"pero el titular bancario beneficiario registrado es '{beneficiary}'. "
-                        f"Exposición a pago indebido sin liberación de deuda."
+                        f"Ownership mismatch: Invoicing supplier is '{company_name}', "
+                        f"but registered bank beneficiary account holder is '{beneficiary}'. "
+                        f"Direct liability exposure to invalid third-party payment."
                     )
                 })
 
@@ -389,7 +389,7 @@ class ForensicEngine:
         vendor_id = company_profile.get("cif", "VND-UNKNOWN")
         company_name = company_profile.get("company_name", "Supplier")
 
-        is_freeze = "RECHAZO" in audit_verdict or "BLOQUEO" in audit_verdict
+        is_freeze = "RECHAZO" in audit_verdict or "BLOQUEO" in audit_verdict or "FREEZE" in audit_verdict or "DISQUALIFICATION" in audit_verdict
 
         return {
             "sap_ariba_payload": {
@@ -414,8 +414,8 @@ class ForensicEngine:
                 }
             },
             "actionable_due_diligence_steps": [
-                "1. Notificación formal de bloqueo cautelar de pagos según Art. 1124 Código Civil.",
-                "2. Requerimiento notarial de extracto de titularidad bancaria con sello de entidad emisora.",
-                "3. Validación en sede electrónica ENAC del certificado ISO oficial y certificado corriente de pagos TGSS/AEAT."
+                "1. Formal notification of precautionary payment freeze under UCC / civil contract protections.",
+                "2. Demand for certified bank ownership certificate bearing official bank branch seal.",
+                "3. Electronic validation via ENAC portal of official ISO accreditation and good-standing tax certificates."
             ]
         }

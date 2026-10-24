@@ -200,28 +200,28 @@ class ComplianceEngine:
 
         if is_fraudulent_claim:
             status = "FRAUDULENT_CLAIM"
-            badge = "SELLO FALSO / NO ACREDITADO"
+            badge = "UNACCREDITED / FAKE SEAL"
             color = "rose"
             points = 0
-            notes = "ALERTA GRAVE: La empresa ostenta el sello en web pero no figura en el Registro Oficial de ENAC/AENOR."
+            notes = "CRITICAL WARNING: Vendor displays accreditation seal on web portal, but is ABSENT from official ENAC/IAF registries."
         elif days_left < 0:
             status = "EXPIRED"
-            badge = f"CADUCADO ({abs(days_left)} d)"
+            badge = f"EXPIRED ({abs(days_left)} d)"
             color = "rose"
             points = 5
-            notes = f"Certificado vencido el {exp_str}. No cuenta con recertificación vigente."
+            notes = f"Certificate expired on {exp_str}. No valid recertification on file."
         elif days_left < 90:
             status = "EXPIRING_SOON"
-            badge = f"VENCE EN {days_left} d"
+            badge = f"EXPIRING IN {days_left} d"
             color = "amber"
             points = int(weight * 0.7)
-            notes = f"Auditoría de seguimiento o renovación obligatoria antes de 90 días."
+            notes = f"Mandatory renewal or surveillance audit required within 90 days."
         else:
             status = "ACTIVE_VALID"
-            badge = f"VIGENTE ({days_left} d)"
+            badge = f"VALID ({days_left} d)"
             color = "emerald"
             points = weight
-            notes = f"Acreditación oficial confirmada por {issuer}. Cero no conformidades mayores."
+            notes = f"Official accreditation confirmed by {issuer}. Zero major non-conformances."
 
         return {
             "standard": standard,
