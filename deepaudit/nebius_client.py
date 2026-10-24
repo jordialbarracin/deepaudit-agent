@@ -84,13 +84,13 @@ class DeepAuditNebiusClient:
     def _local_deterministic_report(self, prompt: str, model_name: str) -> Dict[str, Any]:
         """Generates an expert, fully localized forensic audit report without external cluster calls."""
         # Detect target company context from prompt
-        is_iberia = "Iberia Logistics" in prompt
-        is_solaria = "Solaria Energy" in prompt
+        is_iberia = "Iberia" in prompt or "Logistics" in prompt
+        is_solaria = "Solaria" in prompt or "Energy" in prompt
 
         if is_iberia:
             report_text = """### ⚖️ FORENSIC DUE DILIGENCE & REGULATORY COMPLIANCE MEMORANDUM
 **ADDRESSEE:** Executive Risk Committee & General Counsel Review  
-**MATTER:** Iberia Logistics Global SL (Tax ID: B-87654321)  
+**MATTER:** Iberia Global Logistics Ltd (Tax ID: B-87654321)  
 **OFFICIAL VERDICT:** ⛔ **IMMEDIATE FREEZE & VENDOR DISQUALIFICATION**  
 **COMPOSITE FORENSIC RISK SCORE:** **98 / 100 (CRITICAL RISK)**
 
@@ -115,7 +115,7 @@ Following internal quantitative ledger forensics and cross-referencing with offi
         elif is_solaria:
             report_text = """### ⚖️ FORENSIC DUE DILIGENCE & REGULATORY COMPLIANCE MEMORANDUM
 **ADDRESSEE:** Corporate Procurement & Risk Management Directorate  
-**MATTER:** Solaria Energy Soluciones SL (Tax ID: B-99887766)  
+**MATTER:** Solaria Clean Energy Solutions Ltd (Tax ID: B-99887766)  
 **OFFICIAL VERDICT:** ✅ **APPROVED (TIER-1 PREFERRED CONTRACTOR)**  
 **COMPOSITE FORENSIC RISK SCORE:** **12 / 100 (LOW RISK / FULLY SOLVENT)**
 
@@ -138,7 +138,7 @@ Comprehensive quantitative ledger analysis and multi-registry public gazette che
 2. Schedule routine 24-month recertification review."""
         else:
             report_text = """### ⚖️ FORENSIC DUE DILIGENCE & REGULATORY COMPLIANCE MEMORANDUM
-**MATTER:** Nexus Inversiones Tech SL (Tax ID: B-11223344)  
+**MATTER:** Nexus Tech Ventures Ltd (Tax ID: B-11223344)  
 **OFFICIAL VERDICT:** ⚠️ **ENHANCED MONITORING (CONDITIONAL APPROVAL)**  
 **COMPOSITE FORENSIC RISK SCORE:** **48 / 100 (MODERATE RISK)**
 

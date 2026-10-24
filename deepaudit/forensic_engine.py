@@ -389,7 +389,7 @@ class ForensicEngine:
         vendor_id = company_profile.get("cif", "VND-UNKNOWN")
         company_name = company_profile.get("company_name", "Supplier")
 
-        is_freeze = "RECHAZO" in audit_verdict or "BLOQUEO" in audit_verdict or "FREEZE" in audit_verdict or "DISQUALIFICATION" in audit_verdict
+        is_freeze = "FREEZE" in audit_verdict or "DISQUALIFICATION" in audit_verdict
 
         return {
             "sap_ariba_payload": {

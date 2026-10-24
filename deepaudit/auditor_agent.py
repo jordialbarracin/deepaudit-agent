@@ -136,7 +136,7 @@ Issue the definitive Forensic Due Diligence Memorandum structured as:
 
         # If Tavily found insolvency/bankruptcy
         ans_lower = tavily_res.get("answer", "").lower()
-        if "concurso" in ans_lower or "bankruptcy" in ans_lower or "morosos" in ans_lower or "insolven" in ans_lower:
+        if "bankruptcy" in ans_lower or "insolven" in ans_lower or "default" in ans_lower:
             base_risk = max(base_risk, 88.0)
 
         risk_score = min(round(base_risk), 98) if base_risk > 0 else 12

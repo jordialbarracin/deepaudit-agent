@@ -71,33 +71,33 @@ class DeepAuditTavilyClient:
         results: List[Dict[str, Any]] = []
         answer = ""
 
-        if "iberia logistics" in q or "b-87654321" in q or "fraude" in q or "concurso" in q or "bankruptcy" in q:
-            answer = "Iberia Logistics Global SL (Tax ID: B-87654321) exhibits multiple active insolvency notices in the Official Commercial Gazette (BORM), bankruptcy proceedings opened in Madrid Commercial Court No. 3, and formal tax debt enforcement liens published in the State Official Gazette (BOE)."
+        if "iberia logistics" in q or "b-87654321" in q or "fraud" in q or "bankruptcy" in q or "insolvency" in q:
+            answer = "Iberia Global Logistics Ltd (Tax ID: B-87654321) exhibits multiple active insolvency notices in the Official Commercial Gazette (BORM), bankruptcy proceedings opened in Madrid Commercial Court No. 3, and formal tax debt enforcement liens published in the State Official Gazette (BOE)."
             results = [
                 {
-                    "title": "BORM - Official Commercial Gazette: Voluntary Insolvency Proceedings Declared - Iberia Logistics Global SL",
+                    "title": "BORM - Official Commercial Gazette: Voluntary Insolvency Proceedings Declared - Iberia Global Logistics Ltd",
                     "url": "https://www.boe.es/borm/dias/2026/04/12/pdfs/BORME-A-2026-71-28.pdf",
-                    "snippet": "Madrid Commercial Court No. 3. Ordinary Bankruptcy Proceeding 412/2025. Official declaration of voluntary insolvency for debtor IBERIA LOGISTICS GLOBAL SL, Tax ID B-87654321. Powers of corporate directors suspended; judicial administrator appointed.",
+                    "snippet": "Madrid Commercial Court No. 3. Ordinary Bankruptcy Proceeding 412/2025. Official declaration of voluntary insolvency for debtor IBERIA GLOBAL LOGISTICS LTD, Tax ID B-87654321. Powers of corporate directors suspended; judicial administrator appointed.",
                     "score": 0.98
                 },
                 {
                     "title": "State Tax Agency - Official Public Registry of Major Tax Debtors 2026",
                     "url": "https://sede.agenciatributaria.gob.es/deudores/informe_2026.html",
-                    "snippet": "IBERIA LOGISTICS GLOBAL SL listed on the national tax agency debtor registry with outstanding liabilities exceeding 482,000 EUR in unpaid VAT and corporate withholding taxes subject to active asset garnishment.",
+                    "snippet": "IBERIA GLOBAL LOGISTICS LTD listed on the national tax agency debtor registry with outstanding liabilities exceeding 482,000 EUR in unpaid VAT and corporate withholding taxes subject to active asset garnishment.",
                     "score": 0.96
                 },
                 {
-                    "title": "Judicial Press: Circular Invoice Fraud Ring Uncovered in Freight Logistics Sector",
-                    "url": "https://www.expansion.com/empresas/transporte/2026/08/19/insolvencias-proveedores.html",
+                    "title": "Financial Press: Circular Invoice Fraud Ring Uncovered in Freight Logistics Sector",
+                    "url": "https://www.ft.com/content/insolvencies-suppliers-logistics-investigation",
                     "snippet": "Economic Crime Investigation Unit probes network of shell logistics entities issuing fictitious invoices below statutory approval thresholds to divert corporate funds offshore. Multiple directors disqualified.",
                     "score": 0.91
                 }
             ]
-        elif "solaria energy" in q or "b-99887766" in q or "solvencia" in q or "solvent" in q:
-            answer = "Solaria Energy Soluciones SL (Tax ID: B-99887766) demonstrates pristine corporate registration and fiscal standing, zero judicial claims, timely deposited annual accounts, and certified compliance with Tax and Social Security administrations."
+        elif "solaria energy" in q or "b-99887766" in q or "solvency" in q or "solvent" in q:
+            answer = "Solaria Clean Energy Solutions Ltd (Tax ID: B-99887766) demonstrates pristine corporate registration and fiscal standing, zero judicial claims, timely deposited annual accounts, and certified compliance with Tax and Social Security administrations."
             results = [
                 {
-                    "title": "Central Commercial Registry: Certified Annual Financial Statements - Solaria Energy Soluciones SL",
+                    "title": "Central Commercial Registry: Certified Annual Financial Statements - Solaria Clean Energy Solutions Ltd",
                     "url": "https://www.registradores.org/mercantil/solaria-energy-2025.pdf",
                     "snippet": "Annual accounts filed in compliance with statutory deadlines. Clean auditor opinion without qualifications. Positive working capital exceeding 1.2M EUR; controlled banking leverage ratio at 28%.",
                     "score": 0.97
@@ -105,22 +105,22 @@ class DeepAuditTavilyClient:
                 {
                     "title": "Official State Gazette (BOE): Industrial Clean Energy Innovation Grant Award",
                     "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-18922",
-                    "snippet": "Ministry for the Ecological Transition Award Resolution: Solaria Energy Soluciones SL awarded industrial solar project with verified technical and balance sheet solvency guarantees.",
+                    "snippet": "Ministry for the Ecological Transition Award Resolution: Solaria Clean Energy Solutions Ltd awarded industrial solar project with verified technical and balance sheet solvency guarantees.",
                     "score": 0.92
                 }
             ]
         elif "nexus" in q or "b-11223344" in q:
-            answer = "Nexus Inversiones Tech SL (Tax ID: B-11223344) was incorporated less than 6 months ago with minimum statutory share capital of 3,000 EUR, zero registered employees on payroll, and a shared virtual business office address (indicative of a shell company profile)."
+            answer = "Nexus Tech Ventures Ltd (Tax ID: B-11223344) was incorporated less than 6 months ago with minimum statutory share capital of 3,000 EUR, zero registered employees on payroll, and a shared virtual business office address (indicative of a shell company profile)."
             results = [
                 {
-                    "title": "BORM: Company Incorporation & Director Appointment - Nexus Inversiones Tech SL",
+                    "title": "BORM: Company Incorporation & Director Appointment - Nexus Tech Ventures Ltd",
                     "url": "https://www.boe.es/borm/dias/2026/05/02/BORME-A-2026-83-28.pdf",
                     "snippet": "Commencement of operations: 15/04/2026. Corporate purpose: Wholesale trade and consulting. Share capital: 3,000.00 EUR. Registered domicile: Virtual Office Suite. Sole administrator appointed.",
                     "score": 0.94
                 },
                 {
                     "title": "Vendor Onboarding Risk Registry: Zero Fixed Assets and Payroll Deficiency Alert",
-                    "url": "https://informes-comerciales-empresas.es/nexus-inversiones-tech-riesgo",
+                    "url": "https://commercial-business-reports.com/nexus-tech-ventures-risk",
                     "snippet": "Supplier integrity alert: Zero employees registered with Social Security. Issues round-number invoices disproportionate to installed operational and technical capacity.",
                     "score": 0.89
                 }

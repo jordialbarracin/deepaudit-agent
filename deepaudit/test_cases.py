@@ -8,7 +8,7 @@ from typing import Dict, Any, List
 AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
     "iberia_logistics": {
         "id": "iberia_logistics",
-        "company_name": "Iberia Logistics Global SL",
+        "company_name": "Iberia Global Logistics Ltd",
         "cif": "B-87654321",
         "sector": "Heavy Freight Transport & Logistics",
         "annual_volume_invoiced": "845,000 EUR",
@@ -38,7 +38,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
         },
         "labor_safety": {
             "prl_service_type": "External Prevention Service (SPA)",
-            "spa_provider": "Prevención Mediterránea SL (Contract Expired)",
+            "spa_provider": "Mediterranean Health & Safety Ltd (Contract Expired)",
             "itss_sanctions_count": 2,
             "itss_sanctions_amount_eur": 48500.0,
             "accident_frequency_index": "Severe (+34% above sector benchmark)"
@@ -62,7 +62,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
 
     "solaria_energy": {
         "id": "solaria_energy",
-        "company_name": "Solaria Energy Soluciones SL",
+        "company_name": "Solaria Clean Energy Solutions Ltd",
         "cif": "B-99887766",
         "sector": "Renewable Energy & Industrial Engineering",
         "annual_volume_invoiced": "2,450,000 EUR",
@@ -80,7 +80,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
         "bank_account": {
             "iban": "ES44 2100 0418 4502 0005 1122",
             "bank_name": "CaixaBank",
-            "beneficiary_name": "Solaria Energy Soluciones SL"
+            "beneficiary_name": "Solaria Clean Energy Solutions Ltd"
         },
         "certifications": {
             "iso_27001": {"issuer": "AENOR", "certificate_id": "SI-0098/2023", "expires_at": "2027-11-20", "fraudulent_unaccredited": False},
@@ -90,7 +90,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
         },
         "labor_safety": {
             "prl_service_type": "Joint Occupational Safety Service",
-            "spa_provider": "Quirónprevención SLU",
+            "spa_provider": "Quiron Risk Prevention Group",
             "itss_sanctions_count": 0,
             "itss_sanctions_amount_eur": 0.0,
             "accident_frequency_index": "Low (0 workplace incidents in past 24 months)"
@@ -109,7 +109,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
 
     "nexus_tech": {
         "id": "nexus_tech",
-        "company_name": "Nexus Inversiones Tech SL",
+        "company_name": "Nexus Tech Ventures Ltd",
         "cif": "B-11223344",
         "sector": "IT & Strategic Digital Advisory",
         "annual_volume_invoiced": "120,000 EUR",
@@ -129,7 +129,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
         },
         "labor_safety": {
             "prl_service_type": "External Prevention Service (SPA)",
-            "spa_provider": "Valora Prevención SL",
+            "spa_provider": "Apex Occupational Health Ltd",
             "itss_sanctions_count": 0,
             "itss_sanctions_amount_eur": 0.0,
             "accident_frequency_index": "N/A (Micro-enterprise headcount < 5)"
@@ -145,7 +145,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
 
     "trans_express_logistics": {
         "id": "trans_express_logistics",
-        "company_name": "Trans-Express Paquetería Peninsular SL",
+        "company_name": "Trans-Express Freight & Logistics Ltd",
         "cif": "B-55443322",
         "sector": "Asset-Light Courier Logistics & Forwarding",
         "annual_volume_invoiced": "3,100,000 EUR",
@@ -167,7 +167,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
         "bank_account": {
             "iban": "ES82 0049 1500 0512 3456 7890",
             "bank_name": "Banco Santander",
-            "beneficiary_name": "Trans-Express Paquetería Peninsular SL"
+            "beneficiary_name": "Trans-Express Freight & Logistics Ltd"
         },
         "certifications": {
             "iso_9001": {"issuer": "AENOR", "certificate_id": "ER-1845/2020", "expires_at": "2027-04-10", "fraudulent_unaccredited": False},
@@ -175,7 +175,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
         },
         "labor_safety": {
             "prl_service_type": "External Prevention Service (SPA)",
-            "spa_provider": "Cualtis SL",
+            "spa_provider": "Cualtis Occupational Health Ltd",
             "itss_sanctions_count": 0,
             "itss_sanctions_amount_eur": 0.0,
             "accident_frequency_index": "Normal (Within logistics industry average)"
@@ -191,7 +191,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
 
     "medtech_iberica": {
         "id": "medtech_iberica",
-        "company_name": "MedTech Suministros Hospitalarios SL",
+        "company_name": "MedTech Hospital Supplies Ltd",
         "cif": "B-77665544",
         "sector": "Medical Devices & Hospital Supply Procurement",
         "annual_volume_invoiced": "1,850,000 EUR",
@@ -213,7 +213,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
         "bank_account": {
             "iban": "ES12 0182 2200 4501 2345 6789",
             "bank_name": "BBVA",
-            "beneficiary_name": "MedTech Suministros Hospitalarios SL"
+            "beneficiary_name": "MedTech Hospital Supplies Ltd"
         },
         "certifications": {
             "iso_9001": {"issuer": "TÜV Rheinland", "certificate_id": "TR-0914-ES", "expires_at": "2023-12-31", "fraudulent_unaccredited": False},
@@ -221,7 +221,7 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
         },
         "labor_safety": {
             "prl_service_type": "External Prevention Service",
-            "spa_provider": "Antea Prevención",
+            "spa_provider": "Vanguard Risk Management Ltd",
             "itss_sanctions_count": 1,
             "itss_sanctions_amount_eur": 12500.0,
             "accident_frequency_index": "Moderate"
