@@ -17,27 +17,27 @@ Small-to-medium enterprises and audit teams cannot afford Big-4 forensic retaine
 
 1. **Mathematical & Statistical Forensic Analysis:**
    - **Benford's Law Chi-Square ($\chi^2$) Goodness-of-Fit:** Analyzes first-digit distribution across invoice ledgers to detect manual manipulation ($\chi^2 = 40.0$, critical threshold $15.51$ at $p < 0.05$).
-   - **Altman Z''-Score with Cash Conversion Cycle (CCC) Context:** Computes working capital, retained earnings, EBIT, equity, and asset turnover. Crucially, DeepAudit computes **Days Sales Outstanding (DSO)** and **Days Payable Outstanding (DPO)** to distinguish between genuine insolvency and healthy, asset-light logistics PYMEs operating with structural negative working capital.
+   - **Altman Z''-Score with Cash Conversion Cycle (CCC) Context:** Computes working capital, retained earnings, EBIT, equity, and asset turnover. Crucially, DeepAudit computes **Days Sales Outstanding (DSO)** and **Days Payable Outstanding (DPO)** to distinguish between genuine insolvency and healthy, asset-light logistics SMEs operating with structural negative working capital.
    - **Structured Threshold Avoidance:** Flags invoices clustered just below approval ceilings (€4,900–€4,999 and €9,800–€9,999).
 
 2. **Electronic POD Telemetry Cross-Validation:**
    - Cross-references off-hours invoice submissions (e.g., Sunday 03:00 AM) against electronic Proof-of-Delivery (POD) timestamps. Eliminates false-positive fraud alerts for automated 24/7 weekend logistics dispatches.
 
 3. **Payment Counterparty & IBAN Diversion Protection:**
-   - Detects the #1 corporate payment fraud attack: checks cross-border discrepancies between the supplier's registered domicile (e.g., Spanish CIF) and offshore payment accounts (e.g., Lithuania/Malta IBANs), plus beneficiary name mismatches.
+   - Detects the #1 corporate payment fraud attack: checks cross-border discrepancies between the supplier's registered domicile (e.g., European CIF/VAT ID) and offshore payment accounts (e.g., Lithuania/Malta IBANs), plus beneficiary name mismatches.
 
 4. **Accreditation & Regulatory Compliance Matrix:**
-   - Audits certificates against the National Accreditation Body (**ENAC**) and IAF multilateral agreements:
+   - Audits certificates against National Accreditation Bodies (**ENAC / IAF Multilateral Recognition**) and public registries:
      - **ISO 27001:2022** (Information Security / NIS2)
      - **ISO 9001:2015** (Quality Management)
      - **ISO 14001:2015** (Environmental Management / ESG)
-     - **ISO 45001 & PRL** (Labor Safety, ITSS workplace sanction registries)
+     - **ISO 45001 & Occupational Safety** (Labor Safety, ITSS workplace sanction registries)
 
 5. **Deep Real-Time Intelligence via Tavily Search Engine (Special Prize Focus):**
    - Autonomously formulates targeted Boolean queries across public regulatory bodies:
      - State Official Gazette (**BOE**) & Commercial Registry (**BORM**).
-     - Tax Agency debts & public liens (**AEAT** Art. 95 LGT).
-     - Judicial insolvency declarations (**Registro Público Concursal**).
+     - Tax Agency debts & public liens (**AEAT / Tax Agency** Art. 95 LGT).
+     - Judicial insolvency declarations (**Official Public Insolvency & Bankruptcy Register**).
    - Feeds verified factual citations and source URLs directly into Nemotron's reasoning context.
 
 6. **Enterprise ERP Integration (SAP Ariba / Coupa):**
@@ -89,22 +89,22 @@ DeepAudit includes an automated statistical validation suite (`deepaudit/benchma
 
 | Entity Profile | Sector | Ground Truth Risk | Naive Altman Z'' | DeepAudit + CCC Verdict | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Iberia Logistics Global SL** | Freight & Transport | **High Fraud / Insolvency** | Distress (-5.85) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Verified Match |
-| **Solaria Energy Soluciones SL** | Solar EPC / Engineering | **Healthy Solvent** | Safe (+3.84) | **APPROVED (Risk 12)** | Verified Match |
-| **Nexus Inversiones Tech SL** | Tech Advisory Shell | **Suspicious Shell** | Grey (+1.42) | **ENHANCED MONITORING (Risk 80)** | Verified Match |
-| **Trans-Express Peninsular SL** | Asset-Light Logistics | **Healthy (Neg. Working Cap)** | *False Distress (-0.95)* | **APPROVED (Risk 20)** | **0% False Positive** |
-| **MedTech Suministros SL** | Hospital Supplies | **Tax Liens & Fake ISO** | Distress (-1.20) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Verified Match |
+| **Iberia Global Logistics Ltd** | Freight & Transport | **High Fraud / Insolvency** | Distress (-5.85) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Verified Match |
+| **Solaria Clean Energy Solutions Ltd** | Solar EPC / Engineering | **Healthy Solvent** | Safe (+3.84) | **APPROVED (Risk 12)** | Verified Match |
+| **Nexus Tech Ventures Ltd** | Tech Advisory Shell | **Suspicious Shell** | Grey (+1.42) | **ENHANCED MONITORING (Risk 80)** | Verified Match |
+| **Trans-Express Freight & Logistics Ltd** | Asset-Light Logistics | **Healthy (Neg. Working Cap)** | *False Distress (-0.95)* | **APPROVED (Risk 20)** | **0% False Positive** |
+| **MedTech Hospital Supplies Ltd** | Hospital Supplies | **Tax Liens & Fake ISO** | Distress (-1.20) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Verified Match |
 
 ### 📈 Statistical Backtest Metrics (n=5 Canonical Reference Profiles)
 - **Precision:** **100.0%** across benchmark reference profiles (0 false positives on healthy logistics vendors).
 - **Recall:** **100.0%** capture of multi-vector fraud, tax liens, and unaccredited seals.
 - **F1 Score & Accuracy:** **1.000 / 100.0%** on canonical validation suite.
-- **CCC False-Positive Elimination:** **100% reduction** in false alarms for asset-light logistics PYMEs (preventing unwarranted procurement freezes).
+- **CCC False-Positive Elimination:** **100% reduction** in false alarms for asset-light logistics SMEs (preventing unwarranted procurement freezes).
 
 ### 🔒 Enterprise Data Privacy & GDPR Sovereignty (Art. 28 / 32)
 DeepAudit operates on a strict **Air-Gapped Sovereign Data Architecture**:
 - All confidential internal balance sheets, raw invoice line items, and bank transaction ledgers are parsed and analyzed entirely within the enterprise on-premise perimeter (`127.0.0.1:8001`).
-- Only public, non-confidential corporate identification identifiers (CIF/NIF numbers and registered company names) are passed to the **Tavily AI Search Engine** to retrieve public gazette filings (BOE, BORM, ENAC registries).
+- Only public, non-confidential corporate identification identifiers (Corporate Tax IDs / VAT numbers and registered company names) are passed to the **Tavily AI Search Engine** to retrieve public gazette filings (BOE, BORM, ENAC registries).
 - Zero private financial data or vendor commercial terms ever leave the local network, guaranteeing full compliance with European GDPR data protection standards.
 
 ### 📐 Mathematical Formulation (Altman 1993 Four-Variable Model for Private Non-Manufacturers)
@@ -117,12 +117,12 @@ $$Z'' = 6.56 X_1 + 3.26 X_2 + 6.72 X_3 + 1.05 X_4$$
 
 ---
 
-## 📊 Sample Audit Output (Iberia Logistics Global SL — Reference Benchmark Case)
+## 📊 Sample Audit Output (Iberia Global Logistics Ltd — Reference Benchmark Case)
 *Note: Modeled after documented European multi-vector BEC, tax lien, and ISO falsification schemes to stress-test detection limits.*
 - **Composite Forensic Risk Score:** **98 / 100 (CRITICAL RISK - IMMEDIATE FREEZE & DISQUALIFICATION)**
 - **Altman Z''-Score:** **-5.85 (Distress Zone)**; CCC analysis confirms negative working capital (-145 days) compounded by cumulative EBIT losses.
 - **Benford's Law Chi-Square:** **40.0 (Severe Artificial Clustering below €10k threshold)**.
-- **Counterparty Alert:** Spanish entity requesting payment to Lithuanian IBAN (`LT89...`) under a Maltese holding company.
+- **Counterparty Alert:** Registered entity requesting payment to offshore Lithuanian IBAN (`LT89...`) under a Maltese holding company.
 - **Regulatory Finding:** Fake ISO 27001 certificate ID (`FAKE-ISMS-2024`) unaccredited in ENAC registry; 2 severe ITSS labor sanctions (€48,500).
 - **Tavily Intelligence:** Verified active tax enforcement proceedings in Official Gazette.
 - **ERP Action:** Generated SAP Ariba freeze webhook payload.
@@ -131,5 +131,5 @@ $$Z'' = 6.56 X_1 + 3.26 X_2 + 6.72 X_3 + 1.05 X_4$$
 
 ## 🏆 Accomplishments We're Proud Of
 - A battle-tested tool addressing real-world corporate due diligence vulnerabilities.
-- Zero false positives on asset-light logistics PYMEs through Cash Conversion Cycle integration.
+- Zero false positives on asset-light logistics SMEs through Cash Conversion Cycle integration.
 - Seamless synthesis between Tavily search, quantitative math, and Nebius Token Factory inference.
