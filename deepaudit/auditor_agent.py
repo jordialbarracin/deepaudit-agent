@@ -39,7 +39,7 @@ class DeepAuditAgent:
         else:
             case = case_or_id
 
-        company_name = case.get("company_name", "Empresa Auditada")
+        company_name = case.get("company_name", "Audited Entity")
         cif = case.get("cif", "N/A")
         financials = case.get("financials", {})
         invoices = case.get("invoices", [])
@@ -55,59 +55,59 @@ class DeepAuditAgent:
         compliance_res = ComplianceEngine.audit_certifications(case)
 
         # Step 3: External Web Intelligence via Tavily
-        tavily_query = f"{company_name} {cif} concurso acreedores BORM morosidad Hacienda insolvencias ISO prevencion riesgos"
+        tavily_query = f"{company_name} {cif} bankruptcy insolvency public gazette BOE BORM tax liens ISO accreditation labor safety"
         tavily_res = self.tavily_client.search(tavily_query, search_depth="advanced", max_results=3)
 
         # Step 4: LLM Synthesis with NVIDIA Nemotron on Nebius
         prompt = f"""
-AUDITORÍA FORENSE, COMPLIANCE REGULATORIO Y DUE DILIGENCE DE EMPRESA PROVEEDORA
+FORENSIC DUE DILIGENCE, REGULATORY COMPLIANCE & VENDOR AUDIT MEMORANDUM
 
-DATOS DE LA ENTIDAD AUDITADA:
-- Razón Social: {company_name}
-- NIF/CIF: {cif}
-- Sector: {case.get('sector', 'Comercial')}
-- Volumen Facturado en Revisión: {case.get('annual_volume_invoiced', 'N/A')}
-- Contexto de la Solicitud: {case.get('description', '')}
+AUDITED CORPORATE ENTITY:
+- Company Legal Name: {company_name}
+- Tax Identification (CIF/VAT): {cif}
+- Industry Sector: {case.get('sector', 'Commercial Services')}
+- Annual Invoiced Volume Under Review: {case.get('annual_volume_invoiced', 'N/A')}
+- Audit Description & Context: {case.get('description', '')}
 
-EVIDENCIAS CUANTITATIVAS INTERNAS (ANÁLISIS DE LIBROS Y FACTURAS):
-1. Test de Benford (Detección de Manipulación en Primeros Dígitos de Facturas):
-   - Muestra analizada: {benford_res.get('sample_size')} facturas.
-   - Estadístico Chi-Cuadrado: {benford_res.get('chi_square_statistic')} (Umbral crítico 95%: 15.51).
-   - Diagnóstico Benford: {benford_res.get('risk_classification')}.
+INTERNAL QUANTITATIVE EVIDENCE (INVOICE LEDGER & BALANCE SHEET FORENSICS):
+1. Benford's Law Chi-Square Test (First-Digit Anomaly Detection):
+   - Sample Size Evaluated: {benford_res.get('sample_size')} invoices.
+   - Chi-Square Statistic: {benford_res.get('chi_square_statistic')} (95% Critical Threshold: 15.51).
+   - Benford Classification: {benford_res.get('risk_classification')}.
 
-2. Modelo Altman Z''-Score (Solvencia y Probabilidad de Quiebra a 24 Meses - PYMES PGC):
-   - Z''-Score Calculado: {altman_res.get('z_score')}
-   - Clasificación de Zona: {altman_res.get('zone')} ({altman_res.get('description')})
-   - Fondo de Maniobra (Capital Circulante): {altman_res.get('working_capital_euros')} €
-   - Ratio de Liquidez Corriente: {altman_res.get('current_ratio')}
+2. Altman Z''-Score Model (Private Non-Manufacturing Firm Solvency / Distress Prediction):
+   - Z''-Score: {altman_res.get('z_score')}
+   - Solvency Zone: {altman_res.get('zone')} ({altman_res.get('description')})
+   - Net Working Capital: {altman_res.get('working_capital_euros')} EUR
+   - Current Liquidity Ratio: {altman_res.get('current_ratio')}
 
-3. Irregularidades Concretas Detectadas en Facturas y Telemetría POD:
-   - Total anomalías detectadas: {len(irregularities)}
-   - Detalle: {json.dumps(irregularities, ensure_ascii=False, indent=2)}
+3. Flagged Invoice Irregularities & Proof-of-Delivery (POD) Telemetry:
+   - Total Anomalies Flagged: {len(irregularities)}
+   - Forensic Findings: {json.dumps(irregularities, ensure_ascii=False, indent=2)}
 
-4. Auditoría de Contraparte Bancaria e IBAN (Detección de Fraude de Pagos):
-   - Estado: {counterparty_res.get('status')}
-   - IBAN Registrado: {counterparty_res.get('iban_masked')} (País: {counterparty_res.get('iban_country')})
-   - Titular Beneficiario: {counterparty_res.get('beneficiary_name')}
-   - Alertas de Fraude: {json.dumps(counterparty_res.get('anomalies'), ensure_ascii=False, indent=2)}
+4. Banking Counterparty & IBAN Diversion Audit (Payment Fraud Defense):
+   - Status: {counterparty_res.get('status')}
+   - Destination Account: {counterparty_res.get('iban_masked')} (Jurisdiction: {counterparty_res.get('iban_country')})
+   - Registered Beneficiary: {counterparty_res.get('beneficiary_name')}
+   - Fraud Warnings: {json.dumps(counterparty_res.get('anomalies'), ensure_ascii=False, indent=2)}
 
-5. Auditoría de Certificaciones Oficiales ISO y Prevención de Riesgos Laborales (PRL):
-   - Índice de Cumplimiento Regulatorio: {compliance_res.get('compliance_score')}% ({compliance_res.get('maturity_level')})
-   - Estado de Normas ISO: {json.dumps(compliance_res.get('certifications'), ensure_ascii=False, indent=2)}
-   - Auditoría de Seguridad Laboral / Sanciones ITSS: {json.dumps(compliance_res.get('labor_safety_audit'), ensure_ascii=False, indent=2)}
+5. ISO Official Accreditation & Labor Safety (PRL) Registry Verification:
+   - Compliance Index: {compliance_res.get('compliance_score')}% ({compliance_res.get('maturity_level')})
+   - ISO Certification Matrix: {json.dumps(compliance_res.get('certifications'), ensure_ascii=False, indent=2)}
+   - Labor Safety Audit & Sanction Registry: {json.dumps(compliance_res.get('labor_safety_audit'), ensure_ascii=False, indent=2)}
 
-EVIDENCIAS EXTERNAS OBTENIDAS EN TIEMPO REAL VÍA TAVILY SEARCH (REGISTROS OFICIALES Y PRENSA):
-- Resumen Tavily: {tavily_res.get('answer')}
-- Fuentes y Boletines Oficiales Consultados:
+REAL-TIME EXTERNAL INTELLIGENCE RETRIEVED VIA TAVILY SEARCH (OFFICIAL GAZETTES & REGISTRIES):
+- Tavily Synthesis: {tavily_res.get('answer')}
+- Official Gazette Filings & Cited Public Records:
 {json.dumps(tavily_res.get('results'), ensure_ascii=False, indent=2)}
 
-INSTRUCCIONES DE DICTAMEN:
-Emite el Informe Pericial Forense definitivo con:
-1. Puntuación de Riesgo de 0 a 100.
-2. Dictamen Oficial (APROBADO / SUPERVISIÓN REFORZADA / BLOQUEO Y RECHAZO).
-3. Matriz de Banderas Rojas (Red Flags).
-4. Correlación entre los números internos y los hallazgos en el BOE/BORM/Tavily.
-5. Plan de acción de 4 puntos para compras y tesorería.
+FORENSIC DICTUM REQUIREMENTS:
+Issue the definitive Forensic Due Diligence Memorandum structured as:
+1. Overall Risk Score (0 to 100).
+2. Executive Verdict (APPROVED / ENHANCED MONITORING / IMMEDIATE FREEZE & DISQUALIFICATION).
+3. Red Flags & Quantitative Correlations Matrix.
+4. Triangulation between internal ledgers and Tavily gazette findings (BOE, BORM, tax liens).
+5. CFO & Procurement 4-Point Mitigation Action Plan.
 """
 
         llm_res = self.nebius_client.complete(
@@ -134,19 +134,20 @@ Emite el Informe Pericial Forense definitivo con:
         if counterparty_res.get("has_critical_discrepancy"):
             base_risk += 35.0
 
-        # If Tavily found insolvency/concurso
-        if "concurso" in tavily_res.get("answer", "").lower() or "morosos" in tavily_res.get("answer", "").lower():
+        # If Tavily found insolvency/bankruptcy
+        ans_lower = tavily_res.get("answer", "").lower()
+        if "concurso" in ans_lower or "bankruptcy" in ans_lower or "morosos" in ans_lower or "insolven" in ans_lower:
             base_risk = max(base_risk, 88.0)
 
         risk_score = min(round(base_risk), 98) if base_risk > 0 else 12
-        audit_verdict = "BLOQUEO Y RECHAZO" if risk_score >= 75 else ("SUPERVISIÓN REFORZADA" if risk_score >= 40 else "APROBADO")
+        audit_verdict = "IMMEDIATE FREEZE & DISQUALIFICATION" if risk_score >= 75 else ("ENHANCED MONITORING" if risk_score >= 40 else "APPROVED")
         erp_payload = self.forensic_engine.generate_erp_integration_payload(case, audit_verdict)
 
         return {
             "company_name": company_name,
             "cif": cif,
             "risk_score": risk_score,
-            "risk_level": "CRÍTICO" if risk_score >= 75 else ("MODERADO" if risk_score >= 40 else "BAJO"),
+            "risk_level": "CRITICAL" if risk_score >= 75 else ("MODERATE" if risk_score >= 40 else "LOW"),
             "audit_verdict": audit_verdict,
             "forensics": {
                 "benford": benford_res,

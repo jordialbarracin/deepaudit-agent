@@ -71,67 +71,67 @@ class DeepAuditTavilyClient:
         results: List[Dict[str, Any]] = []
         answer = ""
 
-        if "iberia logistics" in q or "b-87654321" in q or "fraude" in q or "concurso" in q:
-            answer = "Iberia Logistics Global SL (B-87654321) presenta múltiples alertas de insolvencia en el BORM, apertura de concurso de acreedores en el Juzgado de lo Mercantil Nº 3 de Madrid y sanciones tributarias registradas en el BOE."
+        if "iberia logistics" in q or "b-87654321" in q or "fraude" in q or "concurso" in q or "bankruptcy" in q:
+            answer = "Iberia Logistics Global SL (Tax ID: B-87654321) exhibits multiple active insolvency notices in the Official Commercial Gazette (BORM), bankruptcy proceedings opened in Madrid Commercial Court No. 3, and formal tax debt enforcement liens published in the State Official Gazette (BOE)."
             results = [
                 {
-                    "title": "BORM - Boletín Oficial del Registro Mercantil: Declaración Concurso Voluntario Iberia Logistics Global SL",
+                    "title": "BORM - Official Commercial Gazette: Voluntary Insolvency Proceedings Declared - Iberia Logistics Global SL",
                     "url": "https://www.boe.es/borm/dias/2026/04/12/pdfs/BORME-A-2026-71-28.pdf",
-                    "snippet": "Juzgado de lo Mercantil nº 3 de Madrid. Autos de Concurso Ordinario 412/2025. Se declara el concurso de acreedores voluntario de la deudora IBERIA LOGISTICS GLOBAL SL, NIF B-87654321. Se suspenden las facultades de administración del órgano de gobierno.",
+                    "snippet": "Madrid Commercial Court No. 3. Ordinary Bankruptcy Proceeding 412/2025. Official declaration of voluntary insolvency for debtor IBERIA LOGISTICS GLOBAL SL, Tax ID B-87654321. Powers of corporate directors suspended; judicial administrator appointed.",
                     "score": 0.98
                 },
                 {
-                    "title": "Agencia Tributaria - Publicación de Deudores con la Hacienda Pública 2026",
+                    "title": "State Tax Agency - Official Public Registry of Major Tax Debtors 2026",
                     "url": "https://sede.agenciatributaria.gob.es/deudores/informe_2026.html",
-                    "snippet": "IBERIA LOGISTICS GLOBAL SL figura en el listado de morosos con la Agencia Estatal de Administración Tributaria (AEAT) por un importe acumulado exigible superior a 482.000 € en concepto de retenciones e IVA impagado.",
+                    "snippet": "IBERIA LOGISTICS GLOBAL SL listed on the national tax agency debtor registry with outstanding liabilities exceeding 482,000 EUR in unpaid VAT and corporate withholding taxes subject to active asset garnishment.",
                     "score": 0.96
                 },
                 {
-                    "title": "Expansión Judicial: Red de facturación circular desarticulada en sector transporte",
+                    "title": "Judicial Press: Circular Invoice Fraud Ring Uncovered in Freight Logistics Sector",
                     "url": "https://www.expansion.com/empresas/transporte/2026/08/19/insolvencias-proveedores.html",
-                    "snippet": "La Unidad de Delincuencia Económica investiga una trama de empresas instrumentales de logística que emitían facturas por servicios inexistentes para eludir retenciones fiscales. Varios administradores mancomunados fueron cesados.",
+                    "snippet": "Economic Crime Investigation Unit probes network of shell logistics entities issuing fictitious invoices below statutory approval thresholds to divert corporate funds offshore. Multiple directors disqualified.",
                     "score": 0.91
                 }
             ]
-        elif "solaria energy" in q or "b-99887766" in q or "solvencia" in q:
-            answer = "Solaria Energy Soluciones SL (B-99887766) muestra una situación registral y fiscal impecable, sin incidencias judiciales, cuentas anuales depositadas al día y certificaciones de estar al corriente con AEAT y Seguridad Social."
+        elif "solaria energy" in q or "b-99887766" in q or "solvencia" in q or "solvent" in q:
+            answer = "Solaria Energy Soluciones SL (Tax ID: B-99887766) demonstrates pristine corporate registration and fiscal standing, zero judicial claims, timely deposited annual accounts, and certified compliance with Tax and Social Security administrations."
             results = [
                 {
-                    "title": "Registro Mercantil Central: Certificado de Cuentas Anuales Solaria Energy Soluciones SL",
+                    "title": "Central Commercial Registry: Certified Annual Financial Statements - Solaria Energy Soluciones SL",
                     "url": "https://www.registradores.org/mercantil/solaria-energy-2025.pdf",
-                    "snippet": "Depósito de cuentas del ejercicio 2025 efectuado en plazo. Opinión de auditoría favorable sin salvedades. Fondo de maniobra positivo superior a 1.2M € y ratio de endeudamiento bancario controlado al 28%.",
+                    "snippet": "Annual accounts filed in compliance with statutory deadlines. Clean auditor opinion without qualifications. Positive working capital exceeding 1.2M EUR; controlled banking leverage ratio at 28%.",
                     "score": 0.97
                 },
                 {
-                    "title": "BOE: Concesión de subvención programa de transición energética e innovación industrial",
+                    "title": "Official State Gazette (BOE): Industrial Clean Energy Innovation Grant Award",
                     "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-18922",
-                    "snippet": "Resolución del Ministerio de Transición Ecológica: Se adjudica a Solaria Energy Soluciones SL proyecto de eficiencia con garantía de solvencia técnica y económica acreditada.",
+                    "snippet": "Ministry for the Ecological Transition Award Resolution: Solaria Energy Soluciones SL awarded industrial solar project with verified technical and balance sheet solvency guarantees.",
                     "score": 0.92
                 }
             ]
         elif "nexus" in q or "b-11223344" in q:
-            answer = "Nexus Inversiones Tech SL (B-11223344) fue constituida hace menos de 6 meses con un capital mínimo de 3.000 €, sin trabajadores registrados y domicilio social en un centro de negocios compartido (posible sociedad instrumental)."
+            answer = "Nexus Inversiones Tech SL (Tax ID: B-11223344) was incorporated less than 6 months ago with minimum statutory share capital of 3,000 EUR, zero registered employees on payroll, and a shared virtual business office address (indicative of a shell company profile)."
             results = [
                 {
-                    "title": "BORM: Constitución y Nombramiento de Administrador Único de Nexus Inversiones Tech SL",
+                    "title": "BORM: Company Incorporation & Director Appointment - Nexus Inversiones Tech SL",
                     "url": "https://www.boe.es/borm/dias/2026/05/02/BORME-A-2026-83-28.pdf",
-                    "snippet": "Comienzo de operaciones: 15/04/2026. Objeto social: Comercio al por mayor y consultoría. Capital social: 3.000,00 Euros. Domicilio: Calle Gran Vía 28, Despacho Virtual. Administrador único nombrado.",
+                    "snippet": "Commencement of operations: 15/04/2026. Corporate purpose: Wholesale trade and consulting. Share capital: 3,000.00 EUR. Registered domicile: Virtual Office Suite. Sole administrator appointed.",
                     "score": 0.94
                 },
                 {
-                    "title": "Registro de Incidencias de Proveedores Nuevos: Falta de plantilla y activos fijos",
+                    "title": "Vendor Onboarding Risk Registry: Zero Fixed Assets and Payroll Deficiency Alert",
                     "url": "https://informes-comerciales-empresas.es/nexus-inversiones-tech-riesgo",
-                    "snippet": "Alerta de riesgo de proveedor: Cero empleados en alta de Seguridad Social. Emite facturas de volumen desproporcionado respecto a su capacidad operativa instalada.",
+                    "snippet": "Supplier integrity alert: Zero employees registered with Social Security. Issues round-number invoices disproportionate to installed operational and technical capacity.",
                     "score": 0.89
                 }
             ]
         else:
-            answer = f"Búsqueda de diligencia debida corporativa para '{query}'. Estado registral activo, sin sanciones directas detectadas."
+            answer = f"Corporate due diligence registry search completed for '{query}'. Corporate entity active in public commercial gazettes with zero direct sanctions detected."
             results = [
                 {
-                    "title": f"Registro Mercantil - Ficha General de {query}",
+                    "title": f"Commercial Registry - Entity Dossier: {query}",
                     "url": "https://www.registradores.org/consulta-sociedades",
-                    "snippet": f"Consulta registral para {query}. Sociedad inscrita y en ejercicio ordinario. No constan procedimientos concursales activos en las bases de datos públicas.",
+                    "snippet": f"Commercial registry query for {query}. Corporation officially registered and operating under normal status. Zero active insolvency proceedings found in public registries.",
                     "score": 0.85
                 }
             ]

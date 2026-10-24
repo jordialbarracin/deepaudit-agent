@@ -15,11 +15,11 @@ class DeepAuditBenchmarkSuite:
     """
     
     GROUND_TRUTH = {
-        "iberia_logistics": {"label": "FRAUD_OR_DISTRESS", "expected_verdict": "BLOQUEO Y RECHAZO"},
-        "solaria_energy": {"label": "HEALTHY_SOLVENT", "expected_verdict": "APROBADO"},
-        "nexus_tech": {"label": "SHELL_HIGH_RISK", "expected_verdict": "SUPERVISIÓN REFORZADA"},
-        "trans_express_logistics": {"label": "HEALTHY_SOLVENT", "expected_verdict": "APROBADO"},
-        "medtech_iberica": {"label": "FRAUD_OR_DISTRESS", "expected_verdict": "BLOQUEO Y RECHAZO"}
+        "iberia_logistics": {"label": "FRAUD_OR_DISTRESS", "expected_verdict": "IMMEDIATE FREEZE & DISQUALIFICATION"},
+        "solaria_energy": {"label": "HEALTHY_SOLVENT", "expected_verdict": "APPROVED"},
+        "nexus_tech": {"label": "SHELL_HIGH_RISK", "expected_verdict": "ENHANCED MONITORING"},
+        "trans_express_logistics": {"label": "HEALTHY_SOLVENT", "expected_verdict": "APPROVED"},
+        "medtech_iberica": {"label": "FRAUD_OR_DISTRESS", "expected_verdict": "IMMEDIATE FREEZE & DISQUALIFICATION"}
     }
 
     @classmethod
@@ -69,11 +69,11 @@ class DeepAuditBenchmarkSuite:
                 risk += 30.0
                 
             risk_score = min(round(risk), 98) if risk > 0 else 12
-            predicted_verdict = "BLOQUEO Y RECHAZO" if risk_score >= 85 else ("SUPERVISIÓN REFORZADA" if risk_score >= 40 else "APROBADO")
+            predicted_verdict = "IMMEDIATE FREEZE & DISQUALIFICATION" if risk_score >= 85 else ("ENHANCED MONITORING" if risk_score >= 40 else "APPROVED")
             
             gt = cls.GROUND_TRUTH.get(case_id, {"label": "UNKNOWN"})
             is_positive = (gt["label"] != "HEALTHY_SOLVENT")
-            is_predicted_positive = (predicted_verdict != "APROBADO")
+            is_predicted_positive = (predicted_verdict != "APPROVED")
             
             if is_positive and is_predicted_positive:
                 tp += 1

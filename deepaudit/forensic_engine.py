@@ -180,21 +180,21 @@ class ForensicEngine:
         if z_score < 1.1:
             zone = "DISTRESS_ZONE"
             if ccc_data["is_asset_light_negative_wc"] and ebit >= 0:
-                description = "Zona de alerta matemática por fondo de maniobra negativo, pero mitigada por modelo asset-light con ciclo de caja negativo y EBIT operativo positivo."
+                description = "Mathematical warning due to negative working capital, but structurally mitigated by asset-light model with negative cash cycle and positive operational EBIT."
                 score_color = "yellow"
             elif ccc_data["is_asset_light_negative_wc"] and ebit < 0:
-                description = "Zona de quiebra/insolvencia: Modelo asset-light desbordado por pérdidas operativas acumuladas (EBIT y fondos propios negativos)."
+                description = "Insolvency & bankruptcy distress: Asset-light model overwhelmed by cumulative operating losses (negative EBIT and depleted equity)."
                 score_color = "red"
             else:
-                description = "Alta probabilidad de quiebra o suspensión de pagos a 24 meses por desequilibrio patrimonial estructural."
+                description = "High probability of bankruptcy or debt default within 24 months due to structural balance sheet deficit."
                 score_color = "red"
         elif 1.1 <= z_score < 2.6:
             zone = "GREY_ZONE"
-            description = "Tensión financiera moderada; recomendada reestructuración de pasivo corriente."
+            description = "Moderate financial strain; current liability restructuring recommended."
             score_color = "yellow"
         else:
             zone = "SAFE_ZONE"
-            description = "Balance solvente; riesgo mínimo de impago."
+            description = "Solvent balance sheet; minimal default risk."
             score_color = "green"
 
         return {

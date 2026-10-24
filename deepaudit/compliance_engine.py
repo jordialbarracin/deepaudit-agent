@@ -9,12 +9,12 @@ from datetime import datetime, date
 
 # Standard accreditation bodies recognized under IAF / ENAC multilateral agreements
 ACCREDITATION_BODIES = {
-    "AENOR": "Asociación Española de Normalización y Certificación (ENAC Accredited)",
+    "AENOR": "Spanish Association for Standardization and Certification (ENAC Accredited)",
     "BUREAU_VERITAS": "Bureau Veritas Certification Holding SAS",
     "SGS": "SGS International Certification Services",
     "DNV": "DNV Business Assurance",
     "TUV_RHEINLAND": "TÜV Rheinland Group",
-    "ENAC": "Entidad Nacional de Acreditación (National Accreditation Body)"
+    "ENAC": "National Accreditation Body (ENAC / IAF Multilateral Mutual Recognition)"
 }
 
 class ComplianceEngine:
@@ -27,7 +27,7 @@ class ComplianceEngine:
     def audit_certifications(company_data: Dict[str, Any]) -> Dict[str, Any]:
         certs = company_data.get("certifications", {})
         labor_safety = company_data.get("labor_safety", {})
-        company_name = company_data.get("company_name", "Empresa Auditada")
+        company_name = company_data.get("company_name", "Audited Entity")
         cif = company_data.get("cif", "N/A")
 
         today = date(2026, 10, 24)
@@ -38,22 +38,22 @@ class ComplianceEngine:
         # 1. ISO 27001:2022 (Information Security Management System - ISMS)
         iso27001 = certs.get("iso_27001")
         if iso27001:
-            res_27001 = ComplianceEngine._verify_single_cert("ISO 27001:2022", "Seguridad de la Información (SGSI / Ciberseguridad)", iso27001, today, weight=30)
+            res_27001 = ComplianceEngine._verify_single_cert("ISO 27001:2022", "Information Security (ISMS / Cybersecurity)", iso27001, today, weight=30)
             cert_results.append(res_27001)
             total_score_weight += 30
             earned_score += res_27001["points_earned"]
         else:
             cert_results.append({
                 "standard": "ISO 27001:2022",
-                "domain": "Seguridad de la Información (SGSI)",
+                "domain": "Information Security (ISMS)",
                 "status": "NOT_CERTIFIED",
-                "status_badge": "SIN CERTIFICAR",
+                "status_badge": "NOT CERTIFIED",
                 "color": "rose",
                 "issuer": "N/A",
                 "certificate_id": "N/A",
                 "expires_at": "N/A",
                 "days_remaining": 0,
-                "notes": "Ausencia de SGSI certificado. Exposición crítica a brechas de datos bajo RGPD y NIS2.",
+                "notes": "Absence of certified ISMS. Severe exposure to data breaches under GDPR & NIS2 directives.",
                 "points_earned": 0,
                 "max_points": 30
             })
@@ -62,22 +62,22 @@ class ComplianceEngine:
         # 2. ISO 9001:2015 (Quality Management System - QMS)
         iso9001 = certs.get("iso_9001")
         if iso9001:
-            res_9001 = ComplianceEngine._verify_single_cert("ISO 9001:2015", "Gestión de la Calidad (SGC / Operaciones)", iso9001, today, weight=25)
+            res_9001 = ComplianceEngine._verify_single_cert("ISO 9001:2015", "Quality Management (QMS / Operations)", iso9001, today, weight=25)
             cert_results.append(res_9001)
             total_score_weight += 25
             earned_score += res_9001["points_earned"]
         else:
             cert_results.append({
                 "standard": "ISO 9001:2015",
-                "domain": "Gestión de la Calidad (SGC)",
+                "domain": "Quality Management (QMS)",
                 "status": "NOT_CERTIFIED",
-                "status_badge": "SIN CERTIFICAR",
+                "status_badge": "NOT CERTIFIED",
                 "color": "amber",
                 "issuer": "N/A",
                 "certificate_id": "N/A",
                 "expires_at": "N/A",
                 "days_remaining": 0,
-                "notes": "Sin sistema de gestión de calidad verificado. Riesgo operacional en compras públicas.",
+                "notes": "No verified quality management system. Elevated operational risk in public procurement.",
                 "points_earned": 0,
                 "max_points": 25
             })
@@ -86,58 +86,57 @@ class ComplianceEngine:
         # 3. ISO 14001:2015 (Environmental Management - ESG)
         iso14001 = certs.get("iso_14001")
         if iso14001:
-            res_14001 = ComplianceEngine._verify_single_cert("ISO 14001:2015", "Gestión Ambiental y Sostenibilidad (ESG)", iso14001, today, weight=20)
+            res_14001 = ComplianceEngine._verify_single_cert("ISO 14001:2015", "Environmental Management & Sustainability (ESG)", iso14001, today, weight=20)
             cert_results.append(res_14001)
             total_score_weight += 20
             earned_score += res_14001["points_earned"]
         else:
             cert_results.append({
                 "standard": "ISO 14001:2015",
-                "domain": "Gestión Ambiental (ESG)",
+                "domain": "Environmental Management (ESG)",
                 "status": "NOT_CERTIFIED",
-                "status_badge": "SIN CERTIFICAR",
+                "status_badge": "NOT CERTIFIED",
                 "color": "amber",
                 "issuer": "N/A",
                 "certificate_id": "N/A",
                 "expires_at": "N/A",
                 "days_remaining": 0,
-                "notes": "No acredita certificación ambiental reglada bajo ENAC.",
+                "notes": "Lacks accredited environmental certification under ENAC/IAF recognition.",
                 "points_earned": 0,
                 "max_points": 20
             })
             total_score_weight += 20
 
-        # 4. ISO 45001:2018 & PRL (Occupational Health and Safety / Prevención de Riesgos Laborales)
+        # 4. ISO 45001:2018 & PRL (Occupational Health and Safety / Labor Risk Prevention)
         iso45001 = certs.get("iso_45001")
-        prl_status = labor_safety.get("prl_service_type", "Servicio de Prevención Ajeno (SPA)")
+        prl_status = labor_safety.get("prl_service_type", "External Prevention Service (SPA)")
         sanctions_count = labor_safety.get("itss_sanctions_count", 0)
 
         if iso45001:
-            res_45001 = ComplianceEngine._verify_single_cert("ISO 45001:2018", "Seguridad y Salud en el Trabajo (PRL)", iso45001, today, weight=25)
+            res_45001 = ComplianceEngine._verify_single_cert("ISO 45001:2018", "Occupational Health & Safety (PRL)", iso45001, today, weight=25)
             if sanctions_count > 0:
                 res_45001["status"] = "SANCTIONED_RISK"
-                res_45001["status_badge"] = "SANCIONADO ITSS"
+                res_45001["status_badge"] = "SANCTIONED ITSS"
                 res_45001["color"] = "rose"
-                res_45001["notes"] += f" ALERTA: Constan {sanctions_count} actas de infracción en Inspección de Trabajo."
+                res_45001["notes"] += f" CRITICAL ALERT: {sanctions_count} active infraction notices on file with Labor Inspection (ITSS)."
                 res_45001["points_earned"] = max(0, res_45001["points_earned"] - 15)
             cert_results.append(res_45001)
             total_score_weight += 25
             earned_score += res_45001["points_earned"]
         else:
-            status_badge = "SANCIONES ACTIVAS" if sanctions_count > 0 else "SIN CERTIFICAR"
+            status_badge = "ACTIVE SANCTIONS" if sanctions_count > 0 else "NOT CERTIFIED"
             color = "rose" if sanctions_count > 0 else "amber"
-            penalty = 15 if sanctions_count > 0 else 0
             cert_results.append({
                 "standard": "ISO 45001:2018 / PRL",
-                "domain": "Prevención de Riesgos Laborales",
+                "domain": "Occupational Health & Safety (PRL)",
                 "status": "SANCTIONED" if sanctions_count > 0 else "NOT_CERTIFIED",
                 "status_badge": status_badge,
                 "color": color,
-                "issuer": labor_safety.get("spa_provider", "No Registrado"),
+                "issuer": labor_safety.get("spa_provider", "Unregistered"),
                 "certificate_id": f"PRL-ITSS-{cif[-4:]}",
                 "expires_at": "N/A",
                 "days_remaining": 0,
-                "notes": f"Sin ISO 45001 acreditada. Modalidad: {prl_status}. Sanciones ITSS: {sanctions_count}.",
+                "notes": f"No accredited ISO 45001. Modality: {prl_status}. ITSS labor sanctions: {sanctions_count}.",
                 "points_earned": 5 if sanctions_count == 0 else 0,
                 "max_points": 25
             })
@@ -149,15 +148,15 @@ class ComplianceEngine:
 
         if compliance_pct >= 85:
             maturity_level = "ENTERPRISE_GRADE_A"
-            rating_text = "CUMPLIMIENTO REGULATORIO EXCELENTE (ISO/PRL AUDITADO)"
+            rating_text = "EXCELLENT REGULATORY COMPLIANCE (AUDITED ISO/PRL)"
             badge_color = "emerald"
         elif compliance_pct >= 50:
             maturity_level = "MODERATE_RISK_B"
-            rating_text = "CUMPLIMIENTO PARCIAL (RENOVAR CERTIFICACIONES)"
+            rating_text = "PARTIAL COMPLIANCE (RECERTIFICATION REQUIRED)"
             badge_color = "amber"
         else:
             maturity_level = "CRITICAL_NON_COMPLIANCE_C"
-            rating_text = "RIESGO REGULATORIO GRAVE (CERTIFICADOS CADUCADOS / SANCIONES)"
+            rating_text = "SEVERE REGULATORY RISK (EXPIRED CERTIFICATES / ITSS SANCTIONS)"
             badge_color = "rose"
 
         return {
