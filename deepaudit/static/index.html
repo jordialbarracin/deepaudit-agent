@@ -185,6 +185,18 @@
           </div>
         </div>
 
+        <!-- Compliance & ISO/PRL Score -->
+        <div class="p-3 rounded-xl bg-app-surface border border-app-border">
+          <div class="text-[10px] text-app-muted uppercase">Auditoría ISO / PRL (Compliance)</div>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span id="complianceScoreVal" class="text-2xl font-bold text-white">0%</span>
+            <span class="text-[10px] text-app-muted font-medium">ENAC / AENOR</span>
+          </div>
+          <div id="complianceBadge" class="mt-1">
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-app-emerald/10 text-app-emerald border border-app-emerald/25 font-semibold">AUDITANDO...</span>
+          </div>
+        </div>
+
       </div>
 
     </aside>
@@ -234,17 +246,25 @@
 
       </div>
 
-      <!-- Bottom Center: Forensic Invoice Table & Official Pericial Dictum Split -->
+      <!-- Bottom Center: Dual Tab Ledger (Invoices vs ISO/PRL Compliance) & Official Pericial Dictum Split -->
       <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-app-border overflow-hidden">
         
-        <!-- Forensic Ledger Table -->
+        <!-- Left Sub-Pane: Invoices vs ISO/PRL Tabs -->
         <div class="flex flex-col h-full overflow-hidden bg-app-canvas">
-          <div class="h-9 px-4 border-b border-app-border bg-app-sidebar flex items-center justify-between text-xs font-mono select-none flex-shrink-0">
-            <span class="font-medium text-white">Muestra Contable: Irregularidades y Facturas Flagrantes</span>
-            <span class="text-[10px] text-app-muted">Detección Automática</span>
+          <div class="h-9 px-3 border-b border-app-border bg-app-sidebar flex items-center justify-between text-xs font-mono select-none flex-shrink-0">
+            <div class="flex items-center gap-1">
+              <button onclick="switchBottomTab('invoices')" id="tab-invoices" class="px-2.5 py-1 rounded-md text-xs font-medium bg-app-surface text-white border border-app-border">
+                Facturas Flagrantes
+              </button>
+              <button onclick="switchBottomTab('compliance')" id="tab-compliance" class="px-2.5 py-1 rounded-md text-xs font-medium text-app-muted hover:text-white">
+                Certificaciones ISO &amp; PRL
+              </button>
+            </div>
+            <span class="text-[10px] text-app-muted" id="bottom-tab-subtitle">Detección Automática</span>
           </div>
 
-          <div class="flex-1 overflow-auto custom-scroll">
+          <!-- Tab Pane 1: Forensic Invoices -->
+          <div id="pane-invoices" class="flex-1 overflow-auto custom-scroll">
             <table class="w-full text-left text-[11px] font-mono">
               <thead class="bg-app-canvas text-app-muted uppercase text-[9px] border-b border-app-border sticky top-0">
                 <tr>
@@ -258,6 +278,13 @@
                 <!-- Rows injected via JS -->
               </tbody>
             </table>
+          </div>
+
+          <!-- Tab Pane 2: ISO & PRL Compliance Matrix -->
+          <div id="pane-compliance" class="hidden flex-1 overflow-auto custom-scroll p-3 space-y-2.5">
+            <div id="compliance-cards-container" class="space-y-2">
+              <!-- Dynamically populated via JS -->
+            </div>
           </div>
         </div>
 
@@ -418,6 +445,47 @@
           </div>
         `).join('');
 
+        // Compliance ISO / PRL
+        const comp = data.compliance || {};
+        const compScore = comp.compliance_score || 0;
+        document.getElementById('complianceScoreVal').innerText = `${compScore}%`;
+        const cBadge = document.getElementById('complianceBadge');
+        if (compScore >= 80) {
+          cBadge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-emerald/10 text-app-emerald border border-app-emerald/25 font-semibold">CUMPLIMIENTO A (${compScore}%)</span>`;
+        } else if (compScore >= 45) {
+          cBadge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-amber/10 text-app-amber border border-app-amber/25 font-semibold">RIESGO MEDIO (${compScore}%)</span>`;
+        } else {
+          cBadge.innerHTML = `<span class="text-[10px] px-1.5 py-0.2 rounded bg-app-rose/10 text-app-rose border border-app-rose/25 font-semibold">INCUMPLIMIENTO (${compScore}%)</span>`;
+        }
+
+        // Render Compliance Cards
+        const compContainer = document.getElementById('compliance-cards-container');
+        const certs = comp.certifications || [];
+        const labor = comp.labor_safety_audit || {};
+        compContainer.innerHTML = certs.map(c => `
+          <div class="p-2.5 rounded-xl bg-app-surface border border-app-border space-y-1">
+            <div class="flex items-center justify-between font-mono">
+              <span class="font-bold text-white text-xs">${c.standard}</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded bg-app-${c.color}/10 text-app-${c.color} border border-app-${c.color}/25 font-semibold">${c.status_badge}</span>
+            </div>
+            <div class="text-[11px] text-zinc-300 font-sans">${c.domain} &bull; Emisor: <b class="text-white">${c.issuer}</b></div>
+            <div class="flex items-center justify-between text-[10px] font-mono text-app-muted pt-0.5 border-t border-app-border">
+              <span>Certificado: ${c.certificate_id}</span>
+              <span>Expira: ${c.expires_at}</span>
+            </div>
+            <p class="text-[10px] text-zinc-400 font-sans mt-0.5">${c.notes}</p>
+          </div>
+        `).join('') + `
+          <div class="p-2.5 rounded-xl bg-app-surface border border-app-border space-y-1 font-mono text-xs">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-white text-[11px]">Seguridad Laboral & Inspección (ITSS / PRL)</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded ${labor.itss_sanctions_count > 0 ? 'bg-app-rose/10 text-app-rose border border-app-rose/25 font-semibold' : 'bg-app-emerald/10 text-app-emerald border border-app-emerald/25 font-semibold'}">${labor.itss_sanctions_count > 0 ? labor.itss_sanctions_count + ' Sanciones Activas' : '0 Infracciones'}</span>
+            </div>
+            <div class="text-[10px] text-zinc-400">Modalidad: ${labor.prl_modality} &bull; Proveedor: ${labor.spa_provider}</div>
+            <div class="text-[10px] text-zinc-400">Siniestralidad: ${labor.workplace_accident_rate} &bull; Importe sancionador: ${labor.itss_sanctions_amount_eur} €</div>
+          </div>
+        `;
+
         // Irregularities table
         const tbody = document.getElementById('irregularitiesBody');
         if (irregs.length === 0) {
@@ -444,6 +512,22 @@
       } finally {
         btn.innerHTML = oldBtnHtml;
         btn.disabled = false;
+      }
+    }
+
+    function switchBottomTab(tab) {
+      if (tab === 'invoices') {
+        document.getElementById('tab-invoices').className = 'px-2.5 py-1 rounded-md text-xs font-medium bg-app-surface text-white border border-app-border';
+        document.getElementById('tab-compliance').className = 'px-2.5 py-1 rounded-md text-xs font-medium text-app-muted hover:text-white';
+        document.getElementById('pane-invoices').classList.remove('hidden');
+        document.getElementById('pane-compliance').classList.add('hidden');
+        document.getElementById('bottom-tab-subtitle').innerText = 'Detección Automática';
+      } else {
+        document.getElementById('tab-compliance').className = 'px-2.5 py-1 rounded-md text-xs font-medium bg-app-surface text-white border border-app-border';
+        document.getElementById('tab-invoices').className = 'px-2.5 py-1 rounded-md text-xs font-medium text-app-muted hover:text-white';
+        document.getElementById('pane-compliance').classList.remove('hidden');
+        document.getElementById('pane-invoices').classList.add('hidden');
+        document.getElementById('bottom-tab-subtitle').innerText = 'Auditoría ENAC / AENOR / ITSS';
       }
     }
 

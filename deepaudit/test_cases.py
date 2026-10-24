@@ -23,6 +23,17 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
             "equity": -130000.0,
             "revenue": 845000.0
         },
+        "certifications": {
+            "iso_9001": {"issuer": "AENOR", "certificate_id": "ER-0412/2018", "expires_at": "2026-05-15", "fraudulent_unaccredited": False},
+            "iso_27001": {"issuer": "Self-Declared Web Sello", "certificate_id": "FAKE-ISMS-2024", "expires_at": "2027-01-01", "fraudulent_unaccredited": True}
+        },
+        "labor_safety": {
+            "prl_service_type": "Servicio de Prevención Ajeno (SPA)",
+            "spa_provider": "Prevención Mediterránea SL (Contrato Vencido)",
+            "itss_sanctions_count": 2,
+            "itss_sanctions_amount_eur": 48500.0,
+            "accident_frequency_index": "Severo (+34% sobre media sectorial)"
+        },
         "invoices": [
             {"invoice_number": "IB-2026-081", "amount": 4950.00, "date": "2026-09-02", "concept": "Porte urgente Madrid-Valencia"},
             {"invoice_number": "IB-2026-082", "amount": 4920.00, "date": "2026-09-04", "concept": "Servicio de consolidación nocturno"},
@@ -56,6 +67,19 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
             "equity": 2280000.0,
             "revenue": 2450000.0
         },
+        "certifications": {
+            "iso_27001": {"issuer": "AENOR", "certificate_id": "SI-0098/2023", "expires_at": "2027-11-20", "fraudulent_unaccredited": False},
+            "iso_9001": {"issuer": "AENOR", "certificate_id": "ER-1244/2021", "expires_at": "2027-06-15", "fraudulent_unaccredited": False},
+            "iso_14001": {"issuer": "Bureau Veritas", "certificate_id": "ES119842", "expires_at": "2027-09-30", "fraudulent_unaccredited": False},
+            "iso_45001": {"issuer": "AENOR", "certificate_id": "SST-0044/2022", "expires_at": "2028-02-14", "fraudulent_unaccredited": False}
+        },
+        "labor_safety": {
+            "prl_service_type": "Servicio de Prevención Mancomunado",
+            "spa_provider": "Quirónprevención SLU",
+            "itss_sanctions_count": 0,
+            "itss_sanctions_amount_eur": 0.0,
+            "accident_frequency_index": "Bajo (0 accidentes en últimos 24 meses)"
+        },
         "invoices": [
             {"invoice_number": "SOL-26-001", "amount": 14230.50, "date": "2026-05-10", "concept": "Estudio topográfico y diseño de planta"},
             {"invoice_number": "SOL-26-015", "amount": 28450.00, "date": "2026-06-02", "concept": "Suministro de inversores trifásicos"},
@@ -84,6 +108,16 @@ AUDIT_TEST_CASES: Dict[str, Dict[str, Any]] = {
             "ebit": 1500.0,
             "equity": 3000.0,
             "revenue": 120000.0
+        },
+        "certifications": {
+            "iso_27001": {"issuer": "SGS", "certificate_id": "ES24/0912", "expires_at": "2026-11-28", "fraudulent_unaccredited": False}
+        },
+        "labor_safety": {
+            "prl_service_type": "Servicio de Prevención Ajeno (SPA)",
+            "spa_provider": "Valora Prevención SL",
+            "itss_sanctions_count": 0,
+            "itss_sanctions_amount_eur": 0.0,
+            "accident_frequency_index": "N/A (Plantilla reducida < 5)"
         },
         "invoices": [
             {"invoice_number": "NEX-01", "amount": 10000.00, "date": "2026-07-15", "concept": "Asesoramiento estratégico inicial"},

@@ -10,6 +10,7 @@ from typing import Dict, Any, List, Optional
 from deepaudit.nebius_client import DeepAuditNebiusClient
 from deepaudit.tavily_client import DeepAuditTavilyClient
 from deepaudit.forensic_engine import ForensicEngine, clean_amount
+from deepaudit.compliance_engine import ComplianceEngine
 from deepaudit.test_cases import get_case, AUDIT_TEST_CASES
 
 FORENSIC_AUDITOR_SYSTEM_PROMPT = """Eres el Socio Director de Auditoría Forense, Due Diligence y Prevención de Delitos Económicos en una firma de primer nivel internacional.
@@ -49,13 +50,16 @@ class DeepAuditAgent:
         altman_res = self.forensic_engine.calculate_altman_z_score(financials)
         irregularities = self.forensic_engine.detect_invoice_irregularities(invoices)
 
-        # Step 2: External Web Intelligence via Tavily
-        tavily_query = f"{company_name} {cif} concurso acreedores BORM morosidad Hacienda insolvencias"
+        # Step 2: ISO Standards, Labor Safety (PRL) & Regulatory Compliance
+        compliance_res = ComplianceEngine.audit_certifications(case)
+
+        # Step 3: External Web Intelligence via Tavily
+        tavily_query = f"{company_name} {cif} concurso acreedores BORM morosidad Hacienda insolvencias ISO prevencion riesgos"
         tavily_res = self.tavily_client.search(tavily_query, search_depth="advanced", max_results=3)
 
-        # Step 3: LLM Synthesis with NVIDIA Nemotron on Nebius
+        # Step 4: LLM Synthesis with NVIDIA Nemotron on Nebius
         prompt = f"""
-AUDITORÍA FORENSE Y DUE DILIGENCE DE EMPRESA PROVEEDORA
+AUDITORÍA FORENSE, COMPLIANCE REGULATORIO Y DUE DILIGENCE DE EMPRESA PROVEEDORA
 
 DATOS DE LA ENTIDAD AUDITADA:
 - Razón Social: {company_name}
@@ -70,8 +74,8 @@ EVIDENCIAS CUANTITATIVAS INTERNAS (ANÁLISIS DE LIBROS Y FACTURAS):
    - Estadístico Chi-Cuadrado: {benford_res.get('chi_square_statistic')} (Umbral crítico 95%: 15.51).
    - Diagnóstico Benford: {benford_res.get('risk_classification')}.
 
-2. Modelo Altman Z-Score (Solvencia y Probabilidad de Quiebra a 24 Meses):
-   - Z-Score Calculado: {altman_res.get('z_score')}
+2. Modelo Altman Z''-Score (Solvencia y Probabilidad de Quiebra a 24 Meses - PYMES PGC):
+   - Z''-Score Calculado: {altman_res.get('z_score')}
    - Clasificación de Zona: {altman_res.get('zone')} ({altman_res.get('description')})
    - Fondo de Maniobra (Capital Circulante): {altman_res.get('working_capital_euros')} €
    - Ratio de Liquidez Corriente: {altman_res.get('current_ratio')}
@@ -79,6 +83,11 @@ EVIDENCIAS CUANTITATIVAS INTERNAS (ANÁLISIS DE LIBROS Y FACTURAS):
 3. Irregularidades Concretas Detectadas en Facturas:
    - Total anomalías detectadas: {len(irregularities)}
    - Detalle: {json.dumps(irregularities, ensure_ascii=False, indent=2)}
+
+4. Auditoría de Certificaciones Oficiales ISO y Prevención de Riesgos Laborales (PRL):
+   - Índice de Cumplimiento Regulatorio: {compliance_res.get('compliance_score')}% ({compliance_res.get('maturity_level')})
+   - Estado de Normas ISO: {json.dumps(compliance_res.get('certifications'), ensure_ascii=False, indent=2)}
+   - Auditoría de Seguridad Laboral / Sanciones ITSS: {json.dumps(compliance_res.get('labor_safety_audit'), ensure_ascii=False, indent=2)}
 
 EVIDENCIAS EXTERNAS OBTENIDAS EN TIEMPO REAL VÍA TAVILY SEARCH (REGISTROS OFICIALES Y PRENSA):
 - Resumen Tavily: {tavily_res.get('answer')}
@@ -131,6 +140,7 @@ Emite el Informe Pericial Forense definitivo con:
                 "altman_z": altman_res,
                 "irregularities": irregularities
             },
+            "compliance": compliance_res,
             "external_intel": tavily_res,
             "executive_report": llm_res["content"],
             "model_metadata": {
