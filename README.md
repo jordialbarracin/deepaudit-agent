@@ -59,3 +59,12 @@ TAVILY_API_KEY=your_tavily_key
 python -m uvicorn deepaudit.server:app --host 127.0.0.1 --port 8001
 ```
 Open **[http://127.0.0.1:8001](http://127.0.0.1:8001)** in your browser.
+
+
+## Current status & limitations (honest summary)
+- **Real:** Benford chi-square, Altman Z'' / cash-conversion-cycle, counterparty (IBAN/domicile) checks and the compliance matrix are implemented in Python; Nemotron-3.5-Lightning (Nebius Token Factory) writes the audit memo; Tavily is queried when an API key is configured.
+- **Fallbacks:** without a Tavily key, or on timeout, the app returns cached/simulated registry results and labels the mode `offline_cache`. Without a Nebius key it uses a local heuristic memo.
+- **Benchmark:** the 5 "canonical profiles" were written by the authors to exercise the rules (5/5 match their expected label). With n=5 this is a regression suite, **not** a measure of real-world precision or recall. Sample entities are fictional.
+- **Data flow:** raw ledgers are parsed locally, but derived findings (flags, ratios, counterparty anomalies, certification results) are sent in the prompt to Nebius, and company names / tax IDs to Tavily. This is not an air-gapped deployment.
+- **ERP payloads:** SAP Ariba / Coupa JSON is an illustrative schema, not tested against a live instance.
+- **Cost / latency of Tavily:** not measured.

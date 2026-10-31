@@ -41,10 +41,10 @@ Small-to-medium enterprises and audit teams cannot afford Big-4 forensic retaine
    - Feeds verified factual citations and source URLs directly into Nemotron's reasoning context.
 
 6. **Enterprise ERP Integration (SAP Ariba / Coupa):**
-   - Instantly generates production-ready JSON payloads for `SupplierRiskStatusUpdated` events to execute one-click supplier holds and automated legal due diligence requests.
+   - Instantly generates illustrative JSON payloads (not tested against a live SAP Ariba / Coupa instance) for `SupplierRiskStatusUpdated` events to execute one-click supplier holds and automated legal due diligence requests.
 
 7. **Institutional Light Mode Interface:**
-   - High-density, austere B2B interface designed for CFOs and risk committees: zero cartoonish gimmicks, raw data tables, interactive Benford distribution charts, and audit-ready forensic dictums (admissible for executive risk committees and corporate governance reviews).
+   - High-density, austere B2B interface designed for CFOs and risk committees: zero cartoonish gimmicks, raw data tables, interactive Benford distribution charts, and audit-ready forensic dictums (intended as input for risk-committee review).
 
 ---
 
@@ -55,9 +55,7 @@ Tavily is the core external sensor of DeepAudit. Financial statements alone cann
 3. Feed clean, relevant regulatory extracts directly into Nemotron's context window without hallucination.
 
 ### ⚡ Tavily Unit Economics & Latency Breakdown
-- **Average Tavily Calls per Comprehensive Audit:** 3.2 queries (BOE, BORM, ENAC certification verify, and tax debtor lists).
-- **Average Search Latency:** 1.84 seconds total roundtrip.
-- **Estimated Operating Cost per Vendor Audit:** **~$0.04 USD** (vs. €450 - €1,200 for manual Big-4 forensic paralegal checks).
+- **Typical usage:** about 3-4 targeted queries per audit (BOE, BORM, ENAC, tax-debtor lists) by design. Latency and cost per audit have not been measured.
 - **Public Gazette Caching Strategy:** 24-hour TTL for official gazettes; real-time bypass for live banking counterparty alerts.
 
 ```mermaid
@@ -85,27 +83,25 @@ flowchart LR
 
 ## 📊 Ground-Truth Forensic Benchmark & Backtest Results
 
-DeepAudit includes an automated statistical validation suite (`deepaudit/benchmark_suite.py` / `/api/benchmark`) evaluated against 5 canonical corporate risk profiles to measure real-world precision, recall, and false-positive elimination:
+DeepAudit includes an automated statistical validation suite (`deepaudit/benchmark_suite.py` / `/api/benchmark`) evaluated against 5 canonical corporate risk profiles as an internal regression suite (author-written reference profiles, not an independent validation):
 
 | Entity Profile | Sector | Ground Truth Risk | Naive Altman Z'' | DeepAudit + CCC Verdict | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Iberia Global Logistics Ltd** | Freight & Transport | **High Fraud / Insolvency** | Distress (-5.85) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Verified Match |
-| **Solaria Clean Energy Solutions Ltd** | Solar EPC / Engineering | **Healthy Solvent** | Safe (+3.84) | **APPROVED (Risk 12)** | Verified Match |
-| **Nexus Tech Ventures Ltd** | Tech Advisory Shell | **Suspicious Shell** | Grey (+1.42) | **ENHANCED MONITORING (Risk 80)** | Verified Match |
+| **Iberia Global Logistics Ltd** | Freight & Transport | **High Fraud / Insolvency** | Distress (-5.85) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Matches expected label |
+| **Solaria Clean Energy Solutions Ltd** | Solar EPC / Engineering | **Healthy Solvent** | Safe (+3.84) | **APPROVED (Risk 12)** | Matches expected label |
+| **Nexus Tech Ventures Ltd** | Tech Advisory Shell | **Suspicious Shell** | Grey (+1.42) | **ENHANCED MONITORING (Risk 80)** | Matches expected label |
 | **Trans-Express Freight & Logistics Ltd** | Asset-Light Logistics | **Healthy (Neg. Working Cap)** | *False Distress (-0.95)* | **APPROVED (Risk 20)** | **0% False Positive** |
-| **MedTech Hospital Supplies Ltd** | Hospital Supplies | **Tax Liens & Fake ISO** | Distress (-1.20) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Verified Match |
+| **MedTech Hospital Supplies Ltd** | Hospital Supplies | **Tax Liens & Fake ISO** | Distress (-1.20) | **IMMEDIATE FREEZE & DISQUALIFICATION (Risk 98)** | Matches expected label |
 
-### 📈 Statistical Backtest Metrics (n=5 Canonical Reference Profiles)
-- **Precision:** **100.0%** across benchmark reference profiles (0 false positives on healthy logistics vendors).
-- **Recall:** **100.0%** capture of multi-vector fraud, tax liens, and unaccredited seals.
-- **F1 Score & Accuracy:** **1.000 / 100.0%** on canonical validation suite.
-- **CCC False-Positive Elimination:** **100% reduction** in false alarms for asset-light logistics SMEs (preventing unwarranted procurement freezes).
+### Internal regression result (n=5 author-written profiles)
+- All 5 profiles produce their expected verdict (5/5). Because the profiles were written to exercise the rules, this shows the logic works as designed; it is **not** a measure of real-world precision or recall.
+- The cash-conversion-cycle check keeps the asset-light logistics reference profile from being flagged as distress (naive Altman Z'' would flag it).
 
 ### 🔒 Enterprise Data Privacy & GDPR Sovereignty (Art. 28 / 32)
-DeepAudit operates on a strict **Air-Gapped Sovereign Data Architecture**:
-- All confidential internal balance sheets, raw invoice line items, and bank transaction ledgers are parsed and analyzed entirely within the enterprise on-premise perimeter (`127.0.0.1:8001`).
-- Only public, non-confidential corporate identification identifiers (Corporate Tax IDs / VAT numbers and registered company names) are passed to the **Tavily AI Search Engine** to retrieve public gazette filings (BOE, BORM, ENAC registries).
-- Zero private financial data or vendor commercial terms ever leave the local network, guaranteeing full compliance with European GDPR data protection standards.
+DeepAudit runs its quantitative analysis locally, but some derived data is sent to external APIs:
+- Raw balance sheets, invoice line items and ledgers are parsed locally (`127.0.0.1:8001`).
+- Company names / tax IDs are sent to Tavily for public-registry searches. **Derived findings** (risk flags, ratios, counterparty anomalies, certification results) are included in the prompt sent to Nemotron on Nebius Token Factory, so this is not an air-gapped deployment. A fully local mode would need a self-hosted model (the heuristic fallback does run offline).
+- GDPR compliance depends on deployment and data-processing agreements; this prototype does not constitute a compliance guarantee.
 
 ### 📐 Mathematical Formulation (Altman 1993 Four-Variable Model for Private Non-Manufacturers)
 $$Z'' = 6.56 X_1 + 3.26 X_2 + 6.72 X_3 + 1.05 X_4$$
@@ -130,6 +126,15 @@ $$Z'' = 6.56 X_1 + 3.26 X_2 + 6.72 X_3 + 1.05 X_4$$
 ---
 
 ## 🏆 Accomplishments We're Proud Of
-- A battle-tested tool addressing real-world corporate due diligence vulnerabilities.
-- Zero false positives on asset-light logistics SMEs through Cash Conversion Cycle integration.
+- A working prototype addressing real-world supplier due-diligence problems.
+- The Cash Conversion Cycle check avoids flagging the asset-light logistics reference profile as distress.
 - Seamless synthesis between Tavily search, quantitative math, and Nebius Token Factory inference.
+
+
+## Current status & limitations (honest summary)
+- **Real:** Benford chi-square, Altman Z'' / cash-conversion-cycle, counterparty (IBAN/domicile) checks and the compliance matrix are implemented in Python; Nemotron-3.5-Lightning (Nebius Token Factory) writes the audit memo; Tavily is queried when an API key is configured.
+- **Fallbacks:** without a Tavily key, or on timeout, the app returns cached/simulated registry results and labels the mode `offline_cache`. Without a Nebius key it uses a local heuristic memo.
+- **Benchmark:** the 5 "canonical profiles" were written by the authors to exercise the rules (5/5 match their expected label). With n=5 this is a regression suite, **not** a measure of real-world precision or recall. Sample entities are fictional.
+- **Data flow:** raw ledgers are parsed locally, but derived findings (flags, ratios, counterparty anomalies, certification results) are sent in the prompt to Nebius, and company names / tax IDs to Tavily. This is not an air-gapped deployment.
+- **ERP payloads:** SAP Ariba / Coupa JSON is an illustrative schema, not tested against a live instance.
+- **Cost / latency of Tavily:** not measured.
