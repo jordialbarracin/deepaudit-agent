@@ -26,9 +26,14 @@ def clean_amount(val: Any) -> float:
         return 0.0
     if isinstance(val, (int, float)):
         return float(val)
-    s = str(val).strip().replace("€", "").replace("$", "").replace("£", "").replace(" ", "")
+    s = str(val).strip().replace("€", "").replace("$", "").replace("£", "").replace(" ", "").replace("EUR", "")
     if "." in s and "," in s:
-        s = s.replace(".", "").replace(",", ".")
+        if s.rfind(".") > s.rfind(","):
+            # US format: 1,234.56
+            s = s.replace(",", "")
+        else:
+            # European format: 1.234,56
+            s = s.replace(".", "").replace(",", ".")
     elif "," in s:
         s = s.replace(",", ".")
     try:
